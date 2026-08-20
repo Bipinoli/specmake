@@ -15,6 +15,7 @@ requires-python = ">=3.11"
 dependencies = [
     "gcovr >=8.6",
     "matplotlib >=3.10.1",
+    "pyyaml >=6.0.3",
     "specitems >=1.6.12",
     "spectestrunner >=0.9.3",
     "specware >=1.2.19",
@@ -70,6 +71,7 @@ specmake = "specmake.climake:climake"
 specmakedecimate = "specmake.clidecimate:clidecimate"
 specmakesub = "specmake.clisubstitute:clisubstitute"
 specruntests = "specmake.cliruntests:cliruntests"
+spectypetreeview = "specmake.clitypetree:clitypetree"
 specupdateperf = "specmake.cliupdateperf:cliupdateperf"
 specupdatetimeouts = "specmake.cliupdatetimeouts:cliupdatetimeouts"
 

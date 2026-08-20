@@ -2051,6 +2051,7 @@ source = { editable = "." }
 dependencies = [
     { name = "gcovr" },
     { name = "matplotlib" },
+    { name = "pyyaml" },
     { name = "specitems" },
     { name = "spectestrunner" },
     { name = "specware" },
@@ -2091,6 +2092,7 @@ dev = [
 requires-dist = [
     { name = "gcovr", specifier = ">=8.6" },
     { name = "matplotlib", specifier = ">=3.10.1" },
+    { name = "pyyaml", specifier = ">=6.0.3" },
     { name = "specitems", specifier = ">=1.6.12" },
     { name = "spectestrunner", specifier = ">=0.9.3" },
     { name = "specware", specifier = ">=1.2.19" },
