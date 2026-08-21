@@ -1,0 +1,10 @@
+SPDX-License-Identifier: CC-BY-SA-4.0 OR BSD-2-Clause
+copyrights:
+- Copyright (C) 2026 embedded brains GmbH & Co. KG
+description: ICD brief only compact table test domain
+enabled-by: true
+index-entries: []
+interface-type: domain
+links: []
+name: ICDBriefOnlyCompactTableDomain
+type: interface

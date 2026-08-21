@@ -29,7 +29,11 @@ import itertools
 from specitems import Item, ItemGetValueContext, TextContent
 
 from .pkgitems import PackageBuildDirector
-from .specdocbuilder import SpecDocumentBuilder
+from .specdocbuilder import SpecDocumentBuilder, _spacify
+from .linkhub import get_kind, SpecMapper
+
+COMPACT_TABLE_THRESHOLD = 3
+COMPACT_TABLE_SECTION_NAME = "Others"
 
 
 def _visit_domain(item: Item, interfaces: list[Item]) -> None:
@@ -37,6 +41,44 @@ def _visit_domain(item: Item, interfaces: list[Item]) -> None:
     for item_2 in itertools.chain(item.children("interface-placement"),
                                   item.parents("interface-enumerator")):
         _visit_domain(item_2, interfaces)
+
+ 
+def _wrappable_code(content: TextContent, name: str) -> str:
+    return content.code(_spacify(name))
+
+
+def _compact_row_define(mapper: SpecMapper, content: TextContent,
+                        item: Item) -> tuple[str, str]:
+    container = item.parent("interface-placement")
+    kind = get_kind(item)
+    name = _wrappable_code(content, item["name"])
+    requirement = (f"The {mapper.get_link(container)} {get_kind(container)} "
+                   f"shall provide the {kind} {name}.")
+    return name, requirement
+
+
+def _compact_row_enumerator(mapper: SpecMapper, content: TextContent,
+                            item: Item) -> tuple[str, str]:
+    enum = item.child("interface-enumerator")
+    name = _wrappable_code(content, item["name"])
+    requirement = (f"The {mapper.get_link(enum)} enumeration shall provide "
+                   f"the enumerator {name}.")
+    return name, requirement
+
+
+_COMPACT_ROW = {
+    "interface/define": _compact_row_define,
+    "interface/unspecified-define": _compact_row_define,
+    "interface/enumerator": _compact_row_enumerator,
+    "interface/unspecified-enumerator": _compact_row_enumerator,
+}
+
+
+def _is_compactable(item: Item) -> bool:
+    is_define_or_enum = item.type in _COMPACT_ROW 
+    has_only_brief = item.get("brief") and not item.get("description") and not item.get("notes")
+    return is_define_or_enum and has_only_brief
+
 
 
 class ICDBuilder(SpecDocumentBuilder):
@@ -47,9 +89,39 @@ class ICDBuilder(SpecDocumentBuilder):
         my_type = self.item.type
         self.mapper.add_get_value(f"{my_type}:/icd-requirements-and-design",
                                   self._get_requirements_and_design)
+        self._pending_compact_items: list[Item] = []
 
     def get_items_of_document(self) -> list[Item]:
         return self.spec.get_related_interfaces()
+ 
+    def add_item(self, content: TextContent, item: Item) -> None:
+        if _is_compactable(item):
+            self._pending_compact_items.append(item)
+            return
+        super().add_item(content, item)
+
+
+    def _flush_compact_items(self, content: TextContent) -> None:
+        items = self._pending_compact_items
+        self._pending_compact_items = []
+        if len(items) < COMPACT_TABLE_THRESHOLD:
+            for item in items:
+                super().add_item(content, item)
+            return
+        rows: list[tuple[str, ...]] = [("Name", "Brief Description",
+                                        "Requirement")]
+        for item in items:
+            content.register_license_and_copyrights_of_item(item)
+            with self.mapper.scope(item):
+                name, requirement = _COMPACT_ROW[item.type](self.mapper,
+                                                             content, item)
+                brief = " ".join(
+                    self.mapper.substitute(item["brief"]).split())
+            rows.append((name, brief, requirement))
+        with content.section(COMPACT_TABLE_SECTION_NAME):
+            # Sphinx emits non-wrapping table without an explicit width
+            content.add_grid_table(rows, widths=[18, 52, 30])
+
 
     def _add_interface_requirements(self, content: TextContent) -> None:
         types = ("requirement/non-functional/interface-requirement", )
@@ -65,6 +137,7 @@ class ICDBuilder(SpecDocumentBuilder):
                 _visit_domain(domain, interfaces)
                 for item in sorted(interfaces):
                     self.add_item(content, item)
+                self._flush_compact_items(content)
 
     def _get_requirements_and_design(self, ctx: ItemGetValueContext) -> str:
         with self.section_content(ctx) as (content, _):
@@ -79,3 +152,4 @@ class ICDBuilder(SpecDocumentBuilder):
                 with content.section("Interface design"):
                     self._add_interface_design(content)
             return content.join()
+

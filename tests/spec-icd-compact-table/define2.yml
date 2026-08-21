@@ -1,0 +1,17 @@
+SPDX-License-Identifier: CC-BY-SA-4.0 OR BSD-2-Clause
+brief: This is a test define 2. Here is more of the detail about this define so that the line is too big to fit on a single line and triggers a wrapping. Without wrapping the content might overflow from the table and not be visible inside the pdf document.
+copyrights:
+- Copyright (C) 2026 embedded brains GmbH & Co. KG
+definition:
+  default: '1'
+  variants: []
+description: null
+enabled-by: true
+index-entries: []
+interface-type: define
+links:
+- role: interface-placement
+  uid: header
+name: TEST_DEFINE2
+notes: null
+type: interface

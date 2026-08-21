@@ -1,0 +1,21 @@
+SPDX-License-Identifier: CC-BY-SA-4.0 OR BSD-2-Clause
+brief: Test enum
+copyrights:
+- Copyright (C) 2026 embedded brains GmbH & Co. KG
+definition-kind: typedef-only
+description: null
+enabled-by: true
+index-entries: []
+interface-type: enum
+links:
+- role: interface-placement
+  uid: header
+- role: interface-enumerator
+  uid: enum-varient1
+- role: interface-enumerator
+  uid: enum-varient2
+- role: interface-enumerator
+  uid: enum-varient3
+name: test_enum
+notes: null
+type: interface

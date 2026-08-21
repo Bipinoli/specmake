@@ -1,0 +1,17 @@
+SPDX-License-Identifier: CC-BY-SA-4.0 OR BSD-2-Clause
+brief: This is a test define with description.
+copyrights:
+- Copyright (C) 2026 embedded brains GmbH & Co. KG
+definition:
+  default: '1'
+  variants: []
+description: This is a description for define.
+enabled-by: true
+index-entries: []
+interface-type: define
+links:
+- role: interface-placement
+  uid: header
+name: TEST_DEFINE_WITH_DESCIPTION
+notes: null
+type: interface
