@@ -243,6 +243,12 @@ class DoxygenItem:
         drop links a previous run had and the items would have to be
         edited by hand afterwards.
 
+        An entry selects the items it applies to by their interface
+        type, by their name, or by both.  A call context constraint
+        holds for one function of a group and not for the next, so the
+        interface type alone cannot address it.  The names are fnmatch
+        patterns, like the patterns of a ``filter``.
+
         The links are added here rather than in ``export()``, since the
         ``interface-type`` used to select them is set by the subclasses
         after ``export()`` returned.
@@ -255,6 +261,9 @@ class DoxygenItem:
             interface_types = link.get("interface-types")
             if interface_types is not None \
                and interface_type not in interface_types:
+                continue
+            names = link.get("names")
+            if names is not None and not self.matches_any(names):
                 continue
             data["links"].append({"role": link["role"], "uid": link["uid"]})
 
@@ -1067,15 +1076,15 @@ def _validate_extra_links(errors: list[str], path: str, links: Any) -> None:
             elif not isinstance(link[attribute], str):
                 errors.append(f"{where}/{attribute} must be a string, "
                               f"got {link[attribute]!r}")
-        interface_types = link.get("interface-types")
-        if interface_types is None:
-            continue
-        if not isinstance(interface_types, list):
-            errors.append(f"{where}/interface-types must be a list or null, "
-                          f"got {interface_types!r}")
-            continue
-        _validate_string_list(errors, f"{where}/interface-types",
-                              interface_types)
+        for attribute in ["interface-types", "names"]:
+            patterns = link.get(attribute)
+            if patterns is None:
+                continue
+            if not isinstance(patterns, list):
+                errors.append(f"{where}/{attribute} must be a list or null, "
+                              f"got {patterns!r}")
+                continue
+            _validate_string_list(errors, f"{where}/{attribute}", patterns)
 
 
 _HEADER_INTERFACE_TYPES = ("header-file", "unspecified-header-file")

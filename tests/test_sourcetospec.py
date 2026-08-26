@@ -1720,6 +1720,16 @@ def test_saved_item_contains_the_extra_links(tmp_path):
         "uid": "/constraint/x",
         "interface-types": [1]
     }], "extra-links[0]/interface-types[0] must be a string"),
+    ([{
+        "role": "constraint",
+        "uid": "/constraint/x",
+        "names": "gf_*"
+    }], "extra-links[0]/names must be a list"),
+    ([{
+        "role": "constraint",
+        "uid": "/constraint/x",
+        "names": [1]
+    }], "extra-links[0]/names[0] must be a string"),
 ])
 def test_invalid_extra_links_are_rejected(extra_links, expected):
     with pytest.raises(ValueError, match=re.escape(expected)):
@@ -2466,3 +2476,41 @@ def test_the_data_of_a_group_applies_to_the_group_item(tmp_path):
             }
         })
     assert _copyrights(ctx, "group", "FooGroup") == ["Copyright (C) 2026 Foo"]
+
+
+def test_extra_links_are_added_to_the_selected_names(tmp_path):
+    # A call context constraint holds for one function of a group and
+    # not for the next, so the interface type alone cannot address it.
+    ctx = _extra_links_context(tmp_path, [{
+        "role": "constraint",
+        "uid": "/constraint/directive-ctx-any",
+        "names": ["gf_1", "gf_3"]
+    }])
+    constraint = {"role": "constraint", "uid": "/constraint/directive-ctx-any"}
+    assert constraint in _saved_links(ctx, "function", "gf_1")
+    assert constraint in _saved_links(ctx, "function", "gf_3")
+    assert constraint not in _saved_links(ctx, "function", "gf_2")
+
+
+def test_a_name_pattern_of_an_extra_link_is_case_sensitive(tmp_path):
+    # A C identifier is case sensitive, so gf_1 and GF_1 are two
+    # different declarations.
+    ctx = _extra_links_context(tmp_path, [{
+        "role": "constraint",
+        "uid": "/constraint/any",
+        "names": ["GF_*"]
+    }])
+    constraint = {"role": "constraint", "uid": "/constraint/any"}
+    assert constraint not in _saved_links(ctx, "function", "gf_1")
+
+
+def test_both_selectors_of_an_extra_link_must_match(tmp_path):
+    ctx = _extra_links_context(tmp_path, [{
+        "role": "constraint",
+        "uid": "/constraint/any",
+        "interface-types": ["define"],
+        "names": ["gf_*"]
+    }])
+    constraint = {"role": "constraint", "uid": "/constraint/any"}
+    assert constraint not in _saved_links(ctx, "function", "gf_1")
+    assert constraint not in _saved_links(ctx, "define", "GD_1")
