@@ -2563,3 +2563,23 @@ def test_a_compound_described_twice_holds_its_members_once():
     for item in ctx.items.values():
         if isinstance(item, sourcetospec.DoxygenContainer):
             assert len(item.member_ids) == len(set(item.member_ids)), item.name
+
+
+def test_a_reference_to_a_missing_compound_is_rejected():
+    # A run which receives a part of the Doxygen XML keeps a reference
+    # to a compound it never discovered.  The lookup of that reference
+    # raised a KeyError which named a Doxygen identifier alone.
+    ctx = DoxygenContext({
+        "data": {},
+        "groups": {
+            "FooGroup": {
+                "uid": "/if/group"
+            }
+        },
+        "spec-directory": "spec"
+    })
+    with pytest.raises(ValueError, match="foobar_8h of group FooGroup"):
+        ctx.doxygen_xml_to_spec([
+            _get_path("source-to-spec/xml/group__FooGroup.xml"),
+            _get_path("source-to-spec/xml/header_8h.xml")
+        ])

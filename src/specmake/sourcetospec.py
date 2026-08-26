@@ -1353,6 +1353,7 @@ class DoxygenContext:
         # In the first pass get the Doxygen identifier to item mappings and
         # vice versa.  Associate items with groups.
         self._gather_doxygen_id_to_item_mappings(xml_files)
+        self._check_member_references()
         self._add_group_associations()
         self._add_file_associations()
         self._add_group_through_file_associations_or_config()
@@ -1488,6 +1489,34 @@ class DoxygenContext:
                 handler = _RELATIONSHIP_HANDLER.get(kind, None)
                 if handler is not None:
                     handler(elem, item)
+
+    def _check_member_references(self) -> None:
+        """
+        Reject a member which no item of the run resolves.
+
+        A compound of the Doxygen XML references the compounds it
+        holds.  A run which receives a part of that XML keeps a
+        reference to a compound it never discovered.  The lookup of
+        that reference raises where the associations are built, and the
+        traceback names a Doxygen identifier and nothing else.
+
+        A complete output directory of Doxygen resolves every
+        reference, so this state says that the file list of the run is
+        incomplete.
+        """
+        missing = [
+            f"  - {member_id} of {item.kind} {item.name}"
+            for item in sorted(self.items.values())
+            if isinstance(item, DoxygenContainer)
+            for member_id in item.member_ids if member_id not in self.items
+        ]
+        if missing:
+            problems = "\n".join(missing)
+            raise ConfigError(
+                "these Doxygen identifiers are referenced by a compound of "
+                f"the XML but belong to none of it:\n{problems}\nPass every "
+                "XML file which Doxygen wrote, for example through "
+                "--doxygen-xml-dir.")
 
     def _add_group_associations(self):
         for group in self.items_by_kind["group"].values():
