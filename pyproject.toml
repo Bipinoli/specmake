@@ -4,7 +4,7 @@
 
 [project]
 name = "specmake"
-version = "1.5.22"
+version = "1.5.23.dev1"
 description = "Provides utilities to build packages."
 authors = [
     {name = "The specmake Authors", email = "specthings@embedded-brains.de"}
