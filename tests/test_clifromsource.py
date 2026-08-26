@@ -34,8 +34,10 @@ import yaml
 import pytest
 
 from specmake import DoxygenContext
-from specmake.clifromsource import clifromsource
-from specmake.sourcetospec import DoxygenGroup
+from specmake import clifromsource as clifromsource_module
+from specmake.clifromsource import clifromsource, GenerationError
+from specmake.sourcetospec import (DoxygenEnumValue, DoxygenFunction,
+                                   DoxygenGroup)
 
 # bad_f is declared in bad_8c.c, which belongs to no Doxygen group. With
 # no default-group-name configured, nothing associates it with a group
@@ -1664,3 +1666,64 @@ def test_generate_writes_an_unspecified_header_file_item(tmp_path):
     assert "references: []" in content
     assert "prefix:" not in content
     assert "brief:" not in content
+
+
+def test_a_failure_names_the_item_it_comes_from(tmp_path, monkeypatch):
+    # A shape the tool does not handle raises deep in the export, and
+    # the traceback of it names no declaration.
+    def _raise(self):
+        raise TypeError("something the tool does not handle")
+
+    monkeypatch.setattr(DoxygenFunction, "export", _raise)
+    config = _minimal_config(
+        **{
+            "groups": {
+                "WidgetAPI": {
+                    "uid": "/if/group"
+                }
+            },
+            "enabled-groups": ["WidgetAPI"],
+            "spec-directory": str(tmp_path / "spec")
+        })
+    with pytest.raises(GenerationError) as info:
+        _generate(tmp_path, config, _widget_api_xml_files())
+    assert str(info.value) == ("cannot generate function widget_set_size of "
+                               "widget.h at /if/widget-set-size")
+    assert isinstance(info.value.__cause__, TypeError)
+
+
+def test_a_failure_of_an_enumerator_names_the_enumerator(
+        tmp_path, monkeypatch):
+    # An enumerator is generated inside the loop over the members of
+    # its header, so a failure of it passes the context of the enum as
+    # well.  The enum must not take the blame for it.
+    def _raise(self):
+        raise TypeError("something the tool does not handle")
+
+    monkeypatch.setattr(DoxygenEnumValue, "export", _raise)
+    config = _minimal_config(
+        **{
+            "groups": {
+                "FooGroup": {
+                    "uid": "/if/group",
+                    "remove-prefix": "foobar-"
+                }
+            },
+            "enabled-groups": ["FooGroup"],
+            "spec-directory": str(tmp_path / "spec")
+        })
+    with pytest.raises(GenerationError) as info:
+        _generate(tmp_path, config, _foo_group_xml_files())
+    assert str(info.value) == ("cannot generate enumvalue E_0_A of "
+                               "header.h at /if/e-0-a")
+    assert isinstance(info.value.__cause__, TypeError)
+
+
+def test_an_item_of_no_group_is_described_without_a_uid(tmp_path):
+    # The UID of an item is resolved through its group.  A description
+    # is wanted where something already failed, so it must not fail
+    # again on an item which has no group.
+    ctx = DoxygenContext(_minimal_config())
+    ctx.doxygen_xml_to_spec(_foo_group_xml_files())
+    assert clifromsource_module._describe(
+        ctx.items[_BAD_F]) == "function bad_f of bad.c"

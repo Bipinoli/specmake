@@ -29,7 +29,7 @@ import glob
 import json
 import os
 import sys
-from typing import NamedTuple
+from typing import Iterator, NamedTuple
 
 import yaml
 
@@ -89,6 +89,46 @@ def _apply_config(ctx: DoxygenContext, config: dict, config_file: str) -> None:
     print(f"applied proposed configuration to {config_file}")
 
 
+class GenerationError(Exception):
+    """ Raised when the generation of one item fails. """
+
+
+def _describe(item: DoxygenItem) -> str:
+    """
+    Describe the item by its declaration and its UID.
+
+    The header is resolved through the file of the item and the UID
+    through its group, and both raise when the item has none.  A
+    description is wanted where something already failed, so leave out
+    what cannot be resolved rather than fail again here.
+    """
+    try:
+        described = f"{item.kind} {item.name} of {item.file.name}"
+    except ValueError:
+        described = f"{item.kind} {item.name}"
+    try:
+        return f"{described} at {item.uid}"
+    except ValueError:
+        return described
+
+
+@contextlib.contextmanager
+def _generating(item: DoxygenItem) -> Iterator[None]:
+    """
+    Name the item which a failure comes from.
+
+    A run turns hundreds of declarations of a vendor into items, and a
+    shape the tool does not handle stops it.  The traceback names the
+    code which raised, not the declaration which reached that code, so
+    the item has to be found by hand.  Chain the failure to keep the
+    traceback whole and name the item in the last line of it.
+    """
+    try:
+        yield
+    except Exception as err:
+        raise GenerationError(f"cannot generate {_describe(item)}") from err
+
+
 def _record_gaps(gaps: dict[str, list[str]], item: DoxygenItem) -> None:
     """ Record an item's manual review gaps, if it has any. """
     item_gaps = item.review_gaps
@@ -114,36 +154,40 @@ def _generate_header(header: DoxygenFile,
     they merely alias a compound (struct/union/enum) item saved under
     the same UID, and the manual review gaps per UID.
     """
-    print("  ", header.uid)
-    if not dry_run:
-        header.save()
-    uids = [header.uid]
     gaps: dict[str, list[str]] = {}
-    _record_gaps(gaps, header)
+    with _generating(header):
+        print("  ", header.uid)
+        if not dry_run:
+            header.save()
+        uids = [header.uid]
+        _record_gaps(gaps, header)
     typedefs_skipped = 0
     for header_member in header.members():
-        if header_member.is_excluded:
-            continue
-        if (isinstance(header_member, DoxygenTypedef)
-                and header_member.aliases_compound):
-            # For example `typedef enum e { ... } e;`. The enum item already
-            # covers this under the same name, marked via definition-kind.
-            typedefs_skipped += 1
-            continue
-        print("    ", header_member.uid)
-        if not dry_run:
-            header_member.save()
-        uids.append(header_member.uid)
-        _record_gaps(gaps, header_member)
+        with _generating(header_member):
+            if header_member.is_excluded:
+                continue
+            if (isinstance(header_member, DoxygenTypedef)
+                    and header_member.aliases_compound):
+                # For example `typedef enum e { ... } e;`. The enum item
+                # already covers this under the same name, marked via
+                # definition-kind.
+                typedefs_skipped += 1
+                continue
+            print("    ", header_member.uid)
+            if not dry_run:
+                header_member.save()
+            uids.append(header_member.uid)
+            _record_gaps(gaps, header_member)
         if isinstance(header_member, DoxygenEnum):
             for enumerator in header_member.members():
-                if enumerator.is_excluded:
-                    continue
-                print("      ", enumerator.uid)
-                if not dry_run:
-                    enumerator.save()
-                uids.append(enumerator.uid)
-                _record_gaps(gaps, enumerator)
+                with _generating(enumerator):
+                    if enumerator.is_excluded:
+                        continue
+                    print("      ", enumerator.uid)
+                    if not dry_run:
+                        enumerator.save()
+                    uids.append(enumerator.uid)
+                    _record_gaps(gaps, enumerator)
     return _HeaderResult(uids, typedefs_skipped, gaps)
 
 
@@ -250,13 +294,14 @@ def _generate_groups(ctx: DoxygenContext,
             continue
         print(group.doxygen_id)
         if group.generate_item:
-            if not dry_run:
-                group.save()
-            # A suppressed group item is deliberately left out of the
-            # generated set, so --prune never offers to delete the
-            # hand-written item sitting at the group uid.
-            _record_owner(generated, group.uid, group.name)
-            _record_gaps(gaps, group)
+            with _generating(group):
+                if not dry_run:
+                    group.save()
+                # A suppressed group item is deliberately left out of
+                # the generated set, so --prune never offers to delete
+                # the hand-written item sitting at the group uid.
+                _record_owner(generated, group.uid, group.name)
+                _record_gaps(gaps, group)
         groups_processed += 1
         for header in _reachable_headers(group):
             uids = header_uids.get(header.doxygen_id)
