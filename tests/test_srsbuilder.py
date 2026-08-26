@@ -31,7 +31,7 @@ def test_srsbuilder(caplog, tmpdir):
     package, text = build_document(
         caplog, tmpdir, "doc-ts-srs",
         ["aggregate-test-results", "link-hub", "dummy-images", "ts-srs"])
-    assert text == """.. SPDX-License-Identifier: CC-BY-SA-4.0
+    assert text == r""".. SPDX-License-Identifier: CC-BY-SA-4.0
 
 .. Copyright (C) 2026 embedded brains GmbH & Co. KG
 
@@ -135,7 +135,7 @@ validations, so the corresponding table entries are N/A.
 
 .. raw:: latex
 
-    \\begin{tiny}
+    \begin{tiny}
 
 .. table::
     :class: longtable
@@ -245,7 +245,7 @@ validations, so the corresponding table entries are N/A.
 
 .. raw:: latex
 
-    \\end{tiny}
+    \end{tiny}
 .. validation-verification end
 
 .. srs-requirements begin
@@ -261,9 +261,16 @@ Requirements
 Functional requirements
 ***********************
 
+.. role:: factlabel
+
 .. raw:: latex
 
-    \\clearpage
+    \providecommand{\DUrolefactlabel}[1]{{\sffamily\bfseries%
+      \ifcsname color@TitleColor\endcsname\color{TitleColor}\fi%
+      \ifcsname l@nohyphenation\endcsname%
+        \language\csname l@nohyphenation\endcsname%
+      \fi%
+      #1}}
 
 .. _SpecRtemsReqAction:
 
@@ -276,16 +283,6 @@ The function shall be specified by the following state transition map which
 defines for each feasible pre-condition state variant the resulting
 post-condition state variant produced by the trigger action.
 
-.. rubric:: INTERFACE FUNCTION:
-
-This action requirement specifies the function of the directive
-`UnspecFunction()
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecfunction>`__.
-
-.. rubric:: VALIDATION:
-
-This action requirement is validated by a validation by test specified by `spec:/​rtems/​req/​action </pkg/doc-djf-svs/html/test-case-specification.html#specrtemsreqaction>`__.
-
 .. rubric:: PRE-CONDITIONS:
 
 .. _SpecRtemsReqActionPreValue:
@@ -295,11 +292,15 @@ This action requirement is validated by a validation by test specified by `spec:
     The *Value* pre-condition has the
     following states:
 
-    Zero
-        While the parameter value is equal to zero.
+.. table::
+    :class: longtable
+    :widths: 11,89
 
-    NonZero
-        While the parameter value is not equal to zero.
+    +-+-+
+    | Zero | While the parameter value is equal to zero. |
+    +-+-+
+    | Non​Zero | While the parameter value is not equal to zero. |
+    +-+-+
 
 .. rubric:: TRIGGER ACTION:
 
@@ -316,16 +317,15 @@ directive is called.
     The *Result* post-condition has the
     following states:
 
-    Zero
-        The return value of `UnspecFunction()
-        </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecfunction>`__
-        shall be equal to zero.
+.. table::
+    :class: longtable
+    :widths: 15,85
 
-    LastBitSet
-        The return value of `UnspecFunction()
-        </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecfunction>`__
-        shall be equal to the index of the most-significant bit set in the
-        parameter value.
+    +-+-+
+    | Zero | The return value of `UnspecFunction() </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecfunction>`__ shall be equal to zero. |
+    +-+-+
+    | Last​Bit​Set | The return value of `UnspecFunction() </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecfunction>`__ shall be equal to the index of the most-significant bit set in the parameter value. |
+    +-+-+
 
 .. rubric:: TRANSITION MAP:
 
@@ -334,7 +334,7 @@ producing pre-condition variants is listed.
 
 .. raw:: latex
 
-    \\begin{small}
+    \begin{small}
 
 .. table::
     :class: longtable
@@ -352,15 +352,21 @@ producing pre-condition variants is listed.
 
 .. raw:: latex
 
-    \\end{small}
+    \end{small}
 
 .. rubric:: CHANGES:
 
 There are no changes since Name v1.
 
-.. raw:: latex
+.. table::
+    :class: longtable
+    :widths: 26,74
 
-    \\clearpage
+    +-+-+
+    | :factlabel:`Interface function` | This action requirement specifies the function of the directive `UnspecFunction() </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecfunction>`__. |
+    +-+-+
+    | :factlabel:`Validation` | This action requirement is validated by a validation by test specified by `spec:/​rtems/​req/​action </pkg/doc-djf-svs/html/test-case-specification.html#specrtemsreqaction>`__. |
+    +-+-+
 
 .. _SpecRtemsReqAction2:
 
@@ -383,10 +389,6 @@ This action requirement specifies the function of the following items:
 - `UnspecFunction()
   </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecfunction>`__
 
-.. rubric:: VALIDATION:
-
-This action requirement is validated by a validation by test specified by `spec:/​rtems/​req/​action-2 </pkg/doc-djf-svs/html/test-case-specification.html#specrtemsreqaction2>`__.
-
 .. rubric:: PRE-CONDITIONS:
 
 .. _SpecRtemsReqAction2PreA:
@@ -396,11 +398,15 @@ This action requirement is validated by a validation by test specified by `spec:
     The *A* pre-condition has the
     following states:
 
-    AA
-        AA
+.. table::
+    :class: longtable
+    :widths: 10,90
 
-    AB
-        AB
+    +-+-+
+    | AA | AA |
+    +-+-+
+    | AB | AB |
+    +-+-+
 
 .. _SpecRtemsReqAction2PreB:
 
@@ -409,11 +415,15 @@ This action requirement is validated by a validation by test specified by `spec:
     The *B* pre-condition has the
     following states:
 
-    BA
-        BA
+.. table::
+    :class: longtable
+    :widths: 10,90
 
-    BB
-        BB
+    +-+-+
+    | BA | BA |
+    +-+-+
+    | BB | BB |
+    +-+-+
 
 .. _SpecRtemsReqAction2PreC:
 
@@ -422,14 +432,17 @@ This action requirement is validated by a validation by test specified by `spec:
     The *C* pre-condition has the
     following states:
 
-    CA
-        CA
+.. table::
+    :class: longtable
+    :widths: 10,90
 
-    CB
-        CB
-
-    CC
-        CC
+    +-+-+
+    | CA | CA |
+    +-+-+
+    | CB | CB |
+    +-+-+
+    | CC | CC |
+    +-+-+
 
 .. rubric:: TRIGGER ACTION:
 
@@ -444,11 +457,15 @@ When the directive is called.
     The *X* post-condition has the
     following states:
 
-    XA
-        XA
+.. table::
+    :class: longtable
+    :widths: 10,90
 
-    XB
-        XB
+    +-+-+
+    | XA | XA |
+    +-+-+
+    | XB | XB |
+    +-+-+
 
 .. _SpecRtemsReqAction2PostY:
 
@@ -457,11 +474,15 @@ When the directive is called.
     The *Y* post-condition has the
     following states:
 
-    YA
-        YA
+.. table::
+    :class: longtable
+    :widths: 10,90
 
-    YB
-        YB
+    +-+-+
+    | YA | YA |
+    +-+-+
+    | YB | YB |
+    +-+-+
 
 .. rubric:: TRANSITION MAP:
 
@@ -470,7 +491,7 @@ producing pre-condition variants is listed.
 
 .. raw:: latex
 
-    \\begin{small}
+    \begin{small}
 
 .. table::
     :class: longtable
@@ -490,7 +511,7 @@ producing pre-condition variants is listed.
 
 .. raw:: latex
 
-    \\end{small}
+    \end{small}
 
 .. rubric:: INFEASIBLE PRE-CONDITION VARIANTS:
 
@@ -504,9 +525,13 @@ producing pre-condition variants is listed.
 
 There are no changes since Name v1.
 
-.. raw:: latex
+.. table::
+    :class: longtable
+    :widths: 26,74
 
-    \\clearpage
+    +-+-+
+    | :factlabel:`Validation` | This action requirement is validated by a validation by test specified by `spec:/​rtems/​req/​action-2 </pkg/doc-djf-svs/html/test-case-specification.html#specrtemsreqaction2>`__. |
+    +-+-+
 
 .. _SpecRtemsReqDefineNotDefined:
 
@@ -517,23 +542,19 @@ spec:/rtems/req/define-not-defined
 
 The define shall not be defined.
 
-.. rubric:: INTERFACE FUNCTION:
-
-This interface define requirement specifies the function of the define
-`DEFINE_NOT_DEFINED
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifdefinenotdefined>`__.
-
-.. rubric:: VALIDATION:
-
-This interface define requirement is **not validated**.
-
 .. rubric:: CHANGES:
 
 There are no changes since Name v1.
 
-.. raw:: latex
+.. table::
+    :class: longtable
+    :widths: 26,74
 
-    \\clearpage
+    +-+-+
+    | :factlabel:`Interface function` | This interface define requirement specifies the function of the define `DEFINE_NOT_DEFINED </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifdefinenotdefined>`__. |
+    +-+-+
+    | :factlabel:`Validation` | This interface define requirement is **not validated**. |
+    +-+-+
 
 .. _SpecRtemsReqFunc:
 
@@ -543,11 +564,6 @@ spec:/rtems/req/func
 .. rubric:: REQUIREMENT:
 
 Text.
-
-.. rubric:: INTERFACE FUNCTION:
-
-This function requirement specifies the function of the directive `blub()
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsiffunc>`__.
 
 .. rubric:: VALIDATIONS:
 
@@ -566,14 +582,18 @@ following items:
 
 There are no changes since Name v1.
 
+.. table::
+    :class: longtable
+    :widths: 26,74
+
+    +-+-+
+    | :factlabel:`Interface function` | This function requirement specifies the function of the directive `blub() </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsiffunc>`__. |
+    +-+-+
+
 .. _RequirementsPerformanceRequirements:
 
 Performance requirements
 ************************
-
-.. raw:: latex
-
-    \\clearpage
 
 .. _SpecReqPerfRuntime:
 
@@ -593,17 +613,17 @@ This performance requirement is refined by performance requirement
 `spec:/​req/​perf-runtime-environment
 </pkg/doc-ts-srs/html/requirements.html#specreqperfruntimeenvironment>`__.
 
-.. rubric:: VALIDATION:
-
-This **not validated** performance requirement is validated by the **not validated** refinement `spec:/​req/​perf-runtime-environment </pkg/doc-ts-srs/html/requirements.html#specreqperfruntimeenvironment>`__.
-
 .. rubric:: CHANGES:
 
 There are no changes since Name v1.
 
-.. raw:: latex
+.. table::
+    :class: longtable
+    :widths: 26,74
 
-    \\clearpage
+    +-+-+
+    | :factlabel:`Validation` | This **not validated** performance requirement is validated by the **not validated** refinement `spec:/​req/​perf-runtime-environment </pkg/doc-ts-srs/html/requirements.html#specreqperfruntimeenvironment>`__. |
+    +-+-+
 
 .. _SpecReqPerfRuntimeEnvironment:
 
@@ -665,10 +685,6 @@ following items:
 
 There are no changes since Name v1.
 
-.. raw:: latex
-
-    \\clearpage
-
 .. _SpecReqPerfRuntimeEnvironmentDirtyCache:
 
 spec:/req/perf-runtime-environment-dirty-cache
@@ -686,16 +702,6 @@ This runtime measurement environment is used to measure the runtime of code
 sections while data and instructions of the code section have to be loaded from
 main memory and the loaded data has to wait for the write out of dirty data.
 
-.. rubric:: REFINEMENT:
-
-This runtime performance measurement environment refines the performance
-requirement `spec:/​req/​perf-runtime-environment
-</pkg/doc-ts-srs/html/requirements.html#specreqperfruntimeenvironment>`__.
-
-.. rubric:: VALIDATION:
-
-This runtime performance measurement environment is **not validated**.
-
 .. rubric:: NAME:
 
 The RTEMS Test Framework name of this runtime measurement environment is
@@ -705,9 +711,15 @@ The RTEMS Test Framework name of this runtime measurement environment is
 
 There are no changes since Name v1.
 
-.. raw:: latex
+.. table::
+    :class: longtable
+    :widths: 26,74
 
-    \\clearpage
+    +-+-+
+    | :factlabel:`Refinement` | This runtime performance measurement environment refines the performance requirement `spec:/​req/​perf-runtime-environment </pkg/doc-ts-srs/html/requirements.html#specreqperfruntimeenvironment>`__. |
+    +-+-+
+    | :factlabel:`Validation` | This runtime performance measurement environment is **not validated**. |
+    +-+-+
 
 .. _SpecReqPerfRuntimeEnvironmentFullCache:
 
@@ -726,16 +738,6 @@ This runtime measurement environment is used to measure the runtime of code
 sections while data and instructions of the code section have to be loaded from
 main memory without having to wait for the write out of dirty data.
 
-.. rubric:: REFINEMENT:
-
-This runtime performance measurement environment refines the performance
-requirement `spec:/​req/​perf-runtime-environment
-</pkg/doc-ts-srs/html/requirements.html#specreqperfruntimeenvironment>`__.
-
-.. rubric:: VALIDATION:
-
-This runtime performance measurement environment is **not validated**.
-
 .. rubric:: NAME:
 
 The RTEMS Test Framework name of this runtime measurement environment is
@@ -745,9 +747,15 @@ The RTEMS Test Framework name of this runtime measurement environment is
 
 There are no changes since Name v1.
 
-.. raw:: latex
+.. table::
+    :class: longtable
+    :widths: 26,74
 
-    \\clearpage
+    +-+-+
+    | :factlabel:`Refinement` | This runtime performance measurement environment refines the performance requirement `spec:/​req/​perf-runtime-environment </pkg/doc-ts-srs/html/requirements.html#specreqperfruntimeenvironment>`__. |
+    +-+-+
+    | :factlabel:`Validation` | This runtime performance measurement environment is **not validated**. |
+    +-+-+
 
 .. _SpecReqPerfRuntimeEnvironmentHotCache:
 
@@ -766,16 +774,6 @@ This runtime measurement environment is used to measure the runtime of code
 sections while data and instructions of the code section are already in the
 cache.  This should give a good estimate of best case conditions.
 
-.. rubric:: REFINEMENT:
-
-This runtime performance measurement environment refines the performance
-requirement `spec:/​req/​perf-runtime-environment
-</pkg/doc-ts-srs/html/requirements.html#specreqperfruntimeenvironment>`__.
-
-.. rubric:: VALIDATION:
-
-This runtime performance measurement environment is **not validated**.
-
 .. rubric:: NAME:
 
 The RTEMS Test Framework name of this runtime measurement environment is
@@ -785,9 +783,15 @@ The RTEMS Test Framework name of this runtime measurement environment is
 
 There are no changes since Name v1.
 
-.. raw:: latex
+.. table::
+    :class: longtable
+    :widths: 26,74
 
-    \\clearpage
+    +-+-+
+    | :factlabel:`Refinement` | This runtime performance measurement environment refines the performance requirement `spec:/​req/​perf-runtime-environment </pkg/doc-ts-srs/html/requirements.html#specreqperfruntimeenvironment>`__. |
+    +-+-+
+    | :factlabel:`Validation` | This runtime performance measurement environment is **not validated**. |
+    +-+-+
 
 .. _SpecReqPerfRuntimeEnvironmentLoad:
 
@@ -805,16 +809,6 @@ background tasks shall be a runtime measurement environment.
 This runtime measurement environment is intended to get close to worst case
 execution conditions.
 
-.. rubric:: REFINEMENT:
-
-This runtime performance measurement environment refines the performance
-requirement `spec:/​req/​perf-runtime-environment
-</pkg/doc-ts-srs/html/requirements.html#specreqperfruntimeenvironment>`__.
-
-.. rubric:: VALIDATION:
-
-This runtime performance measurement environment is **not validated**.
-
 .. rubric:: NAME:
 
 The RTEMS Test Framework name of this runtime measurement environment is
@@ -824,9 +818,15 @@ The RTEMS Test Framework name of this runtime measurement environment is
 
 There are no changes since Name v1.
 
-.. raw:: latex
+.. table::
+    :class: longtable
+    :widths: 26,74
 
-    \\clearpage
+    +-+-+
+    | :factlabel:`Refinement` | This runtime performance measurement environment refines the performance requirement `spec:/​req/​perf-runtime-environment </pkg/doc-ts-srs/html/requirements.html#specreqperfruntimeenvironment>`__. |
+    +-+-+
+    | :factlabel:`Validation` | This runtime performance measurement environment is **not validated**. |
+    +-+-+
 
 .. _SpecRtemsReqPerf:
 
@@ -851,29 +851,29 @@ target, the following runtime performance limits shall apply:
     +-+-+-+
     | ${ENVIRONMENT} | ${LIMIT_KIND} | ${LIMIT_CONDITION} |
     +=+=+=+
-    | :ref:`HotCache <SpecReqPerfRuntimeEnvironmentHotCache>` | Minimum | 298.000ns :math:`\\leq` Minimum |
+    | :ref:`HotCache <SpecReqPerfRuntimeEnvironmentHotCache>` | Minimum | 298.000ns :math:`\leq` Minimum |
     + +-+-+
-    | | Median | 298.000ns :math:`\\leq` Median :math:`\\leq` 1.192μs |
+    | | Median | 298.000ns :math:`\leq` Median :math:`\leq` 1.192μs |
     + +-+-+
-    | | Maximum | Maximum :math:`\\leq` 1.192μs |
+    | | Maximum | Maximum :math:`\leq` 1.192μs |
     +-+-+-+
-    | :ref:`FullCache <SpecReqPerfRuntimeEnvironmentFullCache>` | Minimum | 275.000ns :math:`\\leq` Minimum |
+    | :ref:`FullCache <SpecReqPerfRuntimeEnvironmentFullCache>` | Minimum | 275.000ns :math:`\leq` Minimum |
     + +-+-+
-    | | Median | 275.000ns :math:`\\leq` Median :math:`\\leq` 475.000ns |
+    | | Median | 275.000ns :math:`\leq` Median :math:`\leq` 475.000ns |
     + +-+-+
-    | | Maximum | Maximum :math:`\\leq` 475.000ns |
+    | | Maximum | Maximum :math:`\leq` 475.000ns |
     +-+-+-+
-    | :ref:`DirtyCache <SpecReqPerfRuntimeEnvironmentDirtyCache>` | Minimum | 588.600ns :math:`\\leq` Minimum |
+    | :ref:`DirtyCache <SpecReqPerfRuntimeEnvironmentDirtyCache>` | Minimum | 588.600ns :math:`\leq` Minimum |
     + +-+-+
-    | | Median | 602.100ns :math:`\\leq` Median :math:`\\leq` 10.312μs |
+    | | Median | 602.100ns :math:`\leq` Median :math:`\leq` 10.312μs |
     + +-+-+
-    | | Maximum | Maximum :math:`\\leq` 12.728μs |
+    | | Maximum | Maximum :math:`\leq` 12.728μs |
     +-+-+-+
-    | :ref:`Load/1 <SpecReqPerfRuntimeEnvironmentLoad>` | Minimum | 583.200ns :math:`\\leq` Minimum |
+    | :ref:`Load/1 <SpecReqPerfRuntimeEnvironmentLoad>` | Minimum | 583.200ns :math:`\leq` Minimum |
     + +-+-+
-    | | Median | 618.300ns :math:`\\leq` Median :math:`\\leq` 15.080μs |
+    | | Median | 618.300ns :math:`\leq` Median :math:`\leq` 15.080μs |
     + +-+-+
-    | | Maximum | Maximum :math:`\\leq` 0s |
+    | | Maximum | Maximum :math:`\leq` 0s |
     +-+-+-+
 
 For the configuration ``Build Configuration Name``, the test case
@@ -887,11 +887,6 @@ reported the following `runtime performance measurements
 .. image:: ../../../perf-images/a-build-config-key-rtems-req-perf.*
     :align: center
     :width: 50%
-
-.. rubric:: REFINEMENT:
-
-This runtime performance requirement refines the interface group `Blub
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifgroup>`__.
 
 .. rubric:: VALIDATIONS:
 
@@ -922,9 +917,13 @@ depends on the following items:
 
 There are no changes since Name v1.
 
-.. raw:: latex
+.. table::
+    :class: longtable
+    :widths: 26,74
 
-    \\clearpage
+    +-+-+
+    | :factlabel:`Refinement` | This runtime performance requirement refines the interface group `Blub </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifgroup>`__. |
+    +-+-+
 
 .. _SpecRtemsReqPerfNoResults:
 
@@ -948,47 +947,48 @@ target, the following runtime performance limits shall apply:
     +-+-+-+
     | ${ENVIRONMENT} | ${LIMIT_KIND} | ${LIMIT_CONDITION} |
     +=+=+=+
-    | :ref:`HotCache <SpecReqPerfRuntimeEnvironmentHotCache>` | Minimum | 298.000ns :math:`\\leq` Minimum |
+    | :ref:`HotCache <SpecReqPerfRuntimeEnvironmentHotCache>` | Minimum | 298.000ns :math:`\leq` Minimum |
     + +-+-+
-    | | Median | 298.000ns :math:`\\leq` Median :math:`\\leq` 1.192μs |
+    | | Median | 298.000ns :math:`\leq` Median :math:`\leq` 1.192μs |
     + +-+-+
-    | | Maximum | Maximum :math:`\\leq` 1.192μs |
+    | | Maximum | Maximum :math:`\leq` 1.192μs |
     +-+-+-+
-    | :ref:`FullCache <SpecReqPerfRuntimeEnvironmentFullCache>` | Minimum | 275.000ns :math:`\\leq` Minimum |
+    | :ref:`FullCache <SpecReqPerfRuntimeEnvironmentFullCache>` | Minimum | 275.000ns :math:`\leq` Minimum |
     + +-+-+
-    | | Median | 275.000ns :math:`\\leq` Median :math:`\\leq` 475.000ns |
+    | | Median | 275.000ns :math:`\leq` Median :math:`\leq` 475.000ns |
     + +-+-+
-    | | Maximum | Maximum :math:`\\leq` 475.000ns |
+    | | Maximum | Maximum :math:`\leq` 475.000ns |
     +-+-+-+
-    | :ref:`DirtyCache <SpecReqPerfRuntimeEnvironmentDirtyCache>` | Minimum | 588.600ns :math:`\\leq` Minimum |
+    | :ref:`DirtyCache <SpecReqPerfRuntimeEnvironmentDirtyCache>` | Minimum | 588.600ns :math:`\leq` Minimum |
     + +-+-+
-    | | Median | 602.100ns :math:`\\leq` Median :math:`\\leq` 10.312μs |
+    | | Median | 602.100ns :math:`\leq` Median :math:`\leq` 10.312μs |
     + +-+-+
-    | | Maximum | Maximum :math:`\\leq` 12.728μs |
+    | | Maximum | Maximum :math:`\leq` 12.728μs |
     +-+-+-+
-    | :ref:`Load/1 <SpecReqPerfRuntimeEnvironmentLoad>` | Minimum | 583.200ns :math:`\\leq` Minimum |
+    | :ref:`Load/1 <SpecReqPerfRuntimeEnvironmentLoad>` | Minimum | 583.200ns :math:`\leq` Minimum |
     + +-+-+
-    | | Median | 618.300ns :math:`\\leq` Median :math:`\\leq` 15.080μs |
+    | | Median | 618.300ns :math:`\leq` Median :math:`\leq` 15.080μs |
     + +-+-+
-    | | Maximum | Maximum :math:`\\leq` 0s |
+    | | Maximum | Maximum :math:`\leq` 0s |
     +-+-+-+
 
 .. warning::
 
     There are no runtime measurements available for this requirement.
 
-.. rubric:: REFINEMENT:
-
-This runtime performance requirement refines the interface group `Blub
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifgroup>`__.
-
-.. rubric:: VALIDATION:
-
-This runtime performance requirement is validated by a validation by test specified by `spec:/​rtems/​req/​perf-no-results </pkg/doc-djf-svs/html/test-case-specification.html#specrtemsreqperfnoresults>`__.
-
 .. rubric:: CHANGES:
 
 There are no changes since Name v1.
+
+.. table::
+    :class: longtable
+    :widths: 26,74
+
+    +-+-+
+    | :factlabel:`Refinement` | This runtime performance requirement refines the interface group `Blub </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifgroup>`__. |
+    +-+-+
+    | :factlabel:`Validation` | This runtime performance requirement is validated by a validation by test specified by `spec:/​rtems/​req/​perf-no-results </pkg/doc-djf-svs/html/test-case-specification.html#specrtemsreqperfnoresults>`__. |
+    +-+-+
 
 .. _RequirementsInterfaceRequirements:
 
@@ -1022,10 +1022,6 @@ integrated.
 Design requirements and implementation constraints
 **************************************************
 
-.. raw:: latex
-
-    \\clearpage
-
 .. _SpecGlossaryGroup:
 
 spec:/glossary/group
@@ -1035,22 +1031,19 @@ spec:/glossary/group
 
 The system shall have a general glossary of terms.
 
-.. rubric:: REFINEMENT:
-
-This glossary group refines the design requirement `spec:/​req/​root
-</pkg/doc-ts-srs/html/requirements.html#specreqroot>`__.
-
-.. rubric:: VALIDATION:
-
-This glossary group is validated.
-
 .. rubric:: CHANGES:
 
 There are no changes since Name v1.
 
-.. raw:: latex
+.. table::
+    :class: longtable
+    :widths: 26,74
 
-    \clearpage
+    +-+-+
+    | :factlabel:`Refinement` | This glossary group refines the design requirement `spec:/​req/​root </pkg/doc-ts-srs/html/requirements.html#specreqroot>`__. |
+    +-+-+
+    | :factlabel:`Validation` | This glossary group is validated. |
+    +-+-+
 
 .. _SpecReqGlossary:
 
@@ -1061,22 +1054,19 @@ spec:/req/glossary
 
 The system shall have a glossary of specification-specific terms.
 
-.. rubric:: REFINEMENT:
-
-This glossary group refines the design requirement `spec:/​req/​root
-</pkg/doc-ts-srs/html/requirements.html#specreqroot>`__.
-
-.. rubric:: VALIDATION:
-
-This glossary group is **not validated**.
-
 .. rubric:: CHANGES:
 
 There are no changes since Name v1.
 
-.. raw:: latex
+.. table::
+    :class: longtable
+    :widths: 26,74
 
-    \clearpage
+    +-+-+
+    | :factlabel:`Refinement` | This glossary group refines the design requirement `spec:/​req/​root </pkg/doc-ts-srs/html/requirements.html#specreqroot>`__. |
+    +-+-+
+    | :factlabel:`Validation` | This glossary group is **not validated**. |
+    +-+-+
 
 .. _SpecReqRoot:
 
@@ -1188,10 +1178,6 @@ following items:
 
 There are no changes since Name v1.
 
-.. raw:: latex
-
-    \\clearpage
-
 .. _SpecReqUsageConstraints:
 
 spec:/req/usage-constraints
@@ -1210,17 +1196,17 @@ This design requirement is refined by constraint
 `spec:/​acfg/​constraint/​option-not-pre-qualified
 </pkg/doc-ts-srs/html/requirements.html#specacfgconstraintoptionnotprequalified>`__.
 
-.. rubric:: VALIDATION:
-
-This validated design requirement is validated by the validated refinement `spec:/​acfg/​constraint/​option-not-pre-qualified </pkg/doc-ts-srs/html/requirements.html#specacfgconstraintoptionnotprequalified>`__.
-
 .. rubric:: CHANGES:
 
 There are no changes since Name v1.
 
-.. raw:: latex
+.. table::
+    :class: longtable
+    :widths: 26,74
 
-    \\clearpage
+    +-+-+
+    | :factlabel:`Validation` | This validated design requirement is validated by the validated refinement `spec:/​acfg/​constraint/​option-not-pre-qualified </pkg/doc-ts-srs/html/requirements.html#specacfgconstraintoptionnotprequalified>`__. |
+    +-+-+
 
 .. _SpecRtemsReqGroup:
 
@@ -1230,15 +1216,6 @@ spec:/rtems/req/group
 .. rubric:: REQUIREMENT:
 
 Text.
-
-.. rubric:: SOFTWARE DESIGN:
-
-This design group is realised by the software design element `Blub3 </pkg/doc-ddf-sdd/html/group__Blub3.html>`__.
-
-.. rubric:: REFINEMENT:
-
-This design group refines the design requirement `spec:/​req/​root
-</pkg/doc-ts-srs/html/requirements.html#specreqroot>`__.
 
 .. rubric:: VALIDATIONS:
 
@@ -1257,9 +1234,15 @@ items:
 
 There are no changes since Name v1.
 
-.. raw:: latex
+.. table::
+    :class: longtable
+    :widths: 26,74
 
-    \\clearpage
+    +-+-+
+    | :factlabel:`Software design` | This design group is realised by the software design element `Blub3 </pkg/doc-ddf-sdd/html/group__Blub3.html>`__. |
+    +-+-+
+    | :factlabel:`Refinement` | This design group refines the design requirement `spec:/​req/​root </pkg/doc-ts-srs/html/requirements.html#specreqroot>`__. |
+    +-+-+
 
 .. _SpecRtemsReqGroupNoIdentifier:
 
@@ -1270,22 +1253,19 @@ spec:/rtems/req/group-no-identifier
 
 Text.
 
-.. rubric:: REFINEMENT:
-
-This design group refines the design requirement `spec:/​req/​root
-</pkg/doc-ts-srs/html/requirements.html#specreqroot>`__.
-
-.. rubric:: VALIDATION:
-
-This design group is **not validated**.
-
 .. rubric:: CHANGES:
 
 There are no changes since Name v1.
 
-.. raw:: latex
+.. table::
+    :class: longtable
+    :widths: 26,74
 
-    \\clearpage
+    +-+-+
+    | :factlabel:`Refinement` | This design group refines the design requirement `spec:/​req/​root </pkg/doc-ts-srs/html/requirements.html#specreqroot>`__. |
+    +-+-+
+    | :factlabel:`Validation` | This design group is **not validated**. |
+    +-+-+
 
 .. _SpecRtemsTargetA:
 
@@ -1296,22 +1276,19 @@ spec:/rtems/target-a
 
 The Name Target A shall be a target.
 
-.. rubric:: REFINEMENT:
-
-This design target refines the design requirement `spec:/​req/​root
-</pkg/doc-ts-srs/html/requirements.html#specreqroot>`__.
-
-.. rubric:: VALIDATION:
-
-This design target is **not validated**.
-
 .. rubric:: CHANGES:
 
 There are no changes since Name v1.
 
-.. raw:: latex
+.. table::
+    :class: longtable
+    :widths: 26,74
 
-    \\clearpage
+    +-+-+
+    | :factlabel:`Refinement` | This design target refines the design requirement `spec:/​req/​root </pkg/doc-ts-srs/html/requirements.html#specreqroot>`__. |
+    +-+-+
+    | :factlabel:`Validation` | This design target is **not validated**. |
+    +-+-+
 
 .. _SpecTestsuitesUnit:
 
@@ -1330,17 +1307,17 @@ This design group refines the design requirement `spec:/​req/​root
 This design group is refined by test suite `spec:/​testsuites/​unit-0
 </pkg/doc-djf-suitp/html/test-design.html#spectestsuitesunit0>`__.
 
-.. rubric:: VALIDATION:
-
-This **not validated** design group is validated by the **not validated** refinement `spec:/​testsuites/​unit-0 </pkg/doc-djf-suitp/html/test-design.html#spectestsuitesunit0>`__.
-
 .. rubric:: CHANGES:
 
 There are no changes since Name v1.
 
-.. raw:: latex
+.. table::
+    :class: longtable
+    :widths: 26,74
 
-    \\clearpage
+    +-+-+
+    | :factlabel:`Validation` | This **not validated** design group is validated by the **not validated** refinement `spec:/​testsuites/​unit-0 </pkg/doc-djf-suitp/html/test-design.html#spectestsuitesunit0>`__. |
+    +-+-+
 
 .. _SpecTestsuitesValidation:
 
@@ -1409,10 +1386,6 @@ items:
 
 There are no changes since Name v1.
 
-.. raw:: latex
-
-    \\clearpage
-
 .. _SpecTestsuitesValidationRefinement:
 
 spec:/testsuites/validation-refinement
@@ -1430,13 +1403,17 @@ This design group refines the design group `spec:/​testsuites/​validation
 This design group is refined by test suite `spec:/​testsuites/​test-suite-fail
 </pkg/doc-djf-svs/html/test-design.html#spectestsuitestestsuitefail>`__.
 
-.. rubric:: VALIDATION:
-
-This **not validated** design group is validated by the **not validated** refinement `spec:/​testsuites/​test-suite-fail </pkg/doc-djf-svs/html/test-design.html#spectestsuitestestsuitefail>`__.
-
 .. rubric:: CHANGES:
 
 There are no changes since Name v1.
+
+.. table::
+    :class: longtable
+    :widths: 26,74
+
+    +-+-+
+    | :factlabel:`Validation` | This **not validated** design group is validated by the **not validated** refinement `spec:/​testsuites/​test-suite-fail </pkg/doc-djf-svs/html/test-design.html#spectestsuitestestsuitefail>`__. |
+    +-+-+
 
 .. _RequirementsSecurityAndPrivacyRequirements:
 
@@ -1463,10 +1440,6 @@ integrated.
 Software quality requirements
 *****************************
 
-.. raw:: latex
-
-    \\clearpage
-
 .. _SpecRtemsReqMemBasic:
 
 spec:/rtems/req/mem-basic
@@ -1477,18 +1450,19 @@ spec:/rtems/req/mem-basic
 The system shall provide a benchmark program to show the static memory usage of
 a basic application configuration.
 
-.. rubric:: REFINEMENT:
-
-This quality requirement refines the interface group `Blub
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifgroup>`__.
-
-.. rubric:: VALIDATION:
-
-This validated quality requirement is validated by the validation by inspection `spec:/​rtems/​val/​mem-basic </pkg/doc-djf-svs/html/test-design.html#specrtemsvalmembasic>`__.
-
 .. rubric:: CHANGES:
 
 There are no changes since Name v1.
+
+.. table::
+    :class: longtable
+    :widths: 26,74
+
+    +-+-+
+    | :factlabel:`Refinement` | This quality requirement refines the interface group `Blub </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifgroup>`__. |
+    +-+-+
+    | :factlabel:`Validation` | This validated quality requirement is validated by the validation by inspection `spec:/​rtems/​val/​mem-basic </pkg/doc-djf-svs/html/test-design.html#specrtemsvalmembasic>`__. |
+    +-+-+
 
 .. _RequirementsSoftwareReliabilityRequirements:
 
@@ -1552,9 +1526,16 @@ integrated.
 .. srs-requirements end
 
 .. srs-constraints begin
+.. role:: factlabel
+
 .. raw:: latex
 
-    \\clearpage
+    \providecommand{\DUrolefactlabel}[1]{{\sffamily\bfseries%
+      \ifcsname color@TitleColor\endcsname\color{TitleColor}\fi%
+      \ifcsname l@nohyphenation\endcsname%
+        \language\csname l@nohyphenation\endcsname%
+      \fi%
+      #1}}
 
 .. _SpecAcfgConstraintOptionNotPreQualified:
 
@@ -1568,18 +1549,17 @@ feature set of RTEMS.  Applications which are restricted to only use interfaces
 of the pre-qualified feature set of RTEMS shall not use the application
 configuration option.
 
-.. rubric:: REFINEMENT:
-
-This constraint refines the design requirement `spec:/​req/​usage-constraints
-</pkg/doc-ts-srs/html/requirements.html#specrequsageconstraints>`__.
-
-.. rubric:: CONSTRAINT ITEM:
-
-This constraint is applicable to application configuration option
-`CONFIGURE_INTEGER
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifacfginteger>`__.
-
 .. rubric:: CHANGES:
 
 There are no changes since Name v1.
+
+.. table::
+    :class: longtable
+    :widths: 26,74
+
+    +-+-+
+    | :factlabel:`Refinement` | This constraint refines the design requirement `spec:/​req/​usage-constraints </pkg/doc-ts-srs/html/requirements.html#specrequsageconstraints>`__. |
+    +-+-+
+    | :factlabel:`Constraint item` | This constraint is applicable to application configuration option `CONFIGURE_INTEGER </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifacfginteger>`__. |
+    +-+-+
 .. srs-constraints end"""

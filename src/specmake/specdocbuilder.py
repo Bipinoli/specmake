@@ -56,6 +56,14 @@ class _Context(NamedTuple):
     code_mapper: ItemMapper
     spec: RTEMSItemCache
     file_path: str
+    # An item's one-line facts (requirement, group membership, ...),
+    # collected here for add_item() to render as one table at the end.
+    details: list[tuple[str, str]]
+
+
+def _emit_fact(ctx: _Context, label: str, sentence: str) -> None:
+    """ Queue a one-line fact about an item instead of writing it now. """
+    ctx.details.append((label, sentence))
 
 
 def _add_text(ctx: _Context, key: str, name: str) -> None:
@@ -65,15 +73,23 @@ def _add_text(ctx: _Context, key: str, name: str) -> None:
         ctx.content.wrap(ctx.mapper.substitute(text))
 
 
+def _add_brief(ctx: _Context) -> None:
+    """ The item's brief description, as the opening paragraph of its
+    section (no heading -- the section title already names the item). """
+    text = ctx.item.get("brief", None)
+    if text:
+        ctx.content.wrap(ctx.mapper.substitute(text))
+
+
 def _add_sdd_link(ctx: _Context) -> None:
     path = ctx.item.view["document-paths"].get("sdd", None)
     if path:
-        ctx.content.add_rubric("SOFTWARE DESIGN:")
         kind = get_kind(ctx.item)
         name = ctx.item.view["sdd-name"]
-        ctx.content.add(f"This {kind} is realised by the "
-                        "software design element "
-                        f"{ctx.mapper.format_link(name, path)}.")
+        _emit_fact(
+            ctx, "SOFTWARE DESIGN",
+            f"This {kind} is realised by the software design element "
+            f"{ctx.mapper.format_link(name, path)}.")
 
 
 def _add_links(
@@ -95,29 +111,44 @@ def _add_links(
         link.item for link in ctx.item.links_to_children(role)
         if is_link_enabled(link)
     ]
-    if parents or children:
-        get_link = ctx.mapper.get_link
-        plural = "S" if len(parents) + len(children) > 1 else ""
-        ctx.content.add_rubric(f"{name}{plural}:")
-        kind = get_kind(ctx.item)
-        if len(parents) == 1:
-            parent = parents[0]
-            parent_kind = get_kind(parent)
-            ctx.content.wrap(f"This {kind} {parent_role} the "
-                             f"{parent_kind} {get_link(parent)}.")
-        elif len(parents) > 1:
-            ctx.content.add_list(
-                [get_link(parent) for parent in parents],
-                f"This {kind} {parent_role} the following items:")
-        if len(children) == 1:
-            child = children[0]
-            child_kind = get_kind(child)
-            ctx.content.wrap(f"{child_prefix} {kind} {child_role} "
-                             f"{child_kind} {get_link(child)}.")
-        elif len(children) > 1:
-            ctx.content.add_list(
-                [get_link(child) for child in children],
-                f"{child_prefix} {kind} {child_role} the following items:")
+    if not (parents or children):
+        return
+    get_link = ctx.mapper.get_link
+    kind = get_kind(ctx.item)
+    if len(parents) == 1 and not children:
+        parent = parents[0]
+        parent_kind = get_kind(parent)
+        _emit_fact(
+            ctx, name, f"This {kind} {parent_role} the "
+            f"{parent_kind} {get_link(parent)}.")
+        return
+    if len(children) == 1 and not parents:
+        child = children[0]
+        child_kind = get_kind(child)
+        _emit_fact(
+            ctx, name, f"{child_prefix} {kind} {child_role} "
+            f"{child_kind} {get_link(child)}.")
+        return
+    # Multiple targets: too much for one fact, keeps its own heading+list.
+    plural = "S" if len(parents) + len(children) > 1 else ""
+    ctx.content.add_rubric(f"{name}{plural}:")
+    if len(parents) == 1:
+        parent = parents[0]
+        parent_kind = get_kind(parent)
+        ctx.content.wrap(f"This {kind} {parent_role} the "
+                         f"{parent_kind} {get_link(parent)}.")
+    elif len(parents) > 1:
+        ctx.content.add_list([get_link(parent) for parent in parents],
+                             f"This {kind} {parent_role} the following items:")
+    if len(children) == 1:
+        child = children[0]
+        child_kind = get_kind(child)
+        ctx.content.wrap(f"{child_prefix} {kind} {child_role} "
+                         f"{child_kind} {get_link(child)}.")
+    elif len(children) > 1:
+        ctx.content.add_list(
+            [get_link(child) for child in children],
+            f"{child_prefix} {kind} {child_role} the following items:")
 
 
 def _add_default_links(ctx: _Context) -> None:
@@ -191,13 +222,14 @@ def _item_definition(item: Item, mapper: ItemMapper,
 def _document_unspecified(ctx: _Context,
                           prefix: str = "",
                           postfix: str = "") -> None:
-    ctx.content.add_rubric("REQUIREMENT:")
     kind = get_kind(ctx.item)
     name = f"{prefix}{ctx.item['name']}{postfix}"
     container = ctx.item.parent('interface-placement')
     container_kind = get_kind(container)
-    ctx.content.wrap(f"The {ctx.mapper.get_link(container)} {container_kind} "
-                     f"shall provide the {kind} {ctx.content.code(name)}.")
+    _emit_fact(
+        ctx, "REQUIREMENT",
+        f"The {ctx.mapper.get_link(container)} {container_kind} "
+        f"shall provide the {kind} {ctx.content.code(name)}.")
 
 
 def _document_unspecified_type(ctx: _Context) -> None:
@@ -483,10 +515,10 @@ def _document_acfg_group(ctx: _Context) -> None:
 
 
 def _document_acfg_option(ctx: _Context) -> None:
-    ctx.content.add_rubric("REQUIREMENT:")
     container = ctx.item.parent('interface-placement')
     container_kind = get_kind(container)
-    ctx.content.wrap(
+    _emit_fact(
+        ctx, "REQUIREMENT",
         f"The {ctx.mapper.get_link(container)} {container_kind} shall "
         "provide the application configuration option "
         f"{ctx.content.code(ctx.item['name'])}.")
@@ -497,7 +529,6 @@ def _document_acfg_option(ctx: _Context) -> None:
 
 def _document_directive(ctx: _Context) -> None:
     _document_unspecified(ctx, postfix="()")
-    ctx.content.add_rubric("BRIEF DESCRIPTION:")
     document_directive(ctx.content, ctx.mapper, ctx.item, ctx.spec.enabled_set)
     _add_default_links(ctx)
     _add_validations(ctx)
@@ -505,7 +536,7 @@ def _document_directive(ctx: _Context) -> None:
 
 def _document_register_block(ctx: _Context) -> None:
     _document_unspecified(ctx)
-    _add_text(ctx, "brief", "BRIEF DESCRIPTION")
+    _add_brief(ctx)
     ctx.content.add_rubric("REGISTER BLOCK:")
     rows: list[tuple[str | int, ...]] = [("Offset", "Register")]
     for member in ctx.item["definition"]:
@@ -536,7 +567,7 @@ def _document_register_block(ctx: _Context) -> None:
 
 def _document_compound(ctx: _Context) -> None:
     _document_unspecified(ctx)
-    _add_text(ctx, "brief", "BRIEF DESCRIPTION")
+    _add_brief(ctx)
     enabled_set = frozenset(f"defined({enable})"
                             for enable in ctx.spec.enabled_set)
     members = []
@@ -596,7 +627,7 @@ def _enumerator(item: Item, mapper: ItemMapper,
 
 def _document_enumeration(ctx: _Context) -> None:
     _document_unspecified(ctx)
-    _add_text(ctx, "brief", "BRIEF DESCRIPTION")
+    _add_brief(ctx)
     enumerators = [
         f"  {_enumerator(name, ctx.code_mapper, ctx.spec.enabled_set)},"
         for name in ctx.item.parents("interface-enumerator")
@@ -610,12 +641,12 @@ def _document_enumeration(ctx: _Context) -> None:
 
 
 def _document_enumerator(ctx: _Context) -> None:
-    ctx.content.add_rubric("REQUIREMENT:")
     name = ctx.item["name"]
     enum = ctx.item.child('interface-enumerator')
-    ctx.content.wrap(f"The {ctx.mapper.get_link(enum)} enumeration "
-                     f"shall provide the enumerator {ctx.content.code(name)}.")
-    _add_text(ctx, "brief", "BRIEF DESCRIPTION")
+    _emit_fact(
+        ctx, "REQUIREMENT", f"The {ctx.mapper.get_link(enum)} enumeration "
+        f"shall provide the enumerator {ctx.content.code(name)}.")
+    _add_brief(ctx)
     enumerator = [
         "  ...",
         f"  {_enumerator(ctx.item, ctx.code_mapper, ctx.spec.enabled_set)}",
@@ -631,7 +662,7 @@ def _document_enumerator(ctx: _Context) -> None:
 
 def _document_define(ctx: _Context) -> None:
     _document_unspecified(ctx)
-    _add_text(ctx, "brief", "BRIEF DESCRIPTION")
+    _add_brief(ctx)
     _add_code_block(
         ctx.content, f"#define {ctx.item['name']} "
         f"{_item_definition(ctx.item, ctx.code_mapper, ctx.spec.enabled_set)}")
@@ -642,49 +673,50 @@ def _document_define(ctx: _Context) -> None:
 
 
 def _document_domain(ctx: _Context) -> None:
-    ctx.content.add_rubric("REQUIREMENT:")
-    ctx.content.wrap("There shall be the interface domain "
-                     f"{ctx.content.code(ctx.item['name'])}.")
+    _emit_fact(
+        ctx, "REQUIREMENT", "There shall be the interface domain "
+        f"{ctx.content.code(ctx.item['name'])}.")
     _add_text(ctx, "description", "DESCRIPTION")
     _add_default_links(ctx)
     _add_validations(ctx)
 
 
 def _document_group(ctx: _Context) -> None:
-    ctx.content.add_rubric("REQUIREMENT:")
     what = f"the interface group {ctx.content.code(ctx.item['name'])}"
     try:
         parent = ctx.item.parent("interface-ingroup")
         parent_kind = get_kind(parent)
-        ctx.content.wrap(f"The {ctx.mapper.get_link(parent)} "
-                         f"{parent_kind} shall contain {what}.")
+        _emit_fact(
+            ctx, "REQUIREMENT", f"The {ctx.mapper.get_link(parent)} "
+            f"{parent_kind} shall contain {what}.")
     except IndexError:
-        ctx.content.wrap(f"There shall be {what}.")
-    _add_text(ctx, "brief", "BRIEF DESCRIPTION")
+        _emit_fact(ctx, "REQUIREMENT", f"There shall be {what}.")
+    _add_brief(ctx)
     _add_text(ctx, "description", "DESCRIPTION")
     _add_default_links(ctx)
     _add_validations(ctx)
 
 
 def _document_header_file(ctx: _Context) -> None:
-    ctx.content.add_rubric("REQUIREMENT:")
     path = ctx.item["path"]
     formatted_path = ctx.content.code(f"<{path}>")
     container = ctx.item.parent('interface-placement')
     container_kind = get_kind(container)
-    ctx.content.wrap(f"The {ctx.mapper.get_link(container)} {container_kind} "
-                     f"shall provide the header file {formatted_path}.")
-    _add_text(ctx, "brief", "BRIEF DESCRIPTION")
+    _emit_fact(
+        ctx, "REQUIREMENT",
+        f"The {ctx.mapper.get_link(container)} {container_kind} "
+        f"shall provide the header file {formatted_path}.")
+    _add_brief(ctx)
     _add_code_block(ctx.content, f"#include <{path}>")
     _add_default_links(ctx)
     _add_validations(ctx)
 
 
 def _document_forward_declaration(ctx: _Context) -> None:
-    ctx.content.add_rubric("REQUIREMENT:")
     container = ctx.item.parent('interface-placement')
     container_kind = get_kind(container)
-    ctx.content.wrap(
+    _emit_fact(
+        ctx, "REQUIREMENT",
         f"The {ctx.mapper.get_link(container)} {container_kind} shall "
         "provide a forward declaration of "
         f"{ctx.mapper.get_link(ctx.item.parent('interface-target'))}.")
@@ -695,7 +727,7 @@ def _document_forward_declaration(ctx: _Context) -> None:
 
 def _document_object(ctx: _Context) -> None:
     _document_unspecified(ctx)
-    _add_text(ctx, "brief", "BRIEF DESCRIPTION")
+    _add_brief(ctx)
     definition = _SPACE.sub(
         " ", _item_definition(ctx.item, ctx.code_mapper, ctx.spec.enabled_set))
     _add_code_block(ctx.content, f"extern {definition};")
@@ -705,7 +737,7 @@ def _document_object(ctx: _Context) -> None:
 
 def _document_typedef(ctx: _Context) -> None:
     _document_unspecified(ctx)
-    _add_text(ctx, "brief", "BRIEF DESCRIPTION")
+    _add_brief(ctx)
     definition = _SPACE.sub(
         " ", _item_definition(ctx.item, ctx.code_mapper, ctx.spec.enabled_set))
     _add_code_block(ctx.content, f"typedef {definition};")
@@ -728,6 +760,206 @@ def _document_validation_by_inspection(ctx: _Context) -> None:
 def _document_validation_by_review_of_design(ctx: _Context) -> None:
     _add_text(ctx, "text", "REVIEW OF DESIGN")
     _add_validated_items(ctx)
+
+
+def _flatten_text(value: GenericContent) -> str:
+    """ Collapse a definition item's body to one line of text.
+
+    A definition body may arrive as a string, a list of lines, or a Content
+    (all of which iterate as lines); a table cell needs all of them as a
+    single whitespace-normalised string.
+    """
+    if isinstance(value, str):
+        lines: Iterable[str] = (value, )
+    else:
+        lines = value
+    return " ".join(" ".join(lines).split())
+
+
+class _DefinitionTable:
+    """ Buffers a run of definition items (parameters, return values, error
+    codes, structure members) and renders them as one aligned table instead
+    of a docutils definition list (term on its own line, body indented
+    below).  Intercepting ``add_definition_item`` this way needs no change
+    to ``specware``, where that call comes from.
+
+    Other attributes delegate to the wrapped content and flush first,
+    except a handful of pure formatting helpers callers use to format the
+    *next* item's term between two ``add_definition_item`` calls -- which
+    would otherwise split one table into one per entry.
+    """
+
+    _PURE = frozenset({
+        "cite",
+        "code",
+        "emphasize",
+        "escape",
+        "gap",
+        "licenses",
+        "path",
+        "reference",
+        "tab",
+        "term",
+    })
+
+    def __init__(self, content: TextContent) -> None:
+        self._content = content
+        self._pending: list[tuple[str, str]] = []
+
+    def __getattr__(self, name: str) -> Any:
+        if name not in _DefinitionTable._PURE:
+            self.flush()
+        return getattr(self._content, name)
+
+    def add_definition_item(self, name: GenericContent,
+                            definition: GenericContent) -> None:
+        """ Buffer the definition item instead of writing it immediately. """
+        self._pending.append((_flatten_text(name), _flatten_text(definition)))
+
+    def flush(self) -> None:
+        """ Emit any buffered run of definition items as one table. """
+        if not self._pending:
+            return
+        pending, self._pending = self._pending, []
+        percent = term_column_percent(name for name, _ in pending)
+        rows = [(_breakable_term(name), text) for name, text in pending]
+        self._content.add_grid_table(rows,
+                                     widths=[percent, 100 - percent],
+                                     header_rows=0)
+
+
+_ROLE_PREFIX = re.compile(r"^:[\w.+-]+(?::[\w.+-]+)*:")
+_LINK_TARGET = re.compile(r"\s*<[^>]*>")
+_BREAK_AFTER_SEPARATOR = re.compile(r"[_/-]+")
+_BREAK_BEFORE_CAPITALS = re.compile(r"[A-Z]+")
+# Longest run left unbroken before a last-resort fixed-stride break.
+_LONGEST_UNBREAKABLE = 16
+
+
+def _visible_text(text: str) -> str:
+    """ Approximate the text a reader actually sees for a marked up term. """
+    text = _ROLE_PREFIX.sub("", text)
+    text = _LINK_TARGET.sub("", text)
+    return text.replace("`", "").replace("*", "").strip()
+
+
+def _add_breaks(text: str) -> str:
+    """ Insert zero-width spaces at the safe break points of an identifier:
+    after each run of ``_``, ``-`` or ``/``, and before each run of
+    capitals, covering both ``some_long_parameter_name`` and
+    ``RTEMS_INVALID_ADDRESS``.  A run with neither still has no break
+    point, so as a last resort long runs break on a fixed stride. """
+    text = _BREAK_BEFORE_CAPITALS.sub(lambda match: f"\u200b{match.group(0)}",
+                                      text)
+    text = _BREAK_AFTER_SEPARATOR.sub(lambda match: f"{match.group(0)}\u200b",
+                                      text)
+    while "\u200b\u200b" in text:
+        text = text.replace("\u200b\u200b", "\u200b")
+    text = text.strip("\u200b")
+    parts: list[str] = []
+    for run in text.split("\u200b"):
+        while len(run) > _LONGEST_UNBREAKABLE:
+            parts.append(run[:_LONGEST_UNBREAKABLE])
+            run = run[_LONGEST_UNBREAKABLE:]
+        parts.append(run)
+    return "\u200b".join(part for part in parts if part)
+
+
+def _breakable_term(term: str) -> str:
+    """ Make a term wrappable, without breaking inside a ``<...>``
+    reference target (that would change what it points at). """
+    out: list[str] = []
+    position = 0
+    for match in _LINK_TARGET.finditer(term):
+        out.append(_add_breaks(term[position:match.start()]))
+        out.append(match.group(0))
+        position = match.end()
+    out.append(_add_breaks(term[position:]))
+    return "".join(out)
+
+
+# Text block width in em, for A4 with the document's margins:
+# (210mm - 2*20mm) / 11pt.
+_TEXT_WIDTH_EM = 44.0
+# Per-character advance widths in em, approximating the body face (capitals
+# run about half again as wide as lowercase).
+_EM_UPPER = 0.72
+_EM_LOWER = 0.50
+_EM_OTHER = 0.55
+_EM_PADDING = 0.6  # breathing room so a term isn't flush against the edge
+_TERM_MIN_PERCENT = 10  # floor: two-letter names still read as a column
+_TERM_MAX_PERCENT = 38  # ceiling: one long name can't squeeze descriptions
+
+
+def _em_width(text: str) -> float:
+    """ Approximate the rendered width of a term, in em. """
+    total = 0.0
+    for char in text:
+        if char.isupper() or char.isdigit():
+            total += _EM_UPPER
+        elif char.islower():
+            total += _EM_LOWER
+        else:
+            total += _EM_OTHER
+    return total
+
+
+def term_column_percent(terms: Iterable[str]) -> int:
+    """ Width for a term column, sized to the longest term it holds. """
+    widest = max((_em_width(_visible_text(term)) for term in terms),
+                 default=0.0)
+    percent = int(100.0 * (widest + _EM_PADDING) / _TEXT_WIDTH_EM) + 1
+    return min(max(percent, _TERM_MIN_PERCENT), _TERM_MAX_PERCENT)
+
+
+# One fixed label column for the whole document, unlike a parameter table's
+# per-item fit: sizing it per item would make the column jitter.  26% fits
+# the labels an item commonly carries, measured against the widest of them,
+# "Interface placement"; a rarer, wider one wraps at its space instead
+# (see the nohyphenation test in _FACT_LABEL_ROLE_LATEX below).
+_FACT_LABEL_PERCENT = 26
+
+# TitleColor is Sphinx's own heading colour, so the label reads as part of
+# the document's existing heading language.
+_FACT_LABEL_ROLE = "factlabel"
+
+# \providecommand makes this styling only -- \DUrole falls back to plain
+# text if \DUrole<name> is undefined, and project.sty can still override
+# it.  \ifcsname tests for TitleColor and the nohyphenation language rather
+# than assuming either exists.
+_FACT_LABEL_ROLE_LATEX = [
+    r"\providecommand{\DUrolefactlabel}[1]{{\sffamily\bfseries%",
+    r"  \ifcsname color@TitleColor\endcsname\color{TitleColor}\fi%",
+    r"  \ifcsname l@nohyphenation\endcsname%",
+    r"    \language\csname l@nohyphenation\endcsname%",
+    r"  \fi%",
+    r"  #1}}",
+]
+
+
+def _declare_fact_label_role(content: TextContent) -> None:
+    """ Declare and define the facts table's styled label role.
+
+    A role must be declared in the same file as its uses; a document is
+    assembled from several blocks that may land in different files, so the
+    caller declares this once per block rather than once per document.
+    """
+    content.add(f".. role:: {_FACT_LABEL_ROLE}")
+    with content.directive("raw", "latex"):
+        content.add(_FACT_LABEL_ROLE_LATEX)
+
+
+def _add_facts_table(content: TextContent, details: list[tuple[str,
+                                                               str]]) -> None:
+    """ Render an item's one-line facts (requirement, group membership,
+    interface placement, validation, ...) as one aligned table instead of a
+    heading and paragraph each. """
+    rows = [(f":{_FACT_LABEL_ROLE}:`{label.capitalize()}`", sentence)
+            for label, sentence in details]
+    content.add_grid_table(
+        rows,
+        widths=[_FACT_LABEL_PERCENT, 100 - _FACT_LABEL_PERCENT],
+        header_rows=0)
 
 
 _ITEM_DOCUMENTER = {
@@ -818,21 +1050,21 @@ def _add_validations(ctx: _Context) -> None:
     kind = get_kind(ctx.item)
     validations = ctx.item.view["validation-dependencies"]
     if len(validations) == 0:
-        ctx.content.add_rubric("VALIDATION:")
-        ctx.content.add(f"This {kind} is {status}.")
+        _emit_fact(ctx, "VALIDATION", f"This {kind} is {status}.")
     elif len(validations) == 1:
-        ctx.content.add_rubric("VALIDATION:")
         validation = validations[0]
         item_2 = ctx.item.cache[validation[0]]
         link = ctx.mapper.get_link(ctx.item.cache[validation[0]],
                                    document_key="test-plan")
         if ctx.item == item_2:
-            ctx.content.add(f"This {kind} is validated by a {validation[1]} "
-                            f"specified by {link}.")
+            _emit_fact(
+                ctx, "VALIDATION",
+                f"This {kind} is validated by a {validation[1]} "
+                f"specified by {link}.")
         else:
-            ctx.content.add(
-                f"This {status} {kind} is validated by the "
-                f"{_validation_status(item_2, validation[1])} {link}.")
+            _emit_fact(
+                ctx, "VALIDATION", f"This {status} {kind} is validated by "
+                f"the {_validation_status(item_2, validation[1])} {link}.")
     else:
         ctx.content.add_rubric("VALIDATIONS:")
         items: list[str] = []
@@ -958,6 +1190,9 @@ class SpecDocumentBuilder(DocumentBuilder):
         except KeyError:
             spec_compare_registry = None
         self.spec_compare_registry = spec_compare_registry
+        # Contents the facts table's role has already been declared in
+        # (identity, not equality -- there are only ever a handful).
+        self._fact_label_role_declared: list[TextContent] = []
         my_type = self.item.type
         self.mapper.add_get_value(f"{my_type}:/validation-verification",
                                   self._validation_verification)
@@ -976,16 +1211,21 @@ class SpecDocumentBuilder(DocumentBuilder):
     def add_item(self, content: TextContent, item: Item) -> None:
         """ Add the item documentation to the content. """
         content.register_license_and_copyrights_of_item(item)
+        if not any(seen is content for seen in self._fact_label_role_declared):
+            self._fact_label_role_declared.append(content)
+            _declare_fact_label_role(content)
         with self.mapper.scope(item):
-            with content.directive("raw", "latex"):
-                content.add("\\clearpage")
             with content.section(item.spec, label=spec_label(item)):
-                _ITEM_DOCUMENTER[item.type](_Context(content, item,
+                details: list[tuple[str, str]] = []
+                item_content: Any = _DefinitionTable(content)
+                _ITEM_DOCUMENTER[item.type](_Context(item_content, item,
                                                      self.mapper,
                                                      CodeMapper(item),
-                                                     self.spec,
-                                                     self.file_path))
+                                                     self.spec, self.file_path,
+                                                     details))
+                item_content.flush()
                 self.add_item_changes(content, item)
+                _add_facts_table(content, details)
 
     def _validation_status(self, item: Item) -> str:
         validation_status = item.view.get("validation-status", "N/A")

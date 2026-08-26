@@ -51,7 +51,7 @@ def test_testplanbuilder(caplog, tmp_path, monkeypatch):
     svs_build = Path(director["/pkg/build/doc-djf-svs"].directory)
     svs_index = svs_build / "source" / "index.rst"
     assert get_document_text(
-        tmp_path, svs_index) == """.. SPDX-License-Identifier: CC-BY-SA-4.0
+        tmp_path, svs_index) == r""".. SPDX-License-Identifier: CC-BY-SA-4.0
 
 .. Copyright (C) 2025 embedded brains GmbH & Co. KG
 
@@ -86,9 +86,16 @@ Validation by analysis
 
 This section lists validation evidence obtained by using the analysis validation method.
 
+.. role:: factlabel
+
 .. raw:: latex
 
-    \\clearpage
+    \providecommand{\DUrolefactlabel}[1]{{\sffamily\bfseries%
+      \ifcsname color@TitleColor\endcsname\color{TitleColor}\fi%
+      \ifcsname l@nohyphenation\endcsname%
+        \language\csname l@nohyphenation\endcsname%
+      \fi%
+      #1}}
 
 .. _SpecRtemsValByAnalysis:
 
@@ -99,11 +106,13 @@ spec:/rtems/val/by-analysis
 
 The analysis.
 
-.. rubric:: VALIDATED ITEM:
+.. table::
+    :class: longtable
+    :widths: 26,74
 
-This validation by analysis validates the runtime performance requirement
-`spec:/​rtems/​req/​perf
-</pkg/doc-ts-srs/html/requirements.html#specrtemsreqperf>`__.
+    +-+-+
+    | :factlabel:`Validated item` | This validation by analysis validates the runtime performance requirement `spec:/​rtems/​req/​perf </pkg/doc-ts-srs/html/requirements.html#specrtemsreqperf>`__. |
+    +-+-+
 
 .. _ValidationByInspection:
 
@@ -111,10 +120,6 @@ Validation by inspection
 ========================
 
 This section lists validation evidence obtained by using the inspection validation method.
-
-.. raw:: latex
-
-    \\clearpage
 
 .. _SpecRtemsValByInspection:
 
@@ -125,11 +130,13 @@ spec:/rtems/val/by-inspection
 
 The inspection.
 
-.. rubric:: VALIDATED ITEM:
+.. table::
+    :class: longtable
+    :widths: 26,74
 
-This validation by inspection validates the runtime performance requirement
-`spec:/​rtems/​req/​perf
-</pkg/doc-ts-srs/html/requirements.html#specrtemsreqperf>`__.
+    +-+-+
+    | :factlabel:`Validated item` | This validation by inspection validates the runtime performance requirement `spec:/​rtems/​req/​perf </pkg/doc-ts-srs/html/requirements.html#specrtemsreqperf>`__. |
+    +-+-+
 
 .. _ValidationByReviewOfDesign:
 
@@ -137,10 +144,6 @@ Validation by review of design
 ==============================
 
 This section lists validation evidence obtained by using the review of design validation method.
-
-.. raw:: latex
-
-    \\clearpage
 
 .. _SpecRtemsValByReviewOfDesign:
 
@@ -151,11 +154,13 @@ spec:/rtems/val/by-review-of-design
 
 The review of design.
 
-.. rubric:: VALIDATED ITEM:
+.. table::
+    :class: longtable
+    :widths: 26,74
 
-This validation by review of design validates the runtime performance
-requirement `spec:/​rtems/​req/​perf
-</pkg/doc-ts-srs/html/requirements.html#specrtemsreqperf>`__.
+    +-+-+
+    | :factlabel:`Validated item` | This validation by review of design validates the runtime performance requirement `spec:/​rtems/​req/​perf </pkg/doc-ts-srs/html/requirements.html#specrtemsreqperf>`__. |
+    +-+-+
 .. other-validations end
 
 .. not-validated-by-test begin
@@ -174,14 +179,14 @@ The following items are not specifically validated by a test:
     tp_build = Path(director["/pkg/build/doc-test-plan"].directory)
     tp_index = tp_build / "source" / "index.rst"
     assert get_document_text(
-        tmp_path, tp_index) == """.. SPDX-License-Identifier: CC-BY-SA-4.0
+        tmp_path, tp_index) == r""".. SPDX-License-Identifier: CC-BY-SA-4.0
 
 .. Copyright (C) 2025 embedded brains GmbH & Co. KG
 
 .. test-suites begin
 .. raw:: latex
 
-    \\clearpage
+    \clearpage
 
 .. _SpecRtemsValMemBasic:
 
@@ -225,7 +230,7 @@ necessary.  The test suite is implemented in the file
 
 .. raw:: latex
 
-    \\clearpage
+    \clearpage
 
 .. _SpecTestsuitesPerformanceNoClock0:
 
@@ -276,7 +281,7 @@ necessary.  The test suite is implemented in the file
 
 .. raw:: latex
 
-    \\clearpage
+    \clearpage
 
 .. _SpecTestsuitesTestSuiteEmpty:
 
@@ -316,7 +321,7 @@ necessary.  The test suite is implemented in the file
 
 .. raw:: latex
 
-    \\clearpage
+    \clearpage
 
 .. _SpecTestsuitesTestSuiteFail:
 
@@ -369,7 +374,7 @@ necessary.  The test suite is implemented in the file
 
 .. raw:: latex
 
-    \\clearpage
+    \clearpage
 
 .. _SpecTestsuitesTestSuitePass:
 
@@ -412,7 +417,7 @@ necessary.  The test suite is implemented in the file
 
 .. raw:: latex
 
-    \\clearpage
+    \clearpage
 
 .. _SpecTestsuitesTestSuiteXfail:
 
@@ -457,7 +462,7 @@ necessary.  The test suite is implemented in the file
 .. test-cases begin
 .. raw:: latex
 
-    \\clearpage
+    \clearpage
 
 .. _SpecRtemsReqAction:
 
@@ -533,7 +538,7 @@ There are no specific interface dependencies present.
 
 .. raw:: latex
 
-    \\clearpage
+    \clearpage
 
 .. _SpecRtemsReqAction2:
 
@@ -609,7 +614,7 @@ There are no specific interface dependencies present.
 
 .. raw:: latex
 
-    \\clearpage
+    \clearpage
 
 .. _SpecRtemsReqPerf:
 
@@ -687,7 +692,7 @@ There are no specific interface dependencies present.
 
 .. raw:: latex
 
-    \\clearpage
+    \clearpage
 
 .. _SpecRtemsReqPerfNoResults:
 
@@ -761,7 +766,7 @@ There are no specific interface dependencies present.
 
 .. raw:: latex
 
-    \\clearpage
+    \clearpage
 
 .. _SpecRtemsValTestCase:
 
@@ -854,7 +859,7 @@ There are no specific interface dependencies present.
 
 .. raw:: latex
 
-    \\clearpage
+    \clearpage
 
 .. _SpecRtemsValTestCaseFail:
 
@@ -937,7 +942,7 @@ There are no specific interface dependencies present.
 
 .. raw:: latex
 
-    \\clearpage
+    \clearpage
 
 .. _SpecRtemsValTestCasePass:
 
@@ -1020,7 +1025,7 @@ There are no specific interface dependencies present.
 
 .. raw:: latex
 
-    \\clearpage
+    \clearpage
 
 .. _SpecRtemsValTestCaseRun:
 
@@ -1105,7 +1110,7 @@ There are no specific interface dependencies present.
 
 .. raw:: latex
 
-    \\clearpage
+    \clearpage
 
 .. _SpecRtemsValTestCaseXfail:
 
@@ -1188,7 +1193,7 @@ There are no specific interface dependencies present.
 
 .. raw:: latex
 
-    \\clearpage
+    \clearpage
 
 .. _SpecScoreCpuValPerf:
 
@@ -1296,9 +1301,16 @@ Validation by inspection
 
 This section lists validation evidence obtained by using the inspection validation method.
 
+.. role:: factlabel
+
 .. raw:: latex
 
-    \\clearpage
+    \providecommand{\DUrolefactlabel}[1]{{\sffamily\bfseries%
+      \ifcsname color@TitleColor\endcsname\color{TitleColor}\fi%
+      \ifcsname l@nohyphenation\endcsname%
+        \language\csname l@nohyphenation\endcsname%
+      \fi%
+      #1}}
 
 .. _SpecRtemsValByInspection:
 
@@ -1309,11 +1321,13 @@ spec:/rtems/val/by-inspection
 
 The inspection.
 
-.. rubric:: VALIDATED ITEM:
+.. table::
+    :class: longtable
+    :widths: 26,74
 
-This validation by inspection validates the runtime performance requirement
-`spec:/​rtems/​req/​perf
-</pkg/doc-ts-srs/html/requirements.html#specrtemsreqperf>`__.
+    +-+-+
+    | :factlabel:`Validated item` | This validation by inspection validates the runtime performance requirement `spec:/​rtems/​req/​perf </pkg/doc-ts-srs/html/requirements.html#specrtemsreqperf>`__. |
+    +-+-+
 
 .. _ValidationByReviewOfDesign:
 
@@ -1321,10 +1335,6 @@ Validation by review of design
 ==============================
 
 This section lists validation evidence obtained by using the review of design validation method.
-
-.. raw:: latex
-
-    \\clearpage
 
 .. _SpecRtemsValByReviewOfDesign:
 
@@ -1335,11 +1345,13 @@ spec:/rtems/val/by-review-of-design
 
 The review of design.
 
-.. rubric:: VALIDATED ITEM:
+.. table::
+    :class: longtable
+    :widths: 26,74
 
-This validation by review of design validates the runtime performance
-requirement `spec:/​rtems/​req/​perf
-</pkg/doc-ts-srs/html/requirements.html#specrtemsreqperf>`__.
+    +-+-+
+    | :factlabel:`Validated item` | This validation by review of design validates the runtime performance requirement `spec:/​rtems/​req/​perf </pkg/doc-ts-srs/html/requirements.html#specrtemsreqperf>`__. |
+    +-+-+
 .. other-validations end
 
 .. not-validated-by-test begin
