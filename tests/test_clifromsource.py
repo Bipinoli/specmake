@@ -1859,3 +1859,48 @@ def test_a_dry_run_reports_an_extra_link_which_reaches_no_item(
                                   dry_run=True)
     assert "  /groups/WidgetAPI/extra-links[0] to /constraint/gone" in output
     assert not (tmp_path / "spec").exists()
+
+
+def _autobrief_xml_files() -> list[str]:
+    # autobrief/sensor.h: one declaration whose comment block carries
+    # no @brief command, one with a @brief and one with no comment at
+    # all.  Its Doxyfile has JAVADOC_AUTOBRIEF off.
+    return [
+        _get_path(f"source-to-spec/autobrief/xml/{name}")
+        for name in ("group__SensorAPI.xml", "sensor_8h.xml")
+    ]
+
+
+def test_an_empty_brief_next_to_a_description_is_its_own_gap(tmp_path, capsys):
+    config = _minimal_config(
+        **{
+            "groups": {
+                "SensorAPI": {
+                    "uid": "/if/group"
+                }
+            },
+            "enabled-groups": ["SensorAPI"],
+            "spec-directory": str(tmp_path / "spec")
+        })
+    _generate(tmp_path, config, _autobrief_xml_files())
+    output = capsys.readouterr().out
+    assert re.search(r"/if/sensor-read\s+brief empty, description present",
+                     output)
+    assert re.search(r"/if/sensor-stop\s+placeholder brief", output)
+    assert "/if/sensor-reset" not in output.partition("needs attention:")[2]
+    assert "Set JAVADOC_AUTOBRIEF to YES in the\nDoxyfile." in output
+
+
+def test_a_placeholder_brief_alone_names_no_doxyfile_setting(tmp_path, capsys):
+    config = _minimal_config(
+        **{
+            "groups": {
+                "UndocumentedAPI": {
+                    "uid": "/if/group"
+                }
+            },
+            "enabled-groups": ["UndocumentedAPI"],
+            "spec-directory": str(tmp_path / "spec")
+        })
+    _generate(tmp_path, config, _undocumented_xml_files())
+    assert "JAVADOC_AUTOBRIEF" not in capsys.readouterr().out

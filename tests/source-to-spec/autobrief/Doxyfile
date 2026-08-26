@@ -1,0 +1,8 @@
+INPUT                  = sensor.h
+RECURSIVE              = YES
+EXTRACT_ALL            = YES
+GENERATE_XML           = YES
+GENERATE_HTML          = NO
+GENERATE_LATEX         = NO
+MACRO_EXPANSION        = YES
+JAVADOC_AUTOBRIEF      = NO

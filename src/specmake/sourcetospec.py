@@ -53,6 +53,9 @@ class ConfigError(ValueError):
     """
 
 
+#: Names the gap of an item which has a description and no brief.
+EMPTY_BRIEF_GAP = "brief empty, description present"
+
 #: The interface types whose parameters come from the declaration.
 _FUNCTION_LIKE_TYPES = ("function", "macro")
 
@@ -354,7 +357,14 @@ class DoxygenItem:
         # An item type without a brief attribute, for example an
         # unspecified header file, has no brief to complete by hand.
         if "brief" in data and self._get_optional_text("brief") is None:
-            gaps.append("placeholder brief")
+            # A brief which is empty next to a description says that
+            # Doxygen took the whole comment block as the description.
+            # The prose is in the item and only the split is missing, so
+            # this is another gap than a declaration nobody documented.
+            if self._get_optional_text("description") is None:
+                gaps.append("placeholder brief")
+            else:
+                gaps.append(EMPTY_BRIEF_GAP)
         if any(not param["description"] for param in data.get("params") or []):
             gaps.append("undocumented params")
         # Only a function-like item takes its parameters from the

@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="sensor_8h" kind="file" language="C++">
+    <compoundname>sensor.h</compoundname>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="sensor_8h_1aef2ea3b8bf8e02ffaefec5892411830d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int sensor_read</definition>
+        <argsstring>(void)</argsstring>
+        <name>sensor_read</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Reads the sensor. The caller owns the buffer. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="sensor.h" line="18" column="5" declfile="sensor.h" declline="18" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="sensor_8h_1a4dcef6e51835e1b77e36d410a0a38286" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void sensor_reset</definition>
+        <argsstring>(void)</argsstring>
+        <name>sensor_reset</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+<para>Resets the sensor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="sensor.h" line="23" column="6" declfile="sensor.h" declline="23" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="sensor_8h_1a2d167caa6a1a1c35e6080a010e6a2846" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void sensor_stop</definition>
+        <argsstring>(void)</argsstring>
+        <name>sensor_stop</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="sensor.h" line="25" column="6" declfile="sensor.h" declline="25" declcolumn="6"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>This header file provides the sensor API. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18" refid="sensor_8h_1aef2ea3b8bf8e02ffaefec5892411830d" refkind="member"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="sensor_8h_1aef2ea3b8bf8e02ffaefec5892411830d" kindref="member">sensor_read</ref>(<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>);</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23" refid="sensor_8h_1a4dcef6e51835e1b77e36d410a0a38286" refkind="member"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="sensor_8h_1a4dcef6e51835e1b77e36d410a0a38286" kindref="member">sensor_reset</ref>(<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>);</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25" refid="sensor_8h_1a2d167caa6a1a1c35e6080a010e6a2846" refkind="member"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="sensor_8h_1a2d167caa6a1a1c35e6080a010e6a2846" kindref="member">sensor_stop</ref>(<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>);</highlight></codeline>
+    </programlisting>
+    <location file="sensor.h"/>
+  </compounddef>
+</doxygen>

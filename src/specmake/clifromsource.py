@@ -39,7 +39,7 @@ from specware import load_specware_config
 
 from .sourcetospec import (ConfigError, DoxygenContext, DoxygenEnum,
                            DoxygenGroup, DoxygenFile, DoxygenItem,
-                           DoxygenTypedef)
+                           DoxygenTypedef, EMPTY_BRIEF_GAP)
 
 
 def _propose_config(ctx: DoxygenContext, config: dict) -> None:
@@ -232,6 +232,13 @@ def _generate_header(header: DoxygenFile,
     return _HeaderResult(items, typedefs_skipped, gaps)
 
 
+_AUTOBRIEF_HINT = "\n".join((
+    f'"{EMPTY_BRIEF_GAP}" means that Doxygen took the whole',
+    "comment block as the description.  Set JAVADOC_AUTOBRIEF to YES in the",
+    "Doxyfile.  Run Doxygen again to take the first sentence as the brief.",
+))
+
+
 def _print_gaps(gaps: dict[str, list[str]]) -> None:
     """
     Report every item a human still has to complete by hand.
@@ -247,6 +254,10 @@ def _print_gaps(gaps: dict[str, list[str]]) -> None:
     print("\nneeds attention:")
     for uid in sorted(gaps):
         print(f"  {uid.ljust(width)}  {', '.join(gaps[uid])}")
+    if any(EMPTY_BRIEF_GAP in item_gaps for item_gaps in gaps.values()):
+        # One Doxyfile setting explains every item of this gap, and
+        # Doxygen splits a comment block by its own sentence rules.
+        print(f"\n{_AUTOBRIEF_HINT}")
 
 
 def _print_unapplied_extra_links(ctx: DoxygenContext, config: dict) -> None:
