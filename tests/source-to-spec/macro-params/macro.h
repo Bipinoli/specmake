@@ -35,6 +35,21 @@
 #define MACRO_ADD( a, b ) ( ( a ) + ( b ) )
 
 /**
+ * @brief Returns the smaller operand.
+ */
+#define MACRO_MIN( a, b ) ( ( a ) < ( b ) ? ( a ) : ( b ) )
+
+/**
+ * @brief Is the empty statement.
+ */
+#define MACRO_NOP() do { } while ( 0 )
+
+/**
+ * @brief Is the maximum count.
+ */
+#define MACRO_COUNT 32
+
+/**
  * @brief Stores the value.
  *
  * @param value is the value to store.

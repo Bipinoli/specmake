@@ -430,14 +430,19 @@ class DoxygenItem:
         A declaration names a parameter of a function through
         ``declname`` and a parameter of a macro through ``defname``.  A
         prototype may name none of its parameters, so the name is
-        optional.  The lone ``void`` of an empty parameter list is a
-        placeholder for the absence of a parameter and is left out.
+        optional.
+
+        A parameter which declares nothing stands for an empty
+        parameter list and is left out.  A function writes that list as
+        the lone ``void``, and a macro writes it as a parameter with
+        neither a name nor a type.
         """
         declared: list[tuple[dict[str, str], str | None]] = []
         for definition in self.data.get("paramdefs") or ():
             name = _strip(definition.get("declname"),
                           _strip(definition.get("defname"), None))
-            if name is None and _strip(definition.get("type"), None) == "void":
+            if name is None and _strip(definition.get("type"),
+                                       None) in (None, "void"):
                 continue
             declared.append((definition, name))
         return declared
@@ -592,8 +597,16 @@ class DoxygenDefine(DoxygenItem):
         return self.name == _INVALID_NAME_CHARS.sub("_", file.name).upper()
 
     def export(self) -> dict:
+        """
+        Export the define as specification item data.
+
+        The parameter list of the declaration decides whether the
+        define is function-like.  A macro which the vendor documents
+        with a brief alone is function-like just as much as one with a
+        documented parameter.
+        """
         data = super().export()
-        if self.data.get("param", []):
+        if self.data.get("paramdefs"):
             self.add_function_like_attributes("macro", data)
         else:
             data["interface-type"] = "define"

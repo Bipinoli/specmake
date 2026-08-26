@@ -84,6 +84,45 @@
         </inbodydescription>
         <location file="macro.h" line="35" column="9" bodyfile="macro.h" bodystart="35" bodyend="-1"/>
       </memberdef>
+      <memberdef kind="define" id="macro_8h_1a09db5ad3532ea39d84a654d57befc8a5" prot="public" static="no">
+        <name>MACRO_MIN</name>
+        <param><defname>a</defname></param>
+        <param><defname>b</defname></param>
+        <initializer>( ( a ) &lt; ( b ) ? ( a ) : ( b ) )</initializer>
+        <briefdescription>
+<para>Returns the smaller operand. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="macro.h" line="40" column="9" bodyfile="macro.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="macro_8h_1a81a76f8ac9cce98a6d674f5680327f34" prot="public" static="no">
+        <name>MACRO_NOP</name>
+        <param></param>
+        <initializer>do { } while ( 0 )</initializer>
+        <briefdescription>
+<para>Is the empty statement. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="macro.h" line="45" column="9" bodyfile="macro.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="macro_8h_1a9ecdf2d2def537236d1f1353af873b5f" prot="public" static="no">
+        <name>MACRO_COUNT</name>
+        <initializer>32</initializer>
+        <briefdescription>
+<para>Is the maximum count. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="macro.h" line="50" column="9" bodyfile="macro.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
     </sectiondef>
     <sectiondef kind="func">
       <memberdef kind="function" id="macro_8h_1acea14a1d0a538cb25d719a047cfc0a22" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
@@ -120,7 +159,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="macro.h" line="43" column="6" declfile="macro.h" declline="43" declcolumn="6"/>
+        <location file="macro.h" line="58" column="6" declfile="macro.h" declline="58" declcolumn="6"/>
       </memberdef>
       <memberdef kind="function" id="macro_8h_1adea1d5894080acbae5319b31e6ae9e43" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -158,7 +197,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="macro.h" line="51" column="6" declfile="macro.h" declline="51" declcolumn="6"/>
+        <location file="macro.h" line="66" column="6" declfile="macro.h" declline="66" declcolumn="6"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -176,9 +215,15 @@
 <codeline lineno="28"><highlight class="normal"></highlight></codeline>
 <codeline lineno="35" refid="macro_8h_1a37341112aa352a3a3b74c14a0286bf86" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>MACRO_ADD(<sp/>a,<sp/>b<sp/>)<sp/>(<sp/>(<sp/>a<sp/>)<sp/>+<sp/>(<sp/>b<sp/>)<sp/>)</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="36"><highlight class="normal"></highlight></codeline>
-<codeline lineno="43" refid="macro_8h_1acea14a1d0a538cb25d719a047cfc0a22" refkind="member"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="macro_8h_1acea14a1d0a538cb25d719a047cfc0a22" kindref="member">macro_store</ref>(<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>value<sp/>);</highlight></codeline>
-<codeline lineno="44"><highlight class="normal"></highlight></codeline>
-<codeline lineno="51" refid="macro_8h_1adea1d5894080acbae5319b31e6ae9e43" refkind="member"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="macro_8h_1adea1d5894080acbae5319b31e6ae9e43" kindref="member">macro_set_size</ref>(<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>);</highlight></codeline>
+<codeline lineno="40" refid="macro_8h_1a09db5ad3532ea39d84a654d57befc8a5" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>MACRO_MIN(<sp/>a,<sp/>b<sp/>)<sp/>(<sp/>(<sp/>a<sp/>)<sp/>&lt;<sp/>(<sp/>b<sp/>)<sp/>?<sp/>(<sp/>a<sp/>)<sp/>:<sp/>(<sp/>b<sp/>)<sp/>)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45" refid="macro_8h_1a81a76f8ac9cce98a6d674f5680327f34" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>MACRO_NOP()<sp/>do<sp/>{<sp/>}<sp/>while<sp/>(<sp/>0<sp/>)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="macro_8h_1a9ecdf2d2def537236d1f1353af873b5f" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>MACRO_COUNT<sp/>32</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58" refid="macro_8h_1acea14a1d0a538cb25d719a047cfc0a22" refkind="member"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="macro_8h_1acea14a1d0a538cb25d719a047cfc0a22" kindref="member">macro_store</ref>(<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>value<sp/>);</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66" refid="macro_8h_1adea1d5894080acbae5319b31e6ae9e43" refkind="member"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="macro_8h_1adea1d5894080acbae5319b31e6ae9e43" kindref="member">macro_set_size</ref>(<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>);</highlight></codeline>
     </programlisting>
     <location file="macro.h"/>
   </compounddef>

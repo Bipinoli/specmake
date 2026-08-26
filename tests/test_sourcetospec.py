@@ -2514,3 +2514,32 @@ def test_both_selectors_of_an_extra_link_must_match(tmp_path):
     constraint = {"role": "constraint", "uid": "/constraint/any"}
     assert constraint not in _saved_links(ctx, "function", "gf_1")
     assert constraint not in _saved_links(ctx, "define", "GD_1")
+
+
+@pytest.mark.parametrize("name,interface_type,params", [
+    ("MACRO_MIN", "macro", ["a", "b"]),
+    ("MACRO_NOP", "macro", []),
+    ("MACRO_COUNT", "define", None),
+])
+def test_the_declaration_decides_a_function_like_define(
+        name, interface_type, params):
+    # MACRO_MIN carries a brief and no documented parameter, which is
+    # how a vendor documents most of its macros.  MACRO_NOP writes an
+    # empty parameter list, which Doxygen reports as a parameter of
+    # neither a name nor a type.
+    ctx = _macro_params_context()
+    data = ctx.items_by_name["define"][name][0].export()
+    assert data["interface-type"] == interface_type
+    if params is None:
+        assert "params" not in data
+    else:
+        assert [param["name"] for param in data["params"]] == params
+
+
+def test_a_define_of_a_brief_alone_reports_its_parameters():
+    ctx = _macro_params_context()
+    item = ctx.items_by_name["define"]["MACRO_MIN"][0]
+    assert item.review_gaps == ["undocumented params"]
+    assert item.export()["definition"]["default"]["params"] == [
+        "${.:/params[0]/name}", "${.:/params[1]/name}"
+    ]
