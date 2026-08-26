@@ -2227,3 +2227,157 @@ def test_a_compound_with_an_inline_member_gains_nothing():
     item = sourcetospec.DoxygenStruct(ctx, "struct", "structFoo", "Foo")
     sourcetospec._compound_relationships(xml, item)
     assert item.member_ids == []
+
+
+def _macro_params_context():
+    ctx = DoxygenContext({
+        "data": {},
+        "groups": {
+            "MacroAPI": {
+                "uid": "/if/group"
+            }
+        },
+        "spec-directory": "spec"
+    })
+    ctx.doxygen_xml_to_spec([
+        _get_path(f"source-to-spec/macro-params/xml/{name}")
+        for name in ("group__MacroAPI.xml", "macro_8h.xml")
+    ])
+    return ctx
+
+
+def _macro_params(ctx, kind, name):
+    return ctx.items_by_name[kind][name][0].export()["params"]
+
+
+def test_a_partly_documented_macro_keeps_its_parameters():
+    # Doxygen counts the ... of a variadic macro as a parameter and a
+    # vendor rarely documents it.  A macro parameter carries a defname
+    # and no type at all.
+    params = _macro_params(_macro_params_context(), "define", "MACRO_LOG")
+    assert params == [{
+        "description": "is the log level.",
+        "dir": None,
+        "name": "level"
+    }, {
+        "description": None,
+        "dir": None,
+        "name": "..."
+    }]
+
+
+def test_one_documentation_block_documents_every_name_it_lists():
+    params = _macro_params(_macro_params_context(), "define", "MACRO_MAX")
+    assert [param["description"] for param in params
+            ] == ["are the two operands.", "are the two operands."]
+
+
+def test_the_declaration_orders_the_parameters():
+    # The documentation blocks come in the reverse order here, so a
+    # positional pairing would swap the two descriptions.
+    params = _macro_params(_macro_params_context(), "define", "MACRO_ADD")
+    assert [(param["name"], param["description"])
+            for param in params] == [("a", "is the first operand."),
+                                     ("b", "is the second operand.")]
+
+
+def test_a_documentation_block_of_no_parameter_is_a_stray():
+    ctx = _macro_params_context()
+    item = ctx.items_by_name["function"]["macro_store"][0]
+    assert _macro_params(ctx, "function", "macro_store") == [{
+        "description": "is the value to store.",
+        "dir": None,
+        "name": "value"
+    }]
+    assert item.review_gaps == ["stray param doc: slot"]
+
+
+def test_an_unnamed_parameter_takes_the_documented_name():
+    # A prototype may name none of its parameters, so the
+    # documentation is the only source of a name for them.
+    params = _macro_params(_macro_params_context(), "function",
+                           "macro_set_size")
+    assert [(param["name"], param["description"])
+            for param in params] == [("width", "is the width."),
+                                     ("height", "is the height.")]
+
+
+def test_a_retval_block_documents_every_name_it_lists():
+    xml = ElementTree.fromstring("""<memberdef kind="function" id="f_0">
+      <name>f_0</name>
+      <type>int</type>
+      <detaileddescription><para><parameterlist kind="retval">
+      <parameteritem>
+      <parameternamelist>
+      <parametername>0</parametername>
+      <parametername>1</parametername>
+      </parameternamelist>
+      <parameterdescription><para>Nothing happens.</para></parameterdescription>
+      </parameteritem>
+      </parameterlist></para></detaileddescription>
+    </memberdef>""")
+    ctx = DoxygenContext({"data": {}, "groups": {}, "spec-directory": "spec"})
+    item = sourcetospec.DoxygenFunction(ctx, "function", "f_0", "f_0")
+    ctx.items["f_0"] = item
+    sourcetospec._fill_items(xml, sourcetospec._Scope(item, {}, ""))
+    data: dict = {}
+    item.add_function_like_attributes("function", data)
+    assert data["return"]["return-values"] == [{
+        "description": "Nothing happens.",
+        "value": "0"
+    }, {
+        "description": "Nothing happens.",
+        "value": "1"
+    }]
+
+
+def test_a_typedef_of_a_function_pointer_has_no_stray_param_doc():
+    # The item specifies no parameter of the function it points to, so
+    # every documented name of it would count as a stray.
+    ctx = DoxygenContext({
+        "data": {},
+        "groups": {
+            "TypesAPI": {
+                "uid": "/if/group"
+            }
+        },
+        "spec-directory": "spec"
+    })
+    ctx.doxygen_xml_to_spec([
+        _get_path(f"source-to-spec/typedef-generation/xml/{name}")
+        for name in ("group__TypesAPI.xml", "types_8h.xml")
+    ])
+    item = ctx.items_by_name["typedef"]["widget_handler"][0]
+    assert item.export()["params"] == []
+    assert item.review_gaps == []
+
+
+def test_an_empty_parameter_name_documents_nothing():
+    # An empty <parametername> names no parameter, so it must not
+    # become a parameter of the item under an empty name.
+    xml = ElementTree.fromstring("""<memberdef kind="function" id="f_0">
+      <name>f_0</name>
+      <type>void</type>
+      <param><type>int</type><declname>a</declname></param>
+      <detaileddescription><para><parameterlist kind="param">
+      <parameteritem>
+      <parameternamelist>
+      <parametername></parametername>
+      <parametername>a</parametername>
+      </parameternamelist>
+      <parameterdescription><para>is the operand.</para></parameterdescription>
+      </parameteritem>
+      </parameterlist></para></detaileddescription>
+    </memberdef>""")
+    ctx = DoxygenContext({"data": {}, "groups": {}, "spec-directory": "spec"})
+    item = sourcetospec.DoxygenFunction(ctx, "function", "f_0", "f_0")
+    ctx.items["f_0"] = item
+    sourcetospec._fill_items(xml, sourcetospec._Scope(item, {}, ""))
+    data: dict = {}
+    item.add_function_like_attributes("function", data)
+    assert data["params"] == [{
+        "description": "is the operand.",
+        "dir": None,
+        "name": "a"
+    }]
+    assert item._stray_param_docs(data) == []

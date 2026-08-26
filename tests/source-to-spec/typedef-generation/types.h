@@ -30,4 +30,11 @@ typedef enum tagged_enum {
    */
   TAGGED_ENUM_A
 } tagged_enum;
+
+/**
+ * @brief Handles a widget event.
+ *
+ * @param arg is the argument of the handler.
+ */
+typedef void ( *widget_handler )( int arg );
 #endif

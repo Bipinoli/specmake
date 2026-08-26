@@ -53,6 +53,9 @@ class ConfigError(ValueError):
     """
 
 
+#: The interface types whose parameters come from the declaration.
+_FUNCTION_LIKE_TYPES = ("function", "macro")
+
 _INVALID_NAME_CHARS = re.compile(r"[^a-zA-Z0-9]+")
 
 _FUNCTION_POINTER = re.compile(r"([^(]+)\(\*\)\((.*)")
@@ -72,6 +75,20 @@ def _strip(text: str | None, default: str | None) -> str | None:
     if not text:
         return default
     return text
+
+
+def _documented_names(block: dict) -> Iterator[dict[str, Any]]:
+    """
+    Yield one entry for each name a documentation block gives.
+
+    ``@param a,b The two operands.`` documents two parameters with one
+    block.  Doxygen reports every name of the list in the same block, so
+    each of them takes the description and the direction of it.
+    """
+    for name_and_dir in block["names"]:
+        name = _strip(name_and_dir["name"], None)
+        if name is not None:
+            yield {"dir": name_and_dir["dir"], "name": name}
 
 
 class DoxygenItem:
@@ -307,6 +324,13 @@ class DoxygenItem:
             gaps.append("placeholder brief")
         if any(not param["description"] for param in data.get("params") or []):
             gaps.append("undocumented params")
+        # Only a function-like item takes its parameters from the
+        # declaration.  A typedef of a function pointer documents the
+        # parameters of the function it points to and specifies none
+        # of them, so every name of it would count as a stray.
+        if data.get("interface-type") in _FUNCTION_LIKE_TYPES:
+            for name in self._stray_param_docs(data):
+                gaps.append(f"stray param doc: {name}")
         # Only a function-like item carries the definition mapping with
         # a declared return type. A compound has a list of members here,
         # a typedef or a plain define a string, and none of them has a
@@ -320,40 +344,99 @@ class DoxygenItem:
             gaps.append("undocumented return")
         return gaps
 
+    def _stray_param_docs(self, data: dict) -> list[str]:
+        """
+        List the documented parameters which the declaration lacks.
+
+        A block which reaches a parameter gives that parameter its name,
+        by the match of the name or by the position.  A documented name
+        which no parameter carries therefore documents nothing.  The
+        vendor renamed the parameter or misspelled it, and a human has
+        to decide which.
+        """
+        names = {param["name"] for param in data["params"]}
+        return [
+            name for name in self._documented_params() if name not in names
+        ]
+
     def _get_initializer(self) -> str | None:
         body = self.data.get("initializer", None)
         if body is None:
             return None
         return body.replace("&gt;", ">").replace("&lt;", "<")
 
+    def _documented_params(self) -> dict[str, dict[str, Any]]:
+        """
+        Collect the documented parameters of the item by name.
+
+        A parameter documented twice keeps the last block, which is what
+        Doxygen itself renders.
+        """
+        documented: dict[str, dict[str, Any]] = {}
+        for block in self.data.get("param") or ():
+            description = block["description"].strip()
+            for entry in _documented_names(block):
+                entry["description"] = description
+                documented[entry["name"]] = entry
+        return documented
+
+    def _declared_params(self) -> list[tuple[dict[str, str], str | None]]:
+        """
+        Collect the declared parameters of the item with their names.
+
+        A declaration names a parameter of a function through
+        ``declname`` and a parameter of a macro through ``defname``.  A
+        prototype may name none of its parameters, so the name is
+        optional.  The lone ``void`` of an empty parameter list is a
+        placeholder for the absence of a parameter and is left out.
+        """
+        declared: list[tuple[dict[str, str], str | None]] = []
+        for definition in self.data.get("paramdefs") or ():
+            name = _strip(definition.get("declname"),
+                          _strip(definition.get("defname"), None))
+            if name is None and _strip(definition.get("type"), None) == "void":
+                continue
+            declared.append((definition, name))
+        return declared
+
+    def _match_params(self) -> list[tuple[dict[str, str], str, Any]]:
+        """
+        Match the documented parameters to the declared ones.
+
+        The declaration decides which parameters the item has and in
+        which order.  A parameter takes the documentation block of its
+        own name, so a header which documents its parameters in another
+        order still describes each of them.  A parameter which the
+        declaration does not name takes the next block which no other
+        parameter claimed, since the documentation is then the only
+        source of a name for it.
+        """
+        documented = self._documented_params()
+        declared = self._declared_params()
+        taken = {name for _, name in declared if name in documented}
+        spare = [name for name in documented if name not in taken]
+        matched: list[tuple[dict[str, str], str, Any]] = []
+        for index, (definition, name) in enumerate(declared):
+            if name is None:
+                name = spare.pop(0) if spare else f"param_{index}"
+            matched.append((definition, name, documented.get(name)))
+        return matched
+
     def add_function_like_attributes(self, interface_type: str,
                                      data: dict[str, Any]) -> None:
         """ Add function-like attributes to the data. """
+        assert interface_type in _FUNCTION_LIKE_TYPES
         data["interface-type"] = interface_type
         params: list[dict] = []
         paramdefs: list[str] = []
-        if len(self.data["param"]) == len(self.data["paramdefs"]):
-            for index, (param, definition) in enumerate(
-                    zip(self.data["param"], self.data["paramdefs"])):
-                params.append({
-                    "description": param["description"].strip(),
-                    "dir": param["dir"],
-                    "name": param["name"]
-                })
-                paramdefs.append(self.ctx.decl(definition, index))
-        else:
-            for index, definition in enumerate(self.data["paramdefs"]):
-                if definition["type"] == "void":
-                    continue
-                params.append({
-                    "description":
-                    None,
-                    "dir":
-                    None,
-                    "name":
-                    definition.get("declname", f"param_{index}").strip()
-                })
-                paramdefs.append(self.ctx.decl(definition, index))
+        for index, (definition, name,
+                    entry) in enumerate(self._match_params()):
+            params.append({
+                "description": entry["description"] if entry else None,
+                "dir": entry["dir"] if entry else None,
+                "name": name
+            })
+            paramdefs.append(self.ctx.decl(definition, index))
         data["params"] = params
         type_name = self.data.get("type", None)
         data["definition"] = {
@@ -372,9 +455,9 @@ class DoxygenItem:
                 "return":
                 _strip(self.data.get("return", None), None),
                 "return-values": [{
-                    "description": info["description"].strip(),
-                    "value": info["name"].strip(":")
-                } for info in retval]
+                    "description": block["description"].strip(),
+                    "value": entry["name"].strip(":")
+                } for block in retval for entry in _documented_names(block)]
             }
         else:
             data["return"] = None
@@ -730,9 +813,9 @@ def _tag_param(_elem: ElementTree.Element, scope: _Scope) -> _Scope:
 
 
 def _tag_parameteritem(_elem: ElementTree.Element, scope: _Scope) -> _Scope:
-    param = {"description": ""}
-    scope.item.data[scope.key].append(param)
-    return _Scope(scope.item, param, "description")
+    block: dict[str, Any] = {"description": "", "names": []}
+    scope.item.data[scope.key].append(block)
+    return _Scope(scope.item, block, "description")
 
 
 def _tag_parameterlist(elem: ElementTree.Element, scope: _Scope) -> _Scope:
@@ -751,12 +834,12 @@ def _tag_parameternamelist(_elem: ElementTree.Element,
 
 
 def _tag_parametername(elem: ElementTree.Element, scope: _Scope) -> _Scope:
-    scope.data["name"] = elem.text
-    try:
-        direction = elem.attrib["direction"]
-    except KeyError:
-        direction = None
-    scope.data["dir"] = direction
+    # A documentation block lists one name per <parametername>, so the
+    # names accumulate rather than replace each other.
+    scope.data["names"].append({
+        "dir": elem.attrib.get("direction"),
+        "name": elem.text
+    })
     return scope
 
 
@@ -791,6 +874,10 @@ def _tag_declname(elem: ElementTree.Element, scope: _Scope) -> _Scope:
     return _tag_attribute(elem, scope, "declname")
 
 
+def _tag_defname(elem: ElementTree.Element, scope: _Scope) -> _Scope:
+    return _tag_attribute(elem, scope, "defname")
+
+
 def _tag_simplesect(elem: ElementTree.Element, scope: _Scope) -> _Scope:
     return _tag_attribute(elem, scope, elem.attrib["kind"])
 
@@ -817,6 +904,7 @@ _TAG_HANDLER = {
     "compounddef": _tag_item,
     "declname": _tag_declname,
     "definition": _tag_definition,
+    "defname": _tag_defname,
     "description": _tag_description,
     "detaileddescription": _tag_description,
     "enumvalue": _tag_item,

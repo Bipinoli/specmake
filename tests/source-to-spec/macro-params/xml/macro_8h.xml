@@ -1,0 +1,185 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="macro_8h" kind="file" language="C++">
+    <compoundname>macro.h</compoundname>
+    <sectiondef kind="define">
+      <memberdef kind="define" id="macro_8h_1a79178f44716361ebaa33b6293ceebf64" prot="public" static="no">
+        <name>MACRO_LOG</name>
+        <param><defname>level</defname></param>
+        <param><defname>...</defname></param>
+        <initializer>macro_log( level, __VA_ARGS__ )</initializer>
+        <briefdescription>
+<para>Logs the message. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>is the log level. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="macro.h" line="20" column="9" bodyfile="macro.h" bodystart="20" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="macro_8h_1a84ec9e0f45edac5aa56b557baa5a0009" prot="public" static="no">
+        <name>MACRO_MAX</name>
+        <param><defname>a</defname></param>
+        <param><defname>b</defname></param>
+        <initializer>( ( a ) &gt; ( b ) ? ( a ) : ( b ) )</initializer>
+        <briefdescription>
+<para>Returns the larger operand. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>a</parametername>
+<parametername>b</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>are the two operands. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="macro.h" line="27" column="9" bodyfile="macro.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="macro_8h_1a37341112aa352a3a3b74c14a0286bf86" prot="public" static="no">
+        <name>MACRO_ADD</name>
+        <param><defname>a</defname></param>
+        <param><defname>b</defname></param>
+        <initializer>( ( a ) + ( b ) )</initializer>
+        <briefdescription>
+<para>Returns the sum. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>b</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>is the second operand. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>a</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>is the first operand. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="macro.h" line="35" column="9" bodyfile="macro.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="macro_8h_1acea14a1d0a538cb25d719a047cfc0a22" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void macro_store</definition>
+        <argsstring>(int value)</argsstring>
+        <name>macro_store</name>
+        <param>
+          <type>int</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Stores the value. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>is the value to store. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>slot</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>is the slot to store the value in. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="macro.h" line="43" column="6" declfile="macro.h" declline="43" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="macro_8h_1adea1d5894080acbae5319b31e6ae9e43" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void macro_set_size</definition>
+        <argsstring>(int, int)</argsstring>
+        <name>macro_set_size</name>
+        <param>
+          <type>int</type>
+        </param>
+        <param>
+          <type>int</type>
+        </param>
+        <briefdescription>
+<para>Sets the size. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>width</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>is the width. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>height</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>is the height. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="macro.h" line="51" column="6" declfile="macro.h" declline="51" declcolumn="6"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>This header file provides the macro API. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20" refid="macro_8h_1a79178f44716361ebaa33b6293ceebf64" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>MACRO_LOG(<sp/>level,<sp/>...<sp/>)<sp/>macro_log(<sp/>level,<sp/>__VA_ARGS__<sp/>)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27" refid="macro_8h_1a84ec9e0f45edac5aa56b557baa5a0009" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>MACRO_MAX(<sp/>a,<sp/>b<sp/>)<sp/>(<sp/>(<sp/>a<sp/>)<sp/>&gt;<sp/>(<sp/>b<sp/>)<sp/>?<sp/>(<sp/>a<sp/>)<sp/>:<sp/>(<sp/>b<sp/>)<sp/>)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35" refid="macro_8h_1a37341112aa352a3a3b74c14a0286bf86" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>MACRO_ADD(<sp/>a,<sp/>b<sp/>)<sp/>(<sp/>(<sp/>a<sp/>)<sp/>+<sp/>(<sp/>b<sp/>)<sp/>)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43" refid="macro_8h_1acea14a1d0a538cb25d719a047cfc0a22" refkind="member"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="macro_8h_1acea14a1d0a538cb25d719a047cfc0a22" kindref="member">macro_store</ref>(<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>value<sp/>);</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51" refid="macro_8h_1adea1d5894080acbae5319b31e6ae9e43" refkind="member"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="macro_8h_1adea1d5894080acbae5319b31e6ae9e43" kindref="member">macro_set_size</ref>(<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>);</highlight></codeline>
+    </programlisting>
+    <location file="macro.h"/>
+  </compounddef>
+</doxygen>

@@ -67,6 +67,30 @@
         </inbodydescription>
         <location file="types.h" line="32" column="13"/>
       </memberdef>
+      <memberdef kind="typedef" id="types_8h_1abd9455c4eb3c73c4cbc901268f42f360" prot="public" static="no">
+        <type>void(*</type>
+        <definition>typedef void(* widget_handler) (int arg)</definition>
+        <argsstring>)(int arg)</argsstring>
+        <name>widget_handler</name>
+        <briefdescription>
+<para>Handles a widget event. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>arg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>is the argument of the handler. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="types.h" line="39" column="9" bodyfile="types.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
     </sectiondef>
     <briefdescription>
     </briefdescription>
@@ -85,7 +109,9 @@
 <codeline lineno="27" refid="types_8h_1a454259f6637e0de415e28d4c37c93419" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/><ref refid="types_8h_1a454259f6637e0de415e28d4c37c93419" kindref="member">tagged_enum</ref><sp/>{</highlight></codeline>
 <codeline lineno="31" refid="types_8h_1a454259f6637e0de415e28d4c37c93419a75615b3ad253e9207e6fdbf81b6293c5" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="types_8h_1a454259f6637e0de415e28d4c37c93419a75615b3ad253e9207e6fdbf81b6293c5" kindref="member">TAGGED_ENUM_A</ref></highlight></codeline>
 <codeline lineno="32" refid="types_8h_1a680099e7a8e6961719603aedaa4bada3" refkind="member"><highlight class="normal">}<sp/><ref refid="types_8h_1a454259f6637e0de415e28d4c37c93419" kindref="member">tagged_enum</ref>;</highlight></codeline>
-<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39" refid="types_8h_1abd9455c4eb3c73c4cbc901268f42f360" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/>void<sp/>(<sp/>*<ref refid="types_8h_1abd9455c4eb3c73c4cbc901268f42f360" kindref="member">widget_handler</ref><sp/>)(<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>arg<sp/>);</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
     </programlisting>
     <location file="types.h"/>
   </compounddef>
