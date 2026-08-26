@@ -179,7 +179,15 @@ class DoxygenItem:
         return self._get_optional_text("notes")
 
     def export(self) -> dict:
-        """ Export the Doxygen item as specification item data. """
+        """
+        Export the Doxygen item as specification item data.
+
+        The data of the configuration applies to every item and the
+        data of the group of the item applies over it, key by key.  A
+        generated item copies the prose of its header word for word, so
+        it carries the licence and the copyright of that header.  A run
+        over headers of several authors has no single correct setting.
+        """
         links: list[dict] = []
         for file in self.files:
             if file.is_header:
@@ -205,6 +213,7 @@ class DoxygenItem:
             "type": "interface"
         }
         data.update(self.ctx.data)
+        data.update(self.group_config().get("data") or {})
         return data
 
     def group_config(self) -> dict[str, Any]:
@@ -1077,6 +1086,10 @@ def _validate_group_entry(errors: list[str], name: str, entry: dict) -> None:
     if entry.get("extra-links") is not None:
         _validate_extra_links(errors, f"/groups/{name}/extra-links",
                               entry["extra-links"])
+    data = entry.get("data")
+    if data is not None and not isinstance(data, dict):
+        errors.append(f"/groups/{name}/data must be a dict or null, "
+                      f"got {data!r}")
     if entry.get("filter") is not None:
         _validate_filter(errors, f"/groups/{name}/filter", entry["filter"])
     generate_group_item = entry.get("generate-group-item")

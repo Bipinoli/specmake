@@ -2108,6 +2108,9 @@ def test_the_group_item_generation_can_be_suppressed(tmp_path):
     ({
         "header-interface-type": 1
     }, "/groups/FooGroup/header-interface-type must be"),
+    ({
+        "data": []
+    }, "/groups/FooGroup/data must be a dict or null"),
 ])
 def test_invalid_group_settings_are_rejected(entry, expected):
     with pytest.raises(ValueError, match=expected):
@@ -2397,3 +2400,69 @@ def test_an_empty_parameter_name_documents_nothing():
         "name": "a"
     }]
     assert item._stray_param_docs(data) == []
+
+
+def _copyrights(ctx, kind, name):
+    return ctx.items_by_name[kind][name][0].export()["copyrights"]
+
+
+def _group_data_context(tmp_path, **groups):
+    ctx = DoxygenContext({
+        "data": {
+            "copyrights": ["Copyright (C) 2026 Everyone"],
+            "enabled-by": "SOMETHING"
+        },
+        "groups": groups,
+        "spec-directory": str(tmp_path)
+    })
+    ctx.doxygen_xml_to_spec(
+        [_get_path(path) for path in _EXTRA_LINKS_XML_FILES])
+    return ctx
+
+
+def test_the_data_of_a_group_applies_to_its_items(tmp_path):
+    # A generated item copies the prose of its header, so it carries
+    # the copyright of that header and not the copyright of every
+    # header of the run.
+    ctx = _group_data_context(
+        tmp_path, **{
+            "FooGroup": {
+                "uid": "/if/group",
+                "data": {
+                    "copyrights": ["Copyright (C) 2026 Foo"]
+                }
+            },
+            "DefaultGroup": {
+                "uid": "/other/group"
+            }
+        })
+    assert _copyrights(ctx, "function", "gf_1") == ["Copyright (C) 2026 Foo"]
+    assert _copyrights(ctx, "group",
+                       "DefaultGroup") == ["Copyright (C) 2026 Everyone"]
+
+
+def test_a_group_inherits_what_its_data_leaves_out(tmp_path):
+    ctx = _group_data_context(
+        tmp_path, **{
+            "FooGroup": {
+                "uid": "/if/group",
+                "data": {
+                    "copyrights": ["Copyright (C) 2026 Foo"]
+                }
+            }
+        })
+    assert ctx.items_by_name["function"]["gf_1"][0].export(
+    )["enabled-by"] == "SOMETHING"
+
+
+def test_the_data_of_a_group_applies_to_the_group_item(tmp_path):
+    ctx = _group_data_context(
+        tmp_path, **{
+            "FooGroup": {
+                "uid": "/if/group",
+                "data": {
+                    "copyrights": ["Copyright (C) 2026 Foo"]
+                }
+            }
+        })
+    assert _copyrights(ctx, "group", "FooGroup") == ["Copyright (C) 2026 Foo"]
