@@ -2543,3 +2543,23 @@ def test_a_define_of_a_brief_alone_reports_its_parameters():
     assert item.export()["definition"]["default"]["params"] == [
         "${.:/params[0]/name}", "${.:/params[1]/name}"
     ]
+
+
+def test_a_compound_described_twice_holds_its_members_once():
+    # A run receives the XML of one compound twice when a file is
+    # named twice on the command line.  The item of the compound is
+    # discovered once, so its member list holds every member once.
+    xml_files = [_get_path(path) for path in _EXTRA_LINKS_XML_FILES]
+    ctx = DoxygenContext({
+        "data": {},
+        "groups": {
+            "FooGroup": {
+                "uid": "/if/group"
+            }
+        },
+        "spec-directory": "spec"
+    })
+    ctx.doxygen_xml_to_spec(xml_files + xml_files)
+    for item in ctx.items.values():
+        if isinstance(item, sourcetospec.DoxygenContainer):
+            assert len(item.member_ids) == len(set(item.member_ids)), item.name

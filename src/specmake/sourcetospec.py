@@ -529,6 +529,18 @@ class DoxygenContainer(DoxygenItem):
         super().__init__(ctx, kind, doxygen_id, name)
         self.member_ids: list[str] = []
 
+    def add_member(self, member_id: str) -> None:
+        """
+        Add the member to the item, at most once.
+
+        An item is discovered once, however often the Doxygen XML
+        describes its compound.  A run which receives the XML of one
+        compound twice would otherwise hold every member of it twice,
+        and generate every one of them twice.
+        """
+        if member_id not in self.member_ids:
+            self.member_ids.append(member_id)
+
     def members(self) -> Iterator[DoxygenItem]:
         """ Yields the members of the item. """
         for member_id in self.member_ids:
@@ -836,11 +848,11 @@ def _tag_attribute(elem: ElementTree.Element, scope: _Scope,
 def _tag_item(elem: ElementTree.Element, scope: _Scope) -> _Scope:
     item = scope.item.ctx.items[_doxygen_id(elem)]
     if item.kind == "variable" and isinstance(scope.item, DoxygenCompound):
-        scope.item.member_ids.append(item.doxygen_id)
+        scope.item.add_member(item.doxygen_id)
     elif item.kind == "enumvalue":
         enum = scope.item
         assert isinstance(enum, DoxygenEnum)
-        enum.member_ids.append(item.doxygen_id)
+        enum.add_member(item.doxygen_id)
 
     # Doxygen places the description into multiple files.  Lets hope they are
     # all the same.
@@ -1003,7 +1015,7 @@ def _relationships(elem: ElementTree.Element, item: DoxygenItem) -> None:
     for member_kind in ("enumvalue", "innerfile", "innerclass", "innergroup",
                         "member", "memberdef"):
         for member in elem.findall(f".//{member_kind}"):
-            item.member_ids.append(_doxygen_id(member))
+            item.add_member(_doxygen_id(member))
 
 
 def _compound_relationships(elem: ElementTree.Element,
@@ -1025,7 +1037,7 @@ def _compound_relationships(elem: ElementTree.Element,
     assert isinstance(item, DoxygenContainer)
     for section in elem.findall("sectiondef"):
         for member in section.findall("member"):
-            item.member_ids.append(_doxygen_id(member))
+            item.add_member(_doxygen_id(member))
 
 
 _RELATIONSHIP_HANDLER = {
@@ -1513,7 +1525,7 @@ class DoxygenContext:
                 "in the configuration)") from err
         assert isinstance(group, DoxygenGroup)
         self.item_to_group[item.doxygen_id] = group_name
-        group.member_ids.append(item.doxygen_id)
+        group.add_member(item.doxygen_id)
         item.group_ids.append(group.doxygen_id)
 
     def _add_group_through_file_associations_or_config(self):
