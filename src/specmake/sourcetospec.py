@@ -216,23 +216,26 @@ class DoxygenItem:
         data.update(self.group_config().get("data") or {})
         return data
 
-    def group_config(self) -> dict[str, Any]:
+    def config_group_name(self) -> str | None:
         """
-        Is the configuration of the group of the item.
+        Is the name of the group whose configuration the item takes.
 
         A group item carries the configuration of its own name.  Every
         other item takes it from the group it belongs to, which may be
         absent, so resolve it without the exception raised by the group
         property.
         """
-        group: DoxygenItem | None
         if isinstance(self, DoxygenGroup):
-            group = self
-        else:
-            group = next(self.groups, None)
-        if group is None:
+            return self.name
+        group = next(self.groups, None)
+        return group.name if group is not None else None
+
+    def group_config(self) -> dict[str, Any]:
+        """ Is the configuration of the group of the item. """
+        name = self.config_group_name()
+        if name is None:
             return {}
-        return self.ctx.groups.get(group.name, {})
+        return self.ctx.groups.get(name, {})
 
     def add_extra_links(self, data: dict) -> None:
         """
@@ -254,10 +257,12 @@ class DoxygenItem:
         after ``export()`` returned.
         """
         interface_type = data.get("interface-type")
+        group_name = self.config_group_name()
         # A bare 'extra-links:' attribute parses as null, not as an
         # empty list, so treat it as absent rather than iterating over
         # None.
-        for link in self.group_config().get("extra-links") or []:
+        for index, link in enumerate(self.group_config().get("extra-links")
+                                     or []):
             interface_types = link.get("interface-types")
             if interface_types is not None \
                and interface_type not in interface_types:
@@ -266,13 +271,23 @@ class DoxygenItem:
             if names is not None and not self.matches_any(names):
                 continue
             data["links"].append({"role": link["role"], "uid": link["uid"]})
+            assert group_name is not None
+            self.ctx.applied_extra_links.add((group_name, index))
 
-    def save(self) -> None:
-        """ Saves the exported item. """
-        path = self.ctx.spec_directory / f"{self.uid[1:]}.yml"
-        path.parent.mkdir(parents=True, exist_ok=True)
+    def save(self, dry_run: bool = False) -> None:
+        """
+        Save the exported item.
+
+        A dry run resolves the item and writes no file, so it reaches
+        every configuration attribute the item uses and reports what a
+        real run would report.
+        """
         data = self.export()
         self.add_extra_links(data)
+        if dry_run:
+            return
+        path = self.ctx.spec_directory / f"{self.uid[1:]}.yml"
+        path.parent.mkdir(parents=True, exist_ok=True)
         save_data(str(path), data)
 
     @property
@@ -1291,6 +1306,11 @@ class DoxygenContext:
         self.items_by_name: dict[str, dict[str, list["DoxygenItem"]]] = {}
         self.items: dict[str, "DoxygenItem"] = {}
         self.compound_typedefs: dict[str, str] = {}
+        # Every extra link entry which reached an item, as the name of
+        # its group and its index in the entries of that group.  An
+        # entry which reaches no item matches nothing the run
+        # generated, so the run reports it.
+        self.applied_extra_links: set[tuple[str, int]] = set()
 
     def doxygen_xml_to_spec(self, xml_files: list[str]) -> None:
         """ Convert Doxygen XML files to specification item data.  """

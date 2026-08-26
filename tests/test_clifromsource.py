@@ -1800,3 +1800,62 @@ def test_one_item_of_two_groups_is_no_collision(tmp_path):
     # what tells a shared item from a collision.
     _generate(tmp_path, _shared_header_config(tmp_path),
               _shared_header_xml_files())
+
+
+def _widget_extra_links_config(tmp_path, extra_links) -> dict:
+    return _minimal_config(
+        **{
+            "groups": {
+                "WidgetAPI": {
+                    "uid": "/if/group",
+                    "extra-links": extra_links
+                }
+            },
+            "enabled-groups": ["WidgetAPI"],
+            "spec-directory": str(tmp_path / "spec")
+        })
+
+
+def _generate_widget_api(tmp_path, capsys, extra_links, dry_run=False) -> str:
+    _generate(tmp_path,
+              _widget_extra_links_config(tmp_path, extra_links),
+              _widget_api_xml_files(),
+              dry_run=dry_run)
+    return capsys.readouterr().out
+
+
+def test_an_extra_link_which_reaches_no_item_is_reported(tmp_path, capsys):
+    # A pattern with a typo, or a declaration the vendor renamed,
+    # leaves the constraint of the function out of the specification.
+    output = _generate_widget_api(tmp_path, capsys,
+                                  [{
+                                      "role": "constraint",
+                                      "uid": "/constraint/gone",
+                                      "names": ["widget_no_such_function"]
+                                  }])
+    assert "\nextra links which reached no item:\n" \
+        "  /groups/WidgetAPI/extra-links[0] to /constraint/gone" in output
+
+
+def test_an_extra_link_which_reaches_an_item_is_not_reported(tmp_path, capsys):
+    output = _generate_widget_api(tmp_path, capsys, [{
+        "role": "constraint",
+        "uid": "/constraint/here",
+        "names": ["widget_*"]
+    }])
+    assert "extra links which reached no item" not in output
+
+
+def test_a_dry_run_reports_an_extra_link_which_reaches_no_item(
+        tmp_path, capsys):
+    # A dry run writes no file, so it must resolve the items to reach
+    # the same report a real run gives.
+    output = _generate_widget_api(tmp_path,
+                                  capsys, [{
+                                      "role": "constraint",
+                                      "uid": "/constraint/gone",
+                                      "names": ["widget_no_such_function"]
+                                  }],
+                                  dry_run=True)
+    assert "  /groups/WidgetAPI/extra-links[0] to /constraint/gone" in output
+    assert not (tmp_path / "spec").exists()

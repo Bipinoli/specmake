@@ -201,8 +201,7 @@ def _generate_header(header: DoxygenFile,
     gaps: dict[str, list[str]] = {}
     with _generating(header):
         print("  ", header.uid)
-        if not dry_run:
-            header.save()
+        header.save(dry_run=dry_run)
         items: list[DoxygenItem] = [header]
         _record_gaps(gaps, header)
     typedefs_skipped = 0
@@ -218,8 +217,7 @@ def _generate_header(header: DoxygenFile,
                 typedefs_skipped += 1
                 continue
             print("    ", header_member.uid)
-            if not dry_run:
-                header_member.save()
+            header_member.save(dry_run=dry_run)
             items.append(header_member)
             _record_gaps(gaps, header_member)
         if isinstance(header_member, DoxygenEnum):
@@ -228,8 +226,7 @@ def _generate_header(header: DoxygenFile,
                     if enumerator.is_excluded:
                         continue
                     print("      ", enumerator.uid)
-                    if not dry_run:
-                        enumerator.save()
+                    enumerator.save(dry_run=dry_run)
                     items.append(enumerator)
                     _record_gaps(gaps, enumerator)
     return _HeaderResult(items, typedefs_skipped, gaps)
@@ -250,6 +247,28 @@ def _print_gaps(gaps: dict[str, list[str]]) -> None:
     print("\nneeds attention:")
     for uid in sorted(gaps):
         print(f"  {uid.ljust(width)}  {', '.join(gaps[uid])}")
+
+
+def _print_unapplied_extra_links(ctx: DoxygenContext, config: dict) -> None:
+    """
+    Report every extra link entry which reached no item.
+
+    An entry which matches nothing is a pattern with a typo or a
+    declaration the vendor renamed.  Its consequence is a link missing
+    from the specification, for example the call context constraint of
+    a function.  Only an entry of a group of this run is reported, so a
+    group left out of the enabled set says nothing here.
+    """
+    unapplied = [
+        f"  /groups/{group_name}/extra-links[{index}] to {link['uid']}"
+        for group_name in config["enabled-groups"]
+        for index, link in enumerate(
+            ctx.groups.get(group_name, {}).get("extra-links") or [])
+        if (group_name, index) not in ctx.applied_extra_links
+    ]
+    if unapplied:
+        print("\nextra links which reached no item:")
+        print("\n".join(unapplied))
 
 
 def _reachable_headers(group: DoxygenGroup) -> list[DoxygenFile]:
@@ -351,8 +370,7 @@ def _generate_groups(ctx: DoxygenContext,
         print(group.doxygen_id)
         if group.generate_item:
             with _generating(group):
-                if not dry_run:
-                    group.save()
+                group.save(dry_run=dry_run)
                 # A suppressed group item is deliberately left out of
                 # the generated set, so --prune never offers to delete
                 # the hand-written item sitting at the group uid.
@@ -587,9 +605,10 @@ def _run(args) -> None:
                        config["enabled-groups"],
                        result.generated,
                        dry_run=args.dry_run)
-            # Last, so that what still needs a human is the final thing
-            # the run reports rather than something buried above the
-            # pruning summary.
+            # Last, so that what still needs a human is the final
+            # thing the run reports rather than something buried above
+            # the pruning summary.
+            _print_unapplied_extra_links(ctx, config)
             _print_gaps(result.gaps)
 
 
