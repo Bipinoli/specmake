@@ -1727,3 +1727,76 @@ def test_an_item_of_no_group_is_described_without_a_uid(tmp_path):
     ctx.doxygen_xml_to_spec(_foo_group_xml_files())
     assert clifromsource_module._describe(
         ctx.items[_BAD_F]) == "function bad_f of bad.c"
+
+
+def _uid_collision_xml_files() -> list[str]:
+    # uid-collision: two headers whose groups share the directory of
+    # their uid, each with a remove-prefix which reduces the name of
+    # its header to the extension.
+    return [
+        _get_path(f"source-to-spec/uid-collision/xml/{name}") for name in (
+            "group__WidgetAPI.xml",
+            "group__WidgetExtraAPI.xml",
+            "widget_8h.xml",
+            "widget__extra_8h.xml",
+        )
+    ]
+
+
+def _uid_collision_config(tmp_path) -> dict:
+    return _minimal_config(
+        **{
+            "groups": {
+                "WidgetAPI": {
+                    "uid": "/dev/widget/if/group",
+                    "remove-prefix": "widget-"
+                },
+                "WidgetExtraAPI": {
+                    "uid": "/dev/widget/if/extra-group",
+                    "remove-prefix": "widget-extra-"
+                }
+            },
+            "enabled-groups": ["WidgetAPI", "WidgetExtraAPI"],
+            "spec-directory": str(tmp_path / "spec")
+        })
+
+
+def test_two_items_of_one_uid_are_rejected(tmp_path):
+    # Both headers reduce to the extension, so both claim to be the
+    # header of /dev/widget/if. Saving them writes one file and the
+    # interface-placement links of the lost header then name the other
+    # one.
+    with pytest.raises(SystemExit) as info:
+        _generate(tmp_path, _uid_collision_config(tmp_path),
+                  _uid_collision_xml_files())
+    assert str(info.value) == (
+        "specfromsource: error: these items produce the same UID (check "
+        "the uid and the remove-prefix of the groups they belong to):\n"
+        "  - /dev/widget/if/header from file widget.h and file "
+        "widget_extra.h")
+
+
+def test_a_uid_collision_generates_nothing(tmp_path):
+    # The second item of a UID overwrites the file of the first one,
+    # which is the corruption the check exists for.  A collision is
+    # therefore found before the run writes anything at all.
+    with pytest.raises(SystemExit):
+        _generate(tmp_path, _uid_collision_config(tmp_path),
+                  _uid_collision_xml_files())
+    assert not list((tmp_path / "spec").rglob("*.yml"))
+
+
+def test_a_uid_collision_is_reported_by_a_dry_run(tmp_path):
+    with pytest.raises(SystemExit):
+        _generate(tmp_path,
+                  _uid_collision_config(tmp_path),
+                  _uid_collision_xml_files(),
+                  dry_run=True)
+
+
+def test_one_item_of_two_groups_is_no_collision(tmp_path):
+    # shared.h is reachable from AlphaAPI and from BetaAPI. Every item
+    # of it is offered twice under one Doxygen identifier, which is
+    # what tells a shared item from a collision.
+    _generate(tmp_path, _shared_header_config(tmp_path),
+              _shared_header_xml_files())

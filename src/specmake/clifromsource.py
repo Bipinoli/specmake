@@ -26,6 +26,7 @@
 
 import contextlib
 import glob
+import io
 import json
 import os
 import sys
@@ -93,23 +94,32 @@ class GenerationError(Exception):
     """ Raised when the generation of one item fails. """
 
 
+def _origin(item: DoxygenItem) -> str:
+    """
+    Is the declaration the item comes from.
+
+    The header is resolved through the file of the item, which raises
+    when the item has none.  A group is such an item.  Leave the
+    header out there rather than fail in a message.
+    """
+    try:
+        return f"{item.kind} {item.name} of {item.file.name}"
+    except ValueError:
+        return f"{item.kind} {item.name}"
+
+
 def _describe(item: DoxygenItem) -> str:
     """
     Describe the item by its declaration and its UID.
 
-    The header is resolved through the file of the item and the UID
-    through its group, and both raise when the item has none.  A
-    description is wanted where something already failed, so leave out
-    what cannot be resolved rather than fail again here.
+    The UID is resolved through the group of the item, which raises
+    when the item has none.  A description is wanted where something
+    already failed, so leave the UID out rather than fail again.
     """
     try:
-        described = f"{item.kind} {item.name} of {item.file.name}"
+        return f"{_origin(item)} at {item.uid}"
     except ValueError:
-        described = f"{item.kind} {item.name}"
-    try:
-        return f"{described} at {item.uid}"
-    except ValueError:
-        return described
+        return _origin(item)
 
 
 @contextlib.contextmanager
@@ -136,10 +146,44 @@ def _record_gaps(gaps: dict[str, list[str]], item: DoxygenItem) -> None:
         gaps[item.uid] = item_gaps
 
 
+class _UidRegistry:
+    """
+    Tracks which items produce which UID.
+
+    A UID names one item of the specification, so two items which
+    produce the same UID save one file and the second overwrites the
+    first.  Every declaration of the lost item keeps a link to it, and
+    the link then names the wrong item.  A single item reached through
+    two groups or two headers keeps one Doxygen identifier, so the
+    identifier, not the count of the entries, tells the two apart.
+    """
+
+    def __init__(self) -> None:
+        self.items_by_uid: dict[str, dict[str, DoxygenItem]] = {}
+
+    def add(self, item: DoxygenItem) -> None:
+        """ Record the item under its UID. """
+        self.items_by_uid.setdefault(item.uid, {})[item.doxygen_id] = item
+
+    def check(self) -> None:
+        """ Raise a single error naming every UID which two items claim. """
+        collisions = [
+            f"  - {uid} from " +
+            " and ".join(_origin(item) for item in items.values())
+            for uid, items in sorted(self.items_by_uid.items())
+            if len(items) > 1
+        ]
+        if collisions:
+            problems = "\n".join(collisions)
+            raise ConfigError(
+                "these items produce the same UID (check the uid and the "
+                f"remove-prefix of the groups they belong to):\n{problems}")
+
+
 class _HeaderResult(NamedTuple):
     """ What generating one header produced. """
 
-    uids: list[str]
+    items: list[DoxygenItem]
     typedefs_skipped: int
     gaps: dict[str, list[str]]
 
@@ -150,7 +194,7 @@ def _generate_header(header: DoxygenFile,
     Generate a header and its members.
 
     With ``dry_run``, only reports what would be generated. Returns
-    every (would-be) saved UID, how many typedefs were skipped because
+    every (would-be) saved item, how many typedefs were skipped because
     they merely alias a compound (struct/union/enum) item saved under
     the same UID, and the manual review gaps per UID.
     """
@@ -159,7 +203,7 @@ def _generate_header(header: DoxygenFile,
         print("  ", header.uid)
         if not dry_run:
             header.save()
-        uids = [header.uid]
+        items: list[DoxygenItem] = [header]
         _record_gaps(gaps, header)
     typedefs_skipped = 0
     for header_member in header.members():
@@ -176,7 +220,7 @@ def _generate_header(header: DoxygenFile,
             print("    ", header_member.uid)
             if not dry_run:
                 header_member.save()
-            uids.append(header_member.uid)
+            items.append(header_member)
             _record_gaps(gaps, header_member)
         if isinstance(header_member, DoxygenEnum):
             for enumerator in header_member.members():
@@ -186,9 +230,9 @@ def _generate_header(header: DoxygenFile,
                     print("      ", enumerator.uid)
                     if not dry_run:
                         enumerator.save()
-                    uids.append(enumerator.uid)
+                    items.append(enumerator)
                     _record_gaps(gaps, enumerator)
-    return _HeaderResult(uids, typedefs_skipped, gaps)
+    return _HeaderResult(items, typedefs_skipped, gaps)
 
 
 def _print_gaps(gaps: dict[str, list[str]]) -> None:
@@ -255,6 +299,17 @@ def _record_owner(generated: dict[str, list[str]], uid: str,
         owners.append(group_name)
 
 
+def _print_generated_summary(dry_run: bool, item_count: int, group_count: int,
+                             typedefs_skipped: int) -> None:
+    """ Report what the run produced. """
+    verb = "would generate" if dry_run else "generated"
+    summary = f"{verb} {item_count} item(s) across {group_count} group(s)"
+    if typedefs_skipped:
+        summary += (f", {typedefs_skipped} typedef(s) skipped as "
+                    "compound aliases")
+    print(summary)
+
+
 class _GroupsResult(NamedTuple):
     """ What generating every enabled group produced. """
 
@@ -281,10 +336,11 @@ def _generate_groups(ctx: DoxygenContext,
     # transitively by members of different groups, is reachable from
     # more than one enabled group. Its content does not depend on which
     # group discovered it, so generate it once for the whole run rather
-    # than rewriting the identical file under every owner. The UIDs it
+    # than rewriting the identical file under every owner. The items it
     # produced are cached, because every later owner still has to be
     # recorded against them.
-    header_uids: dict[str, list[str]] = {}
+    header_items: dict[str, list[DoxygenItem]] = {}
+    registry = _UidRegistry()
     groups_processed = 0
     typedefs_skipped = 0
     gaps: dict[str, list[str]] = {}
@@ -302,27 +358,26 @@ def _generate_groups(ctx: DoxygenContext,
                 # the hand-written item sitting at the group uid.
                 _record_owner(generated, group.uid, group.name)
                 _record_gaps(gaps, group)
+                registry.add(group)
         groups_processed += 1
         for header in _reachable_headers(group):
-            uids = header_uids.get(header.doxygen_id)
-            if uids is None:
+            items = header_items.get(header.doxygen_id)
+            if items is None:
                 # Counted here rather than per owner, so a header shared
                 # by several groups contributes its skipped typedefs to
                 # the run's total once.
                 result = _generate_header(header, dry_run=dry_run)
-                uids = result.uids
+                items = result.items
                 typedefs_skipped += result.typedefs_skipped
                 gaps.update(result.gaps)
-                header_uids[header.doxygen_id] = uids
-            for uid in uids:
-                _record_owner(generated, uid, group.name)
-    verb = "would generate" if dry_run else "generated"
-    summary = (f"{verb} {len(generated)} item(s) across "
-               f"{groups_processed} group(s)")
-    if typedefs_skipped:
-        summary += (f", {typedefs_skipped} typedef(s) skipped as "
-                    "compound aliases")
-    print(summary)
+                header_items[header.doxygen_id] = items
+                for item in items:
+                    registry.add(item)
+            for item in items:
+                _record_owner(generated, item.uid, group.name)
+    _print_generated_summary(dry_run, len(generated), groups_processed,
+                             typedefs_skipped)
+    registry.check()
     return _GroupsResult(generated, gaps)
 
 
@@ -519,6 +574,13 @@ def _run(args) -> None:
             else:
                 _propose_config(ctx, config)
         else:
+            # Resolve every item before the first write, so a UID which
+            # two items claim stops the run with nothing generated and
+            # nothing overwritten.  The pass writes no file and reports
+            # nothing, since the run which follows it lists the items
+            # it generates.
+            with contextlib.redirect_stdout(io.StringIO()):
+                _generate_groups(ctx, config, dry_run=True)
             result = _generate_groups(ctx, config, dry_run=args.dry_run)
             if args.prune:
                 _prune(ctx,

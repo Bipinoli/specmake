@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="group__WidgetExtraAPI" kind="group">
+    <compoundname>WidgetExtraAPI</compoundname>
+    <title>Extra Widget API</title>
+    <innerfile refid="widget__extra_8h">widget_extra.h</innerfile>
+    <briefdescription>
+<para>This group contains the extra widget API. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="widget__extra_8h" kind="file" language="C++">
+    <compoundname>widget_extra.h</compoundname>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="widget__extra_8h_1aa595d5c61266b262e5173240c5bf44f0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void widget_extra_reset</definition>
+        <argsstring>(void)</argsstring>
+        <name>widget_extra_reset</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+<para>Resets the widget. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="widget_extra.h" line="18" column="6" declfile="widget_extra.h" declline="18" declcolumn="6"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>This header file provides the extra widget API. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18" refid="widget__extra_8h_1aa595d5c61266b262e5173240c5bf44f0" refkind="member"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="widget__extra_8h_1aa595d5c61266b262e5173240c5bf44f0" kindref="member">widget_extra_reset</ref>(<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>);</highlight></codeline>
+    </programlisting>
+    <location file="widget_extra.h"/>
+  </compounddef>
+</doxygen>
