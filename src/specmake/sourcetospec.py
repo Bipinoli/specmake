@@ -596,15 +596,24 @@ class DoxygenFile(DoxygenContainer):
 
     @property
     def uid(self) -> str:
+        """
+        Is the UID of the item.
+
+        A header of a directory which already carries its name is the
+        header of that directory and takes the plain name ``header``.
+        The name of the header is a component of the directory then, or
+        the remove-prefix of the group reduced it to the extension.
+        Every other header keeps its name after the ``header-`` prefix.
+        """
         the_uid = super().uid
         if not self.is_header:
             return the_uid
-        basename = posixpath.basename(the_uid)[:-2]
+        name = posixpath.basename(the_uid)[:-2]
         prefix = posixpath.dirname(the_uid)
-        if basename in prefix:
+        if not name or name in prefix.split("/"):
             basename = "header"
         else:
-            basename = f"header-{basename}"
+            basename = f"header-{name}"
         return posixpath.join(prefix, basename)
 
     @property

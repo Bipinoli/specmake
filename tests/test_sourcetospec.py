@@ -2038,7 +2038,8 @@ def test_extra_links_select_an_unspecified_header_file(tmp_path):
     assert placement not in _saved_links(ctx, "function", "gf_1")
 
 
-def _undocumented_header(**group):
+def _undocumented_header_named(name, **group):
+    """ Build an undocumented header file item of the FooGroup. """
     group.setdefault("uid", "/if/group")
     ctx = DoxygenContext({
         "data": {},
@@ -2049,10 +2050,25 @@ def _undocumented_header(**group):
     })
     ctx.items["g_0"] = sourcetospec.DoxygenGroup(ctx, "group", "g_0",
                                                  "FooGroup")
-    header = sourcetospec.DoxygenFile(ctx, "file", "f_0", "some.h")
+    header = sourcetospec.DoxygenFile(ctx, "file", "f_0", name)
     header.group_ids.append("g_0")
     ctx.items["f_0"] = header
     return header
+
+
+def _undocumented_header(**group):
+    return _undocumented_header_named("some.h", **group)
+
+
+def test_a_header_named_after_its_directory_is_the_header_of_it():
+    header = _undocumented_header_named("foo.h", uid="/dev/foo/if/group")
+    assert header.uid == "/dev/foo/if/header"
+
+
+def test_a_header_named_after_no_directory_keeps_its_name():
+    # The name occurs in the directory /if as the letter of "if", so a
+    # substring test made this header the header of that directory.
+    assert _undocumented_header_named("f.h").uid == "/if/header-f"
 
 
 def test_an_undocumented_header_file_needs_a_brief():
