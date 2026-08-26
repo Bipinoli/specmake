@@ -31,7 +31,6 @@ states.
 import logging
 import os
 import stat
-import sys
 
 from specitems import (ItemCache, ItemCacheConfig, JSONItemCache,
                        get_item_cache_arguments)
@@ -39,6 +38,7 @@ from specitems import (ItemCache, ItemCacheConfig, JSONItemCache,
 from .directorystate import DirectoryState
 from .pkgfactory import create_build_item_factory
 from .pkgitems import BuildItemTypeProvider, PackageBuildDirector
+from .util import command_arguments
 
 _ITEM_CACHE = {
     "JSON": JSONItemCache,
@@ -64,7 +64,7 @@ def _decimate(path: str, keep: set[str]) -> None:
             logging.debug("keep: %s", path_2)
 
 
-def clidecimate(argv: list[str] = sys.argv) -> None:
+def clidecimate(argv: list[str] | None = None) -> None:
     """
     Recursively delete all files in the deployment directory which do not
     belong to the specified set of directory states.
@@ -92,7 +92,7 @@ def clidecimate(argv: list[str] = sys.argv) -> None:
             help="the UID of a directory state item containing "
             "files which shall remain in the deployment directory")
 
-    args = get_item_cache_arguments(argv[1:],
+    args = get_item_cache_arguments(command_arguments(argv),
                                     description=clidecimate.__doc__,
                                     add_arguments=(_add_arguments, ))
     cache_config = ItemCacheConfig(paths=args.spec_directories,

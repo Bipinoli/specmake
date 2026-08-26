@@ -43,7 +43,7 @@ from .ctrf import (CTRF_FAILED, convert_test_log, ctrf_markdown_summary,
 from .runtests import (RunnerExecutable, RunnerReport, run_subprocess_tests,
                        run_tests_with_retries, select_command)
 from .testoutputparser import augment_report
-from .util import now_utc, write_json
+from .util import command_arguments, command_name, now_utc, write_json
 
 _UID = "run-tests"
 
@@ -420,14 +420,14 @@ def _write_outputs(args: argparse.Namespace, test_log: _Data) -> int:
     return 1 if report["results"]["summary"][CTRF_FAILED] else 0
 
 
-def cliruntests(argv: list[str] = sys.argv) -> int:
+def cliruntests(argv: list[str] | None = None) -> int:
     """ Run test executables using a subprocess test runner item. """
-    args = _get_arguments(argv[1:])
+    args = _get_arguments(command_arguments(argv))
     logging.basicConfig(
         level=logging.INFO if args.verbose else logging.WARNING,
         format="%(message)s")
     try:
         return _write_outputs(args, _run(args))
     except RunTestsError as err:
-        print(f"{os.path.basename(argv[0])}: error: {err}", file=sys.stderr)
+        print(f"{command_name(argv)}: error: {err}", file=sys.stderr)
         return 2

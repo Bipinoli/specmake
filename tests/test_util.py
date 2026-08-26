@@ -29,11 +29,15 @@ import os
 import logging
 from pathlib import Path
 import re
+import sys
 
+from specitems import load_data, save_data
 from specware import load_config, run_command
 
-from specmake import (duration, get_build_arguments, copy_file, copy_files,
-                      now_utc, write_json)
+from specmake import (command_arguments, command_name, duration,
+                      get_build_arguments, copy_file, copy_files, now_utc,
+                      write_json)
+from specmake.cliaddpatches import cliaddpatches
 
 from .util import get_and_clear_log
 
@@ -130,3 +134,29 @@ def test_write_json_without_a_directory(tmpdir, monkeypatch):
     write_json("data.json", {"b": 2})
     with open(Path(tmpdir) / "data.json", "r", encoding="utf-8") as src:
         assert json.load(src) == {"b": 2}
+
+
+def test_an_entry_point_reads_the_argument_vector_at_the_call(
+        tmpdir, monkeypatch):
+    # A default argument binds at import, so an entry point which
+    # defaults to sys.argv keeps the vector of the import.  A caller
+    # which rebinds sys.argv still got that original vector.
+    item_file = Path(tmpdir) / "item.yml"
+    patch_file = Path(tmpdir) / "a.patch"
+    save_data(str(item_file), {"type": "spec"})
+    patch_file.write_text("--- a\n+++ b\n", encoding="utf-8")
+    monkeypatch.setattr(
+        sys, "argv",
+        ["specaddpatches", str(item_file),
+         str(patch_file)])
+    cliaddpatches()
+    assert load_data(str(item_file))["archive-patches"][0]["patch"] == \
+        "--- a\n+++ b\n"
+
+
+def test_the_command_vector_falls_back_to_the_process(monkeypatch):
+    monkeypatch.setattr(sys, "argv", ["specmake", "--verbose"])
+    assert command_arguments(None) == ["--verbose"]
+    assert command_name(None) == "specmake"
+    assert command_arguments(["other", "-x"]) == ["-x"]
+    assert command_name(["/usr/bin/other", "-x"]) == "other"

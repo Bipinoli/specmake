@@ -26,12 +26,12 @@
 
 import argparse
 import json
-import sys
 
 from specitems import (Item, ItemCache, ItemCacheConfig,
                        get_item_cache_arguments)
 
 from .testoutputparser import augment_report
+from .util import command_arguments
 
 _LimitsByUID = dict[str, dict[str, dict[str, float]]]
 
@@ -110,7 +110,7 @@ def _write_perf_limits(perf_limits: Item, limits_by_uid: _LimitsByUID) -> None:
     perf_limits.save()
 
 
-def cliupdateperf(argv: list[str] = sys.argv) -> None:
+def cliupdateperf(argv: list[str] | None = None) -> None:
     """ Update a performance limits item using test results. """
 
     def _add_arguments(parser):
@@ -136,7 +136,7 @@ def cliupdateperf(argv: list[str] = sys.argv) -> None:
                             nargs="+",
                             help="a test report JSON file")
 
-    args = get_item_cache_arguments(argv[1:],
+    args = get_item_cache_arguments(command_arguments(argv),
                                     description=cliupdateperf.__doc__,
                                     add_arguments=(_add_arguments, ))
     cache_config = ItemCacheConfig(paths=args.spec_directories,

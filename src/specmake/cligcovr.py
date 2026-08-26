@@ -34,13 +34,14 @@ import os
 import re
 import shutil
 import subprocess
-import sys
+
+from .util import command_arguments
 
 _GCOV_INFO = re.compile(r"\*\*\* BEGIN OF GCOV INFO BASE64 \*\*\*(.*)"
                         r"\*\*\* END OF GCOV INFO BASE64 \*\*\*")
 
 
-def cligcovr(argv: list[str] = sys.argv) -> None:
+def cligcovr(argv: list[str] | None = None) -> None:
     """ Removes existing coverage files and runs gcovr using test output. """
     parser = argparse.ArgumentParser()
     parser.add_argument("-o",
@@ -77,7 +78,7 @@ def cligcovr(argv: list[str] = sys.argv) -> None:
                         metavar="OUTPUTS",
                         nargs="+",
                         help="the test output files")
-    args = parser.parse_args(argv[1:])
+    args = parser.parse_args(command_arguments(argv))
     for gcda in glob.glob(os.path.join(args.object_directory, "**/*.gcda"),
                           recursive=True):
         print("remove:", gcda)

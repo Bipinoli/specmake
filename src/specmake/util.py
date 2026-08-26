@@ -31,9 +31,32 @@ import json
 import logging
 import os
 import shutil
+import sys
 from typing import Callable, Iterable, Optional
 
 from specitems import ItemMapper, get_arguments
+
+
+def _command_argv(argv: list[str] | None) -> list[str]:
+    return sys.argv if argv is None else argv
+
+
+def command_arguments(argv: list[str] | None) -> list[str]:
+    """
+    Is the argument vector of a command without the program name.
+
+    A default argument binds its value at import, so an entry point
+    which defaults to sys.argv keeps the vector of that moment for the
+    life of the process.  A caller which rebinds sys.argv before the
+    call still gets the original vector.  Take None for the vector of
+    the process and read sys.argv here instead.
+    """
+    return _command_argv(argv)[1:]
+
+
+def command_name(argv: list[str] | None) -> str:
+    """ Is the name of the command which runs. """
+    return os.path.basename(_command_argv(argv)[0])
 
 
 def write_json(path: str, data: dict) -> None:

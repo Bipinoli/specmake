@@ -33,10 +33,11 @@ import datetime
 import json
 import logging
 from pathlib import Path
-import sys
 
 from specitems import (Item, ItemCache, ItemCacheConfig,
                        get_item_cache_arguments)
+
+from .util import command_arguments
 
 
 @dataclasses.dataclass
@@ -148,13 +149,13 @@ def _get_arguments(argv: list[str]) -> argparse.Namespace:
                                     add_arguments=(_add_arguments, ))
 
 
-def cliupdatetimeouts(argv: list[str] = sys.argv) -> None:
+def cliupdatetimeouts(argv: list[str] | None = None) -> None:
     """
     Update the test timeouts using the specified test reports.
 
     The target UID and the timeout key are obtained from the test report.
     """
-    args = _get_arguments(argv[1:])
+    args = _get_arguments(command_arguments(argv))
     cache_config = ItemCacheConfig(paths=args.spec_directories,
                                    cache_directory=args.cache_directory,
                                    initialize_links=False,

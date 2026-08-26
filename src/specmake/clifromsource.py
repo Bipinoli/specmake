@@ -40,6 +40,7 @@ from specware import load_specware_config
 from .sourcetospec import (ConfigError, DoxygenContext, DoxygenEnum,
                            DoxygenGroup, DoxygenFile, DoxygenItem,
                            DoxygenTypedef, EMPTY_BRIEF_GAP)
+from .util import command_arguments
 
 
 def _propose_config(ctx: DoxygenContext, config: dict) -> None:
@@ -623,7 +624,7 @@ def _run(args) -> None:
             _print_gaps(result.gaps)
 
 
-def clifromsource(argv: list[str] = sys.argv) -> None:
+def clifromsource(argv: list[str] | None = None) -> None:
     """
     Generate interface items from Doxygen generated XML files using the
     configuration.
@@ -664,7 +665,7 @@ def clifromsource(argv: list[str] = sys.argv) -> None:
                             nargs="*",
                             help="the Doxygen generated XML files")
 
-    args = get_arguments(argv[1:],
+    args = get_arguments(command_arguments(argv),
                          description=clifromsource.__doc__,
                          add_arguments=(_add_arguments, ))
     try:

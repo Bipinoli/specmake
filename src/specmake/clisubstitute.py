@@ -35,6 +35,7 @@ from specitems import (ItemCache, ItemCacheConfig, JSONItemCache,
 
 from .pkgfactory import create_build_item_factory
 from .pkgitems import BuildItemTypeProvider, PackageBuildDirector
+from .util import command_arguments
 
 _ITEM_CACHE = {
     "JSON": JSONItemCache,
@@ -42,7 +43,7 @@ _ITEM_CACHE = {
 }
 
 
-def clisubstitute(argv: list[str] = sys.argv) -> None:
+def clisubstitute(argv: list[str] | None = None) -> None:
     """ Substitute text using a package specification. """
 
     def _add_arguments(parser):
@@ -61,7 +62,7 @@ def clisubstitute(argv: list[str] = sys.argv) -> None:
                             help="the UID of the build item used to "
                             "perform the substitution")
 
-    args = get_item_cache_arguments(argv[1:],
+    args = get_item_cache_arguments(command_arguments(argv),
                                     description=clisubstitute.__doc__,
                                     add_arguments=(_add_arguments, ))
     cache_config = ItemCacheConfig(paths=args.spec_directories,

@@ -30,14 +30,13 @@ according to the configuration file.
 import argparse
 import logging
 import os
-import sys
 
 from specware import run_command
 
 from .pkgitems import BuildItem
 from .pkgworkspace import (BuildspaceConfig, WorkspaceConfig, create_workspace,
                            export_to_buildspace)
-from .util import get_build_arguments
+from .util import command_arguments, get_build_arguments
 
 
 def _get_arguments(argv: list[str]) -> argparse.Namespace:
@@ -75,12 +74,12 @@ def _make_deployment_directory(workspace_package: BuildItem) -> str:
     return deployment_directory
 
 
-def clibuild(argv: list[str] = sys.argv) -> None:
+def clibuild(argv: list[str] | None = None) -> None:
     """
     Create a package workspace directory according to the configuration files.
     """
 
-    args = _get_arguments(argv[1:])
+    args = _get_arguments(command_arguments(argv))
     workspace_directory = os.path.abspath(args.config_directory)
     os.chdir(workspace_directory)
 

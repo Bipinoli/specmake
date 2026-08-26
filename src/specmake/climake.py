@@ -26,13 +26,13 @@
 
 import argparse
 import logging
-import sys
 
 from specitems import (ItemCache, ItemCacheConfig, get_item_cache_arguments,
                        verify_specification_format)
 
 from .pkgfactory import create_build_item_factory
 from .pkgitems import BuildItemTypeProvider, PackageBuildDirector
+from .util import command_arguments
 
 
 def _get_arguments(argv: list[str]) -> argparse.Namespace:
@@ -64,10 +64,10 @@ def _get_arguments(argv: list[str]) -> argparse.Namespace:
                                     add_arguments=(_add_arguments, ))
 
 
-def climake(argv: list[str] = sys.argv) -> None:
+def climake(argv: list[str] | None = None) -> None:
     """ Make items of a package. """
 
-    args = _get_arguments(argv[1:])
+    args = _get_arguments(command_arguments(argv))
     cache_config = ItemCacheConfig(paths=args.spec_directories,
                                    cache_directory=args.cache_directory)
     type_provider = BuildItemTypeProvider({})

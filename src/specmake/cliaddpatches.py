@@ -25,12 +25,13 @@
 # POSSIBILITY OF SUCH DAMAGE.
 
 import argparse
-import sys
 
 from specitems import load_data, save_data
 
+from .util import command_arguments
 
-def cliaddpatches(argv: list[str] = sys.argv) -> None:
+
+def cliaddpatches(argv: list[str] | None = None) -> None:
     """ Add patches to an item. """
     parser = argparse.ArgumentParser(description=cliaddpatches.__doc__)
     parser.add_argument(
@@ -42,7 +43,7 @@ def cliaddpatches(argv: list[str] = sys.argv) -> None:
                         metavar="PATCH",
                         nargs="+",
                         help="a patch file")
-    args = parser.parse_args(argv[1:])
+    args = parser.parse_args(command_arguments(argv))
     data = load_data(args.item_file)
     data.pop("_file", None)
     if not args.append:
