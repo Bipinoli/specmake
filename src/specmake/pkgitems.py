@@ -46,7 +46,7 @@ from specitems import (EnabledSet, Item, ItemCache, ItemDataByUID,
                        SphinxContent, SphinxMapper, TextContent,
                        link_is_enabled, augment_glossary_terms, data_digest,
                        is_enabled, pickle_load_data_by_uid, to_iterable)
-from specware import SpecWareTypeProvider, run_command
+from specware import (SpecWareTypeProvider, gather_build_files, run_command)
 
 
 def load_specmake_types() -> ItemDataByUID:
@@ -952,6 +952,44 @@ def _gather_build_uids_of_package(item: Item, build_uids: set[str]) -> None:
             _gather_build_uids_of_package(dependency, build_uids)
 
 
+def _find_build_roots(item_cache: ItemCache) -> list[Item]:
+    return sorted(
+        (item for item in item_cache.values() if "build-uids" in item),
+        key=lambda item: item.uid)
+
+
+def _group_build_roots_by_component(
+        roots: list[Item]) -> Iterator[tuple[str, Iterator[Item]]]:
+    return itertools.groupby(roots,
+                             key=lambda root: root.view["component"].uid)
+
+
+def _print_heading(text: str) -> None:
+    print(text)
+    print("=" * len(text))
+
+
+def _print_file_tree(paths: Iterable[str]) -> None:
+    for path in sorted(paths):
+        print(path)
+
+
+def _gather_available_targets(item_cache: ItemCache,
+                              enabled_set: list[str]) -> list[str]:
+    return [
+        item.uid.lstrip("/") for item in item_cache.values()
+        if item.get("type") == "requirement"
+        and item.get("non-functional-type") == "design-target"
+        and item.is_enabled(enabled_set)
+    ]
+
+
+def _print_targets(uids: list[str], component_uid: str) -> None:
+    _print_heading(f"{component_uid}: targets")
+    for uid in sorted(uids):
+        print(uid)
+
+
 class PackageBuildDirector(dict):
     """
     The package build director contains the package build state and runs the
@@ -1096,6 +1134,52 @@ class PackageBuildDirector(dict):
                     kwargs["component"] = component
                     kwargs["force"] = is_forced
                     getattr(builder, method)(**kwargs)
+
+    def _gather_build_status(self, item: Item) -> set[str]:
+        """ Must run inside component.scope():
+        enabled-set resolution depends on the active selection. """
+        component = item.view["component"]
+        with component.scope():
+            config = {
+                "arch": item.get("arch"),
+                "bsp": item.get("bsp"),
+                "enabled-set": list(component.selection.enabled_set),
+                "base-directory-map": item.get("base-directory-map", []),
+                "build-uids": item["build-uids"],
+            }
+            return set(
+                gather_build_files(config, self.item_cache, test_header=False))
+
+    def show_list_build(self) -> None:
+        """ Print every build-uids item's file-tree and each component
+        group's targets section, without building anything. """
+        roots = _find_build_roots(self.item_cache)
+        if not roots:
+            raise ValueError(
+                "no item in the loaded spec has a 'build-uids' field -- "
+                "nothing to report on (see _find_build_roots())")
+        groups = [
+            (component_uid, list(group))
+            for component_uid, group in _group_build_roots_by_component(roots)
+        ]
+        first = True
+        for component_uid, group_roots in groups:
+            enabled_set = list(
+                group_roots[0].view["component"].selection.enabled_set)
+            targets = _gather_available_targets(self.item_cache, enabled_set)
+            if not targets:
+                continue
+            if not first:
+                print()
+            first = False
+            _print_targets(targets, component_uid)
+        for _component_uid, group_roots in groups:
+            for root in group_roots:
+                if not first:
+                    print()
+                first = False
+                _print_heading(root.uid)
+                _print_file_tree(self._gather_build_status(root))
 
     def build_package(self,
                       only: Optional[list[str]] = None,

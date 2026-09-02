@@ -437,6 +437,139 @@ def test_packagebuild(caplog, tmpdir, monkeypatch):
     assert command == []
 
 
+def test_packagebuild_show_list_build(caplog, tmp_path, capsys):
+    # /pkg/source/sub-repo is the fixture's only build-uids-bearing item
+    # (see test_reposubset.py) -- reused here rather than adding a new
+    # one, since show_list_build() only cares that an item has a
+    # "build-uids" field, not that it is specifically a RepositorySubset.
+    # No other item in the whole fixture has one (grepped), so this
+    # remains a single-section report despite show_list_build() no
+    # longer taking a uid -- multi-root behavior is exercised separately
+    # below.
+    package = create_package(caplog, tmp_path, Path("spec-packagebuild"),
+                             ["repository-subset"])
+    director = package.director
+    uid = "/pkg/source/sub-repo"
+    subrepo = director[uid]
+    # The fixture's own arch/bsp/base-directory-map default to real BSP
+    # values with unsubstituted "${.:/component/tmpdir}/..." placeholders
+    # (meant to be resolved elsewhere, not usable literally here) -- set
+    # them explicitly so this test exercises only /pkg/steps/build-obj,
+    # the one item added for this test.
+    subrepo.item["arch"] = None
+    subrepo.item["bsp"] = None
+    subrepo.item["base-directory-map"] = []
+    subrepo.item["build-uids"] = ["/pkg/steps/build-obj"]
+
+    director.show_list_build()
+    out = capsys.readouterr().out
+    # A flat list, sorted by full path -- not a nested directory tree --
+    # a report this size realistically gets grepped, and a bare "name"
+    # leaf under a nested directory header carries no path information
+    # once grep strips that header line. dir/nested.c (build-obj's own
+    # source) shows with its full path on one line, not "dir/" then an
+    # indented "nested.c". Only what is actually part of the build shows
+    # at all -- no glyph, no bracketed reason, no excluded/unlinked/
+    # skipped-template entries anywhere: this report answers "what", not
+    # "why". build-obj-conditional (enabled-by: "repository-subset",
+    # currently true -- create_package()'s own enabled-set for this
+    # test, see test_reposubset.py) shows the same bare way as
+    # obj.c/nested.c despite being conditionally, not unconditionally,
+    # enabled -- the report does not distinguish the two.
+    #
+    # The "targets" section, printed before any root's own file
+    # section, comes for free from three pre-existing fixture items
+    # this test does not itself add (tests/spec-packagebuild/rtems/
+    # target-{a,b,disabled}.yml, type: requirement, non-functional-
+    # type: design-target -- used elsewhere, e.g. performance reporting
+    # tests): only target-a (enabled-by: true) is available under this
+    # test's enabled-set and so is the only one listed; target-b (a
+    # compound and/or condition, unmet here) and target-disabled
+    # (enabled-by: false) are both unavailable and so are simply absent,
+    # not listed-and-marked-excluded.
+    assert out == ("/pkg/component: targets\n"
+                   f"{'=' * 23}\n"
+                   "rtems/target-a\n"
+                   "\n"
+                   "/pkg/source/sub-repo\n"
+                   f"{'=' * 20}\n"
+                   "conditional.c\n"
+                   "dir/nested.c\n"
+                   "obj.c\n")
+
+
+def test_packagebuild_show_list_build_no_build_uids():
+    # create_test_director()'s item cache has a "/component" item and
+    # nothing else -- no build-uids field anywhere -- so show_list_build()
+    # has nothing to report on and must say so loudly, not print an
+    # empty report.
+    director = create_test_director()
+    with pytest.raises(ValueError, match="no item in the loaded spec"):
+        director.show_list_build()
+
+
+def test_packagebuild_show_list_build_multiple_roots(caplog, tmp_path, capsys):
+    # show_list_build() takes no uid -- every build-uids-bearing item in the
+    # loaded spec gets its own section, not one silently chosen (see
+    # _find_build_roots()'s docstring: real gr740 defines rtems-qual-only
+    # *and* third-party-qual-only side by side). Three pre-existing
+    # fixture items stand in for three such roots here, deliberately
+    # spanning two different components: /pkg/component (the package
+    # root -- the very item the pre-rename test above asserted could
+    # *not* be used as a single required uid) and /pkg/source/sub-repo
+    # share ONE component (/pkg/component itself -- confirmed directly:
+    # item_cache["/pkg/source/sub-repo"].view["component"].uid ==
+    # "/pkg/component"), the same real shape as gr740's rtems-qual-only/
+    # third-party-qual-only pair; /pkg/sub/component is a genuinely
+    # different component (its own "sub-arch"/"gr712rc" component,
+    # exercised by test_packagebuild above), standing in for a second,
+    # separate bsp/variant.
+    package = create_package(caplog, tmp_path, Path("spec-packagebuild"),
+                             ["repository-subset"])
+    director = package.director
+    for uid in ("/pkg/component", "/pkg/source/sub-repo",
+                "/pkg/sub/component"):
+        root = director[uid]
+        root.item["arch"] = None
+        root.item["bsp"] = None
+        root.item["base-directory-map"] = []
+        root.item["build-uids"] = ["/pkg/steps/build-obj"]
+
+    director.show_list_build()
+    out = capsys.readouterr().out
+    # Each root gets its own fully-qualified heading (uid, then a
+    # matching "=" underline, see _print_heading()) regardless of
+    # grouping -- landing anywhere in a report that runs to several
+    # thousand lines should never leave you guessing which bsp you're
+    # looking at. /pkg/component and /pkg/source/sub-repo still share
+    # one "targets" section (they share a component) despite having two
+    # separate root headings; /pkg/sub/component, a genuinely different
+    # component, gets its own.
+    targets_component = "/pkg/component: targets"
+    targets_subcomponent = "/pkg/sub/component: targets"
+    # Trailing "\n" on each root needle: without it, "/pkg/component\n"
+    # + 14 "="s would also match as a prefix of "/pkg/component:
+    # targets"'s own (23 "="s) underline -- the "\n" only follows a real
+    # heading's underline, whose length exactly matches its own heading
+    # text.
+    root_component = "/pkg/component\n" + "=" * len("/pkg/component") + "\n"
+    root_subrepo = ("/pkg/source/sub-repo\n" +
+                    "=" * len("/pkg/source/sub-repo") + "\n")
+    root_subcomponent = ("/pkg/sub/component\n" +
+                         "=" * len("/pkg/sub/component") + "\n")
+    assert out.count(targets_component) == 1
+    assert out.count(targets_subcomponent) == 1
+    assert out.count(root_component) == 1
+    assert out.count(root_subrepo) == 1
+    assert out.count(root_subcomponent) == 1
+    # Both "targets" sections print before any root's own file section:
+    # the compact part comes first, the (much larger, on a real build)
+    # file-level detail comes after.
+    assert (out.index(targets_component) < out.index(targets_subcomponent) <
+            out.index(root_component) < out.index(root_subrepo) <
+            out.index(root_subcomponent))
+
+
 def test_build_item_run(caplog, tmp_path):
     package = create_package(caplog, tmp_path, Path("spec-packagebuild"),
                              ["test-make"])

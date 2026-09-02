@@ -56,6 +56,11 @@ def _get_arguments(argv: list[str]) -> argparse.Namespace:
         parser.add_argument("--cache-directory",
                             help="the configuration cache directory",
                             default="config-cache")
+        parser.add_argument(
+            "--list-build",
+            action="store_true",
+            help="list the files and targets in the current build "
+            "configuration, without building")
         parser.add_argument('config_files', nargs='+')
 
     return get_build_arguments(argv, add_arguments=(_add_arguments, ))
@@ -90,6 +95,10 @@ def clibuild(argv: list[str] | None = None) -> None:
         cache_directory=os.path.abspath(args.cache_directory),
         verify_specification_format=not args.no_spec_verify)
     workspace = create_workspace(workspace_config)
+
+    if args.list_build:
+        workspace.director.show_list_build()
+        return
 
     deployment_directory = _make_deployment_directory(
         workspace.director.package)
