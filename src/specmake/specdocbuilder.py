@@ -976,6 +976,8 @@ class SpecDocumentBuilder(DocumentBuilder):
     def add_item(self, content: TextContent, item: Item) -> None:
         """ Add the item documentation to the content. """
         content.register_license_and_copyrights_of_item(item)
+        self.mapper.copyrights_by_license.setdefault(
+            item["SPDX-License-Identifier"], set()).update(item["copyrights"])
         with self.mapper.scope(item):
             with content.directive("raw", "latex"):
                 content.add("\\clearpage")
