@@ -1,0 +1,16 @@
+SPDX-License-Identifier: CC-BY-SA-4.0 OR BSD-2-Clause
+copyrights:
+- Copyright (C) 2026 embedded brains GmbH & Co. KG
+enabled-by: true
+links:
+- role: spec-member
+  uid: root
+spec-description: null
+spec-example: null
+spec-info:
+  list:
+    description: null
+    spec-type: pkg-test-runner-do-not-run-entry
+spec-name: Test Runner Do Not Run List
+spec-type: pkg-test-runner-do-not-run-list
+type: spec

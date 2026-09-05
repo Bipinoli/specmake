@@ -240,7 +240,19 @@ def _get_timeout(runner: _Data, timeouts: dict[str, list[float]],
 
 
 def _get_do_not_run(runner: _Data) -> set[str]:
-    return set(runner.get("do-not-run", []))
+    """
+    Get the names of the test executables which do not run.
+
+    An entry of the list is either a plain name or a group which names its
+    test executables and the reason why they do not run.
+    """
+    names: set[str] = set()
+    for entry in runner.get("do-not-run", []):
+        if isinstance(entry, str):
+            names.add(entry)
+        else:
+            names.update(entry["executables"])
+    return names
 
 
 def _did_not_run(path: str, digest: str) -> RunnerReport:
@@ -250,7 +262,8 @@ def _did_not_run(path: str, digest: str) -> RunnerReport:
         "command-line": "",
         "start-time": now_utc(),
         "output": ["This executable did not run."],
-        "duration": 0.0
+        "duration": 0.0,
+        "do-not-run": True
     }
     augment_report(report, report["output"])
     return report

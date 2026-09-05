@@ -24,9 +24,10 @@ spec-info:
         spec-type: str
       do-not-run:
         description: |
-          It shall be the list of test executable names which should not be
-          run.
-        spec-type: list-str
+          It shall be the list of test executables which the target does not
+          run.  An entry with a reason justifies each coverage gap which only
+          its test executables reach.
+        spec-type: pkg-test-runner-do-not-run-list
       max-retry-count-per-executable:
         description: |
           It shall be the maximum count of retries per executable.  With a

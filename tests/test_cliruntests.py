@@ -51,6 +51,7 @@ _EXECUTABLES = [
     "crash.exe",
     "discarded.exe",
     "do-not-run.exe",
+    "no-reason.exe",
     "skipped.norun.exe",
 ]
 
@@ -115,7 +116,7 @@ def test_run(tmp_path, capsys):
     # The scan is recursive, skips *.norun.exe and non executables
     assert sorted(reports.keys()) == [
         "crash.exe", "discarded.exe", "do-not-run.exe", "hello.exe",
-        "ts-fail.exe", "ts-pass.exe"
+        "no-reason.exe", "ts-fail.exe", "ts-pass.exe"
     ]
 
     # The command is fully substituted and drops the disabled argument
@@ -129,8 +130,10 @@ def test_run(tmp_path, capsys):
     assert _SIMULATOR in description
     assert "${test_program}" in description
 
-    # A do-not-run executable has no command line
+    # A do-not-run executable has no command line, whether its entry is a
+    # group with a reason or a plain name
     assert reports["do-not-run.exe"]["command-line"] == ""
+    assert reports["no-reason.exe"]["command-line"] == ""
 
     # A discard pattern turns a run into an error
     assert "lost the connection" in reports["discarded.exe"]["error"]
@@ -152,6 +155,7 @@ def test_run(tmp_path, capsys):
     assert tests["crash.exe"]["message"] == "no end of test message"
     assert tests["discarded.exe"]["status"] == "failed"
     assert tests["do-not-run.exe"]["status"] == "skipped"
+    assert tests["no-reason.exe"]["status"] == "skipped"
 
     # The test suite ran to its end, so its failed test case reports the
     # failure and there is no test for the executable
@@ -159,7 +163,7 @@ def test_run(tmp_path, capsys):
 
     summary = results["summary"]
     assert summary["tests"] == len(results["tests"])
-    assert summary["skipped"] == 1
+    assert summary["skipped"] == 2
 
     # The report satisfies the schema of the Common Test Report Format
     validate_ctrf_report(report)
@@ -316,7 +320,7 @@ def test_reuse(tmp_path):
     # identical only if nothing ran.
     assert _run(tmp_path, "--reuse", str(previous)) == 1
     reports = _load(tmp_path / "test-log.json")["reports"]
-    assert len(reports) == 6
+    assert len(reports) == 7
     assert reports == expected
 
 
@@ -332,7 +336,7 @@ def test_reuse_of_another_test_runner(tmp_path, caplog):
     test_log = _load(tmp_path / "test-log.json")
     assert test_log["test-runner-hash"] != previous_hash
     assert "cannot reuse the reports" in caplog.text
-    assert len(test_log["reports"]) == 6
+    assert len(test_log["reports"]) == 7
 
 
 def test_reuse_of_invalid_json(tmp_path, capsys):

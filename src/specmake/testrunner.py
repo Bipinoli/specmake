@@ -43,6 +43,52 @@ from .testoutputparser import augment_report
 from .util import now_utc
 
 
+def gather_do_not_run(item: Item) -> list[dict[str, Any]]:
+    """
+    Gather the do not run entries of the test runner item and of the items
+    which link to it.
+
+    Each entry of the result names the test executables of one group, the
+    reason why they do not run, and the item which excludes them.  A plain
+    name in the specification item states no reason, so the reason of its
+    group is None.
+
+    The groups of the test runner item come first in the order of the item.
+    The groups of the items which link to it follow in the order of their
+    unique identifier, so the result does not depend on the order of the
+    links.
+    """
+    groups: list[dict[str, Any]] = []
+
+    def add(entries: Any, source_uid: str) -> None:
+        for entry in entries:
+            if isinstance(entry, str):
+                executables = [entry]
+                justification = None
+            else:
+                executables = list(entry["executables"])
+                justification = entry["justification"]
+            groups.append({
+                "executables": sorted(executables),
+                "justification": justification,
+                "source-uid": source_uid
+            })
+
+    add(item["do-not-run"], item.uid)
+    own = len(groups)
+    for link in item.links_to_children("test-runner-do-not-run"):
+        add(link["do-not-run"], link.item.uid)
+    groups[own:] = sorted(groups[own:],
+                          key=lambda group:
+                          (group["source-uid"], group["executables"]))
+    return groups
+
+
+def do_not_run_names(groups: list[dict[str, Any]]) -> set[str]:
+    """ Get the names of the test executables which do not run. """
+    return set(name for group in groups for name in group["executables"])
+
+
 class TestLog(DirectoryState):
     """ Maintains a test log. """
 
@@ -75,6 +121,7 @@ class TestRunner(BuildItem):
         super().__init__(director, item)
         self._executable = "/dev/null"
         self._executables: list[RunnerExecutable] = []
+        self._do_not_run_groups: list[dict[str, Any]] = []
         self.mapper.add_get_value(f"{self.item.type}:/test-executable",
                                   self._get_test_executable)
 
@@ -93,7 +140,10 @@ class TestRunner(BuildItem):
         differs from the hash in the test log, the test reports are not reused
         and all tests are run again.
         """
-        return self.digest()
+        return data_digest({
+            "digest": self.digest(),
+            "do-not-run": gather_do_not_run(self.item)
+        })
 
     def run_tests(self,
                   executables: list[RunnerExecutable]) -> list[RunnerReport]:
@@ -138,9 +188,7 @@ class TestRunner(BuildItem):
         assert isinstance(source, DirectoryState)
         reports: list[RunnerReport] = []
         executables: list[RunnerExecutable] = []
-        do_not_run: set[str] = set(self["do-not-run"])
-        for link in self.item.links_to_children("test-runner-do-not-run"):
-            do_not_run.update(link["do-not-run"])
+        do_not_run = do_not_run_names(self._do_not_run_groups)
         default_timeout = self["default-timeout-in-seconds"]
         min_timeout = self["min-timeout-in-seconds"]
         timeout_scaler = self["timeout-scaler"]
@@ -165,6 +213,7 @@ class TestRunner(BuildItem):
                     logging.info("%s: do not run: %s", self.uid, path)
                     report = TestRunner.run_tests(
                         self, [RunnerExecutable(path, digest, 0.0)])[0]
+                    report["do-not-run"] = True
                     augment_report(report, report["output"])
                     reports.append(report)
                 else:
@@ -190,6 +239,7 @@ class TestRunner(BuildItem):
         target = self.item.parent("target")
         assert target.uid == self.input("target").uid
         config_key, timeout_key = self._get_config_and_timeout_keys()
+        self._do_not_run_groups = gather_do_not_run(self.item)
         (reports_by_hash, description,
          report_runner_hash) = log.get_reports_by_hash()
         reports, executables = self._get_reports_and_executables(
@@ -205,6 +255,7 @@ class TestRunner(BuildItem):
         with open(log.file, "w", encoding="utf-8") as dst:
             data = {
                 "build-configuration": config_key,
+                "do-not-run": self._do_not_run_groups,
                 "timeout-key": timeout_key,
                 "duration": time.monotonic() - begin,
                 "end-time": now_utc(),

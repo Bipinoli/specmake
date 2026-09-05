@@ -1,0 +1,33 @@
+SPDX-License-Identifier: CC-BY-SA-4.0 OR BSD-2-Clause
+copyrights:
+- Copyright (C) 2026 embedded brains GmbH & Co. KG
+enabled-by: true
+links:
+- role: spec-member
+  uid: root
+spec-description: null
+spec-example: null
+spec-info:
+  dict:
+    attributes:
+      executables:
+        description: |
+          It shall be the list of names of the test executables of the group.
+        spec-type: list-str
+      justification:
+        description: |
+          It shall be the reason why the test executables of the group do not
+          run.  This reason justifies each coverage gap which only these test
+          executables reach.
+        spec-type: str
+    description: |
+      This set of attributes specifies a group of test executables which the
+      target does not run.  It states the reason why they do not run.
+    mandatory-attributes: all
+  str:
+    description: |
+      It shall be the name of a test executable which the target does not run.
+      The entry states no reason, so it justifies no coverage gap.
+spec-name: Test Runner Do Not Run Entry
+spec-type: pkg-test-runner-do-not-run-entry
+type: spec

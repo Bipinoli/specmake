@@ -14,7 +14,11 @@ discard-patterns:
 - enabled-by: true
   pattern: 'lost the connection'
 do-not-run:
-- do-not-run.exe
+- executables:
+  - do-not-run.exe
+  justification: |
+    The simulator has no device for this test.
+- no-reason.exe
 enabled-by: true
 links: []
 max-process-count: 1
