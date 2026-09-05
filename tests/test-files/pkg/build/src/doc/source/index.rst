@@ -18,6 +18,8 @@ ${.:/document-copyrights}
 
 ${.:/document-bsd-2-clause-copyrights}
 
+${.:/document-third-party-licenses}
+
 ${.:/document-sphinx-title}
 
 ${.:/document-releases}

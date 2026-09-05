@@ -88,6 +88,12 @@ def test_sphinxbuilder(caplog, tmp_path, monkeypatch):
     assert doc.substitute(
         "${.:/document-author}") == "embedded brains GmbH & Co. KG"
     assert doc.substitute("${.:/document-year}") == "2020"
+
+    # The mapper holds the licenses of the taken parts in state which every
+    # mapper shares, and the builder clears it before each run, so clear it
+    # to get the state of a document which takes no part
+    doc.mapper.copyrights_by_license.clear()
+    assert doc.substitute("${.:/document-third-party-licenses}") == ""
     assert doc.substitute(
         "${.:/document-copyright}") == "2020 embedded brains GmbH & Co. KG"
     doc.item["document-copyrights"].append("Copyright (C) 2023 John Doe")
@@ -406,6 +412,18 @@ INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
 CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
 ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 POSSIBILITY OF SUCH DAMAGE.
+
+This document reproduces parts of the
+documentation of other work.  Each part stays
+under the license of its source, which the list
+below names.  The text of such a part comes from
+the source through a generator and carries the
+changes which this document needs.
+
+BSD-2-Clause:
+
+| © 2023 Bob
+| © 2023 embedded brains GmbH & Co. KG
 
 The Title
 *********

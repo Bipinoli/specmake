@@ -382,6 +382,8 @@ class SphinxBuilder(DirectoryState):
         self.mapper.add_get_value(
             f"{my_type}:/document-bsd-2-clause-copyrights",
             self._get_document_bsd_2_clause_copyrights)
+        self.mapper.add_get_value(f"{my_type}:/document-third-party-licenses",
+                                  self._get_document_third_party_licenses)
         self.mapper.add_get_value(f"{my_type}:/document-normal-title",
                                   _get_normal_title)
         self.mapper.add_get_value(f"{my_type}:/document-latex-copyright",
@@ -593,6 +595,38 @@ class SphinxBuilder(DirectoryState):
         copyrights = self._get_copyrights()
         prefix = ctx.args if ctx.args else ""
         return "\n".join(copyrights[my_license].get_statements(f"{prefix}| ©"))
+
+    def _get_document_third_party_licenses(self,
+                                           ctx: ItemGetValueContext) -> str:
+        """
+        Get the licenses of the parts which the document takes from another
+        source, with the copyright holders of each.
+
+        The result is empty where the document takes no such part, so a
+        document of one license states nothing.
+        """
+        my_license = self["document-license"]
+        copyrights = self._get_copyrights()
+        others = sorted(the_license for the_license in copyrights
+                        if the_license != my_license)
+        if not others:
+            return ""
+        prefix = ctx.args if ctx.args else ""
+        lines = [
+            f"{prefix}This document reproduces parts of the",
+            f"{prefix}documentation of other work.  Each part stays",
+            f"{prefix}under the license of its source, which the list",
+            f"{prefix}below names.  The text of such a part comes from",
+            f"{prefix}the source through a generator and carries the",
+            f"{prefix}changes which this document needs.", ""
+        ]
+        for the_license in others:
+            lines.append(f"{prefix}{the_license}:")
+            lines.append("")
+            lines.extend(
+                copyrights[the_license].get_statements(f"{prefix}| \u00a9"))
+            lines.append("")
+        return "\n".join(lines[:-1])
 
     def _get_document_bsd_2_clause_copyrights(
             self, _ctx: ItemGetValueContext) -> str:
