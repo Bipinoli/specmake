@@ -10,6 +10,7 @@ spec-example: null
 spec-info:
   str:
     assert:
+    - eq: Apache-2.0
     - eq: CC-BY-SA-4.0 OR BSD-2-Clause
     - eq: CC-BY-SA-4.0 OR MIT
     - eq: CC-BY-SA-4.0
