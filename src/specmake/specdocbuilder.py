@@ -966,6 +966,12 @@ class SpecDocumentBuilder(DocumentBuilder):
         """ Get the items of this document. """
         return self.spec.get_related_interfaces_and_requirements()
 
+    def register_item_copyrights(self) -> None:
+        for item in self.get_items_of_document():
+            self.mapper.copyrights_by_license.setdefault(
+                item["SPDX-License-Identifier"],
+                set()).update(item["copyrights"])
+
     def add_item_changes(self, content: TextContent, item: Item) -> None:
         """ Add the item changes to the content. """
         spec_compare_registry = self.spec_compare_registry

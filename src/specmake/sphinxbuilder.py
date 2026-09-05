@@ -449,8 +449,18 @@ class SphinxBuilder(DirectoryState):
                                                    component)
                 self._add_to_index(component)
 
+    def register_item_copyrights(self) -> None:
+        """
+        Register the licenses and the copyrights of the items which the
+        document holds.
+
+        The front matter of a document names them, and a component which
+        comes later documents the items, so a caller registers them first.
+        """
+
     def run(self) -> None:
         self.mapper.copyrights_by_license.clear()
+        self.register_item_copyrights()
 
         source = self.input("source")
         assert isinstance(source, DirectoryState)
