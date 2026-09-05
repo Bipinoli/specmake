@@ -32,7 +32,74 @@ import os
 import shutil
 from subprocess import run as subprocess_run
 
+from typing import Iterable
+
 from .directorystate import DirectoryState
+
+
+def gcov_stream(report: dict, uid: str) -> None | bytes:
+    """
+    Get the gcov information stream of the test report.
+
+    Return None if the test did not end, if the report carries no gcov
+    information, or if the gcov information is corrupt.
+    """
+    executable = report["executable"]
+    if "line-end-of-test" not in report["info"]:
+        logging.info("%s: discard coverage data of failed test: %s", uid,
+                     executable)
+        return None
+    begin = report.get("line-gcov-info-base64-begin", None)
+    if begin is None:
+        logging.info("%s: discard due to missing gcov info begin: %s", uid,
+                     executable)
+        return None
+    end = report.get("line-gcov-info-base64-end", None)
+    if end is None:
+        logging.info("%s: discard due to missing gcov info end: %s", uid,
+                     executable)
+        return None
+    if report.get("gcov-info-hash",
+                  "") != report.get("gcov-info-hash-calculated", ""):
+        logging.info("%s: discard corrupt report: %s", uid, executable)
+        return None
+    return base64.b64decode("".join(report["output"][begin + 1:end]))
+
+
+def copy_gcno(source_directory: str, files: Iterable[str],
+              destination: str) -> None:
+    """ Copy the GCNO files of the source directory to the destination. """
+    for file in files:
+        if file.endswith(".gcno"):
+            file_dest = file.replace(source_directory, destination)
+            os.makedirs(os.path.dirname(file_dest), exist_ok=True)
+            shutil.copy2(file, file_dest)
+
+
+def remove_gcda(directory: str, uid: str) -> None:
+    """ Remove the GCDA files of the directory. """
+    for file in glob.glob(f"{directory}/**/*.gcda", recursive=True):
+        logging.warning(
+            "%s: remove unexpected *.gcda file in build directory: '%s'", uid,
+            file)
+        os.remove(file)
+
+
+def merge_gcov_stream(stream: bytes, gcov_tool: str,
+                      working_directory: str) -> None:
+    """ Merge the gcov information stream into the GCDA files. """
+    subprocess_run([gcov_tool, "merge-stream"],
+                   check=True,
+                   cwd=working_directory,
+                   input=stream)
+
+
+def move_gcda(source_directory: str, destination: str) -> None:
+    """ Move the GCDA files of the source directory to the destination. """
+    for file in glob.glob(f"{source_directory}/**/*.gcda", recursive=True):
+        file_dest = file.replace(source_directory, destination)
+        os.makedirs(os.path.dirname(file_dest), exist_ok=True)
+        os.replace(file, file_dest)
 
 
 class GCDAProducer(DirectoryState):
@@ -47,19 +114,8 @@ class GCDAProducer(DirectoryState):
 
         logging.info("%s: copy *.gcno files from '%s' to '%s'", self.uid,
                      build.directory, self.directory)
-        for file in build.files():
-            assert not file.endswith(".gcda")
-            if file.endswith(".gcno"):
-                file_dest = file.replace(build.directory, self.directory)
-                os.makedirs(os.path.dirname(file_dest), exist_ok=True)
-                shutil.copy2(file, file_dest)
-
-        gcda_pattern = f"{build.directory}/**/*.gcda"
-        for file in glob.glob(gcda_pattern, recursive=True):
-            logging.warning(
-                "%s: remove unexpected *.gcda file in build directory: '%s'",
-                self.uid, file)
-            os.remove(file)
+        copy_gcno(build.directory, build.files(), self.directory)
+        remove_gcda(build.directory, self.uid)
 
         log = self.input("log")
         assert isinstance(log, DirectoryState)
@@ -73,38 +129,15 @@ class GCDAProducer(DirectoryState):
 
         for report in data["reports"]:
             logging.debug("%s: consider: %s", self.uid, report["executable"])
-            if "line-end-of-test" not in report["info"]:
-                logging.info("%s: discard coverage data of failed test: %s",
-                             self.uid, report["executable"])
-                continue
-            begin = report.get("line-gcov-info-base64-begin", None)
-            if begin is None:
-                logging.info("%s: discard due to missing gcov info begin: %s",
-                             self.uid, report["executable"])
-                continue
-            end = report.get("line-gcov-info-base64-end", None)
-            if end is None:
-                logging.info("%s: discard due to missing gcov info end: %s",
-                             self.uid, report["executable"])
-                continue
-            if report.get("gcov-info-hash",
-                          "") != report.get("gcov-info-hash-calculated", ""):
-                logging.info("%s: discard corrupt report: %s", self.uid,
-                             report["executable"])
+            stream = gcov_stream(report, self.uid)
+            if stream is None:
                 continue
             logging.debug("%s: process: %s", self.uid, report["executable"])
-            gcov_info = base64.b64decode("".join(report["output"][begin +
-                                                                  1:end]))
-            subprocess_run([gcov_tool, "merge-stream"],
-                           check=True,
-                           cwd=cwd,
-                           input=gcov_info)
+            merge_gcov_stream(stream, gcov_tool, cwd)
 
         logging.info("%s: move *.gcda files from '%s' to '%s'", self.uid,
                      build.directory, self.directory)
-        for file in glob.glob(gcda_pattern, recursive=True):
-            file_dest = file.replace(build.directory, self.directory)
-            os.replace(file, file_dest)
+        move_gcda(build.directory, self.directory)
 
         self.create_symbolic_links(self["symbolic-links"])
         self.description.add(f"""Produce GCDA files in directory
