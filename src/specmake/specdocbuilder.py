@@ -947,6 +947,11 @@ validations, so the corresponding table entries are N/A."""
 class SpecDocumentBuilder(DocumentBuilder):
     """ Builds documents presenting specification items. """
 
+    # True where the document reproduces the documentation of its items.  A
+    # document which only refers to an item reproduces nothing of it and names
+    # no license of it.
+    documents_items = False
+
     def __init__(self, director: PackageBuildDirector, item: Item):
         super().__init__(director, item)
         spec = self.input("spec")
@@ -967,6 +972,8 @@ class SpecDocumentBuilder(DocumentBuilder):
         return self.spec.get_related_interfaces_and_requirements()
 
     def register_item_copyrights(self) -> None:
+        if not self.documents_items:
+            return
         for item in self.get_items_of_document():
             self.mapper.copyrights_by_license.setdefault(
                 item["SPDX-License-Identifier"],

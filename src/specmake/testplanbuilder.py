@@ -42,6 +42,8 @@ def _get_test_case_function(item: Item, ident: str) -> str:
 class TestPlanBuilder(SpecDocumentBuilder):
     """ Builds a test plan document such as SVS or SUITP. """
 
+    documents_items = True
+
     def __init__(self, director: PackageBuildDirector, item: Item):
         super().__init__(director, item)
         my_type = self.item.type

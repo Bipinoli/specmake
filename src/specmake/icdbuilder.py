@@ -42,6 +42,8 @@ def _visit_domain(item: Item, interfaces: list[Item]) -> None:
 class ICDBuilder(SpecDocumentBuilder):
     """ Builds an Interface Control Document (ICD). """
 
+    documents_items = True
+
     def __init__(self, director: PackageBuildDirector, item: Item) -> None:
         super().__init__(director, item)
         my_type = self.item.type

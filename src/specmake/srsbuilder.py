@@ -40,6 +40,8 @@ integrated.""")
 class SRSBuilder(SpecDocumentBuilder):
     """ Builds a Software Requirements Specification (SRS). """
 
+    documents_items = True
+
     def __init__(self, director: PackageBuildDirector, item: Item) -> None:
         super().__init__(director, item)
         my_type = self.item.type
