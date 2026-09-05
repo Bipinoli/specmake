@@ -645,6 +645,7 @@ presented in the following sections.""")
                       test_aggregator: TestAggregator) -> None:
         with ctx.content.section("Coverage data"):
             coverage_count = 0
+            anchors = test_aggregator.anchor_target_uids(self.mapper)
             with ctx.content.directive("toctree"):
                 report = {"report-file": "coverage"}
                 with ctx.file_scope(self.file_path, report):
@@ -662,17 +663,31 @@ presented in the following sections.""")
                             issues: dict[
                                 str, set[str]] = ctx.unexpected_failures.get(
                                     target_uid, {}).get(failure_key, {})
+                            not_run_scopes: set[str] = set()
                             with ctx.content.section(target_section):
                                 for config_data in target_data["configs"]:
                                     if "coverage" not in config_data:
                                         continue
                                     coverage_count += 1
+                                    not_run_scopes.update(
+                                        f"Scope - {coverage['scope']}"
+                                        for coverage in config_data["coverage"]
+                                        if coverage.get("not-run-groups", []))
                                     test_aggregator.add_coverage_of_config(
                                         ctx.content, self.mapper, config_data,
                                         issues)
+                            if not_run_scopes and not anchors:
+                                issues.setdefault(
+                                    "Coverage limits met only with an "
+                                    "excluded test, and no target gives "
+                                    "complete evidence",
+                                    set()).update(not_run_scopes)
                             if issues:
                                 ctx.unexpected_failures.setdefault(
                                     target_uid, {})[failure_key] = issues
+                        if coverage_count:
+                            test_aggregator.add_coverage_across_targets(
+                                ctx.content, self.mapper)
             if coverage_count == 0:
                 ctx.content.add("There is no coverage data available.")
 

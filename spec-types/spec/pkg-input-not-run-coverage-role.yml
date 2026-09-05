@@ -1,0 +1,24 @@
+SPDX-License-Identifier: CC-BY-SA-4.0 OR BSD-2-Clause
+copyrights:
+- Copyright (C) 2026 embedded brains GmbH & Co. KG
+enabled-by: true
+links:
+- role: spec-member
+  uid: root
+- role: spec-refinement
+  spec-key: name
+  spec-value: not-run-coverage
+  uid: pkg-input-role
+spec-description: null
+spec-example: null
+spec-info:
+  dict:
+    attributes: {}
+    description: |
+      It defines the not run coverage input role of links.  A link of this
+      role gives a test aggregator the coverage of the tests which a target
+      does not run.
+    mandatory-attributes: all
+spec-name: Not Run Coverage Input Link Role
+spec-type: pkg-input-not-run-coverage-role
+type: spec

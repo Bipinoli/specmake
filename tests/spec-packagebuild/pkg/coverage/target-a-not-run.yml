@@ -1,12 +1,12 @@
 SPDX-License-Identifier: CC-BY-SA-4.0 OR BSD-2-Clause
 copyrights:
-- Copyright (C) 2025 embedded brains GmbH & Co. KG
+- Copyright (C) 2026 embedded brains GmbH & Co. KG
 copyrights-by-license: {}
 directory: ${.:/component/deployment-directory}
-directory-state-type: test-log
-enabled-by: target-b
+directory-state-type: explicit
+enabled-by: true
 files:
-- file: test-log-rsb.json
+- file: not-run-coverage.json
   hash: null
 hash: null
 links:
@@ -17,20 +17,14 @@ links:
 - hash: null
   name: target
   role: input
-  uid: ../../rtems/target-b
+  uid: ../../rtems/target-a
 - hash: null
   name: build-configuration
   role: input
   uid: ../build-config
-- role: test-procedure
-  uid: ../component
 - hash: null
-  name: test-log
+  name: not-run-coverage
   role: input-to
-  uid: ../steps/aggregate-test-results-2
-- hash: null
-  name: test-log
-  role: input-to
-  uid: ../steps/aggregate-test-results-3
+  uid: ../steps/aggregate-test-results
 pkg-type: directory-state
 type: pkg

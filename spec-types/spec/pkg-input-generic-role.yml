@@ -67,6 +67,10 @@ links:
   uid: pkg-input-role
 - role: spec-refinement
   spec-key: name
+  spec-value: other-log
+  uid: pkg-input-role
+- role: spec-refinement
+  spec-key: name
   spec-value: package-changes
   uid: pkg-input-role
 - role: spec-refinement

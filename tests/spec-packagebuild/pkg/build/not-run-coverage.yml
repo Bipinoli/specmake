@@ -1,0 +1,37 @@
+SPDX-License-Identifier: CC-BY-SA-4.0 OR BSD-2-Clause
+copyrights:
+- Copyright (C) 2026 embedded brains GmbH & Co. KG
+copyrights-by-license: {}
+directory: ${.:/component/build-directory}/not-run
+directory-state-type: not-run-coverage
+enabled-by: not-run-coverage
+files:
+- file: not-run-coverage.json
+  hash: null
+gcda-sub-directory: sub
+gcov: my-gcov
+gcov-tool: my-gcov-tool
+gcov-tool-working-directory: ${../build/bsp:/directory}
+gcovr: my-gcovr
+gcovr-working-directory: ${../build/bsp:/directory}
+hash: null
+links:
+- hash: null
+  name: component
+  role: input
+  uid: ../component
+- hash: null
+  name: build
+  role: input
+  uid: ../build/bsp
+- hash: null
+  name: log
+  role: input
+  uid: ../test-logs/not-run
+- hash: null
+  name: other-log
+  role: input
+  uid: ../test-logs/not-run-other
+pkg-type: directory-state
+scope: Scope
+type: pkg

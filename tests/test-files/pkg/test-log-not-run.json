@@ -1,0 +1,98 @@
+{
+    "do-not-run": [
+        {
+            "executables": [
+                "excluded-ethernet.exe"
+            ],
+            "justification": "The target has no Ethernet device.\n",
+            "source-uid": "/pkg/test-runner/dummy"
+        },
+        {
+            "executables": [
+                "excluded-nowhere.exe"
+            ],
+            "justification": "The test needs a second board.\n",
+            "source-uid": "/pkg/test-runner/dummy"
+        },
+        {
+            "executables": [
+                "excluded-silent.exe"
+            ],
+            "justification": null,
+            "source-uid": "/pkg/test-runner/dummy"
+        },
+        {
+            "executables": [
+                "of-another-suite.exe"
+            ],
+            "justification": "The test belongs to another test suite.\n",
+            "source-uid": "/pkg/test-runner/dummy"
+        }
+    ],
+    "reports": [
+        {
+            "do-not-run": true,
+            "executable": "/build/excluded-ethernet.exe",
+            "info": {
+                "line-end-of-test": 1
+            },
+            "line-gcov-info-base64-begin": 2,
+            "line-gcov-info-base64-end": 4,
+            "output": [
+                "*** BEGIN OF TEST X ***",
+                "*** END OF TEST X ***",
+                "*** BEGIN OF GCOV INFO BASE64 ***",
+                "Z2NmbkIwNFIAAACVL29wdA==",
+                "*** END OF GCOV INFO BASE64 ***"
+            ]
+        },
+        {
+            "do-not-run": true,
+            "executable": "/build/excluded-nowhere.exe",
+            "info": {
+                "line-end-of-test": 1
+            },
+            "line-gcov-info-base64-begin": 2,
+            "line-gcov-info-base64-end": 4,
+            "output": [
+                "*** BEGIN OF TEST X ***",
+                "*** END OF TEST X ***",
+                "*** BEGIN OF GCOV INFO BASE64 ***",
+                "Z2NmbkIwNFIAAACVL29wdA==",
+                "*** END OF GCOV INFO BASE64 ***"
+            ]
+        },
+        {
+            "do-not-run": true,
+            "executable": "/build/excluded-silent.exe",
+            "info": {
+                "line-end-of-test": 1
+            },
+            "line-gcov-info-base64-begin": 2,
+            "line-gcov-info-base64-end": 4,
+            "output": [
+                "*** BEGIN OF TEST X ***",
+                "*** END OF TEST X ***",
+                "*** BEGIN OF GCOV INFO BASE64 ***",
+                "Z2NmbkIwNFIAAACVL29wdA==",
+                "*** END OF GCOV INFO BASE64 ***"
+            ]
+        },
+        {
+            "executable": "/build/runs-here.exe",
+            "info": {
+                "line-end-of-test": 1
+            },
+            "line-gcov-info-base64-begin": 2,
+            "line-gcov-info-base64-end": 4,
+            "output": [
+                "*** BEGIN OF TEST X ***",
+                "*** END OF TEST X ***",
+                "*** BEGIN OF GCOV INFO BASE64 ***",
+                "Z2NmbkIwNFIAAACVL29wdA==",
+                "*** END OF GCOV INFO BASE64 ***"
+            ]
+        }
+    ],
+    "target": "/rtems/target-a"
+}

@@ -36,6 +36,9 @@ from specitems import (Item, ROW_SPAN, SphinxContent, TextContent,
 from specware import CodeMapper
 
 from .directorystate import DirectoryState
+from .notruncoverage import (add_coverage_across_targets, add_not_run_section,
+                             is_complete_evidence, not_run_by_scope_of,
+                             not_run_issues, not_run_spots)
 from .pkgitems import BuildItem, BuildItemMapper, PackageBuildDirector
 from .rtems import RTEMSItemCache
 from .sphinxbuilder import spacify
@@ -191,17 +194,28 @@ class _CoverageSummary:
         self.verifications = copy.deepcopy(coverage["verifications"])
         self.html_directory = coverage["html-directory"]
         self.limits_by_area = coverage["limits-by-area"]
+        self.not_run_groups = coverage.get("not-run-groups", [])
+        self.not_run_spots = not_run_spots(self.not_run_groups)
+        self.not_run_counts = [{
+            "function": 0,
+            "line": 0,
+            "branch": 0
+        } for _ in self.not_run_groups]
         self.good_files: list[dict] = []
         self.justified_files: list[dict] = []
+        self.not_run_files: list[dict] = []
         self.bad_files: list[dict] = []
         self.overall: dict = {}
         self.issues: dict[str, set[str]] = {}
+        self._spots_of_file: dict[str, int] = {}
         for kind in _COVERAGE_KINDS:
             self.overall[f"{kind}-covered"] = 0
             self.overall[f"{kind}-justified"] = 0
+            self.overall[f"{kind}-not-run"] = 0
             self.overall[f"{kind}-total"] = 0
             self.overall[f"per-file-{kind}-covered"] = 0
             self.overall[f"per-file-{kind}-justified"] = 0
+            self.overall[f"per-file-{kind}-not-run"] = 0
             self.overall[f"per-file-{kind}-total"] = 0
         for file_coverage in coverage["files"]:
             self._add_coverage_of_file(mapper, file_coverage)
@@ -212,6 +226,7 @@ class _CoverageSummary:
             self._add_coverage_status(mapper, self.overall,
                                       limits[f"{kind}-min-percent"], True,
                                       kind)
+        self._add_not_run_issues()
         if self.verifications:
             unused: list[str] = sorted(
                 set(justification[0]
@@ -224,6 +239,16 @@ class _CoverageSummary:
                                    set()).update(f"spec:{spacify(uid)}"
                                                  for uid in unused)
 
+    def _add_not_run_issues(self) -> None:
+        """ Add the issues of the excluded tests. """
+        for key, names in not_run_issues(self.not_run_groups).items():
+            self.issues.setdefault(key, set()).update(names)
+
+    def add_not_run_section(self, content: SphinxContent) -> None:
+        """ Add the section which states the excluded tests of the target. """
+        add_not_run_section(content, self.scope, self.not_run_groups,
+                            self.not_run_counts)
+
     def get_issues(self, issues: dict[str, set[str]]) -> None:
         """ Get the detected coverage issues. """
         for key, items in self.issues.items():
@@ -233,7 +258,8 @@ class _CoverageSummary:
                              mapper: BuildItemMapper) -> None:
         """ Add a coverage section to the content. """
         with content.section(f"Scope - {self.scope}"):
-            if any((self.good_files, self.justified_files, self.bad_files)):
+            if any((self.good_files, self.justified_files, self.not_run_files,
+                    self.bad_files)):
                 _add_coverage_table(
                     content, mapper,
                     "There are no files with unjustified coverage issues.",
@@ -244,6 +270,12 @@ class _CoverageSummary:
                     "There are no files with justified coverage issues.",
                     "The following table lists files "
                     "with justified coverage issues.", self.justified_files)
+                _add_coverage_table(
+                    content, mapper,
+                    "There are no files with coverage issues justified by an "
+                    "excluded test.",
+                    "The following table lists files with coverage issues "
+                    "justified by an excluded test.", self.not_run_files)
                 _add_coverage_table(
                     content, mapper,
                     "There are no files without coverage issues.",
@@ -337,7 +369,7 @@ class _CoverageSummary:
         else:
             overall_scope = "per-file-"
         for kind in _COVERAGE_KINDS:
-            for what in ("covered", "justified", "total"):
+            for what in ("covered", "justified", "not-run", "total"):
                 key = f"{kind}-{what}"
                 self.overall[f"{overall_scope}{key}"] += stats[key]
             self._add_coverage_status(mapper, stats,
@@ -356,10 +388,28 @@ class _CoverageSummary:
                                                  for uid in unrelated)
         if "error" in stats:
             self.bad_files.append(stats)
+        elif "not-run" in stats:
+            self.not_run_files.append(stats)
         elif "justified" in stats:
             self.justified_files.append(stats)
         else:
             self.good_files.append(stats)
+
+    def _take_not_run_spot(self, stats: dict, spot: str, kind: str) -> bool:
+        """
+        Take the spot as reached by an excluded test.
+
+        Return True if an excluded test of this target reaches the spot on
+        another target.
+        """
+        index = self._spots_of_file.get(spot, None)
+        if index is None:
+            return False
+        stats["not-run"] = True
+        stats[f"{kind}-justified"] += 1
+        stats[f"{kind}-not-run"] += 1
+        self.not_run_counts[index][kind] += 1
+        return True
 
     def _add_line_stats(self, stats: dict, line: dict,
                         spot_to_justification: _SpotToJustification) -> None:
@@ -370,6 +420,8 @@ class _CoverageSummary:
             line_no = line["line_number"]
             justification = spot_to_justification.pop(f"line/{line_no}", None)
             if justification is None:
+                if self._take_not_run_spot(stats, f"line/{line_no}", "line"):
+                    return
                 logging.info(
                     "%s: no line coverage gap justification for %s:%s",
                     self.test_aggregator.uid, file_path, line_no)
@@ -412,6 +464,9 @@ class _CoverageSummary:
             justification = spot_to_justification.pop(f"branch/{line_branch}",
                                                       None)
             if justification is None:
+                if self._take_not_run_spot(stats, f"branch/{line_branch}",
+                                           "branch"):
+                    return
                 logging.info(
                     "%s: no branch coverage gap justification for %s:%s",
                     self.test_aggregator.uid, file_path, line_branch)
@@ -452,6 +507,9 @@ class _CoverageSummary:
             justification = spot_to_justification.pop(
                 f"function/{function_name}", None)
             if justification is None:
+                if self._take_not_run_spot(stats, f"function/{function_name}",
+                                           "function"):
+                    return
                 logging.info(
                     "%s: no function coverage gap "
                     "justification for %s() in %s", self.test_aggregator.uid,
@@ -473,17 +531,21 @@ class _CoverageSummary:
         file_link = f"{os.path.basename(file_path)}.{digest}"
         file_link = f"{self.html_directory}/index.{file_link}.html"
         spot_to_justification = self.verifications.pop(file_path, {})
+        self._spots_of_file = self.not_run_spots.get(file_path, {})
         stats = {
             "file-path": file_path,
             "file-link": file_link,
             "branch-covered": 0,
             "branch-justified": 0,
+            "branch-not-run": 0,
             "branch-total": 0,
             "function-covered": 0,
             "function-justified": 0,
+            "function-not-run": 0,
             "function-total": 0,
             "line-covered": 0,
             "line-justified": 0,
+            "line-not-run": 0,
             "line-total": 0
         }
         for line in file_coverage["lines"]:
@@ -515,6 +577,7 @@ class TestAggregator(BuildItem):
         self.report_directory = os.path.dirname(self.report_file)
         self.targets: dict[str, dict] = {}
         self.runtime_measurements: list[_Data] = []
+        self._summaries: None | dict[str, list] = None
         spec = self.input("spec")
         assert isinstance(spec, RTEMSItemCache)
         self.spec = spec
@@ -570,6 +633,7 @@ class TestAggregator(BuildItem):
                           config_key, target_data["uid"])
             for test_log in results.get("test-log", []):
                 self._add_test_reports(spec, test_log, config_data)
+            not_run_by_scope = not_run_by_scope_of(results)
             for coverage in results.get("test-coverage", []):
                 coverage_data = coverage.json_load()
                 scope = coverage["scope"]
@@ -580,6 +644,8 @@ class TestAggregator(BuildItem):
                     "html")["directory"]
                 coverage_data["verifications"] = target_data[
                     "coverage-gap-verifications"].get(scope, {})
+                coverage_data["not-run-groups"] = not_run_by_scope.get(
+                    scope, [])
                 config_data.setdefault("coverage", []).append(coverage_data)
             target_data["configs"].append(config_data)
 
@@ -598,7 +664,8 @@ class TestAggregator(BuildItem):
         results: _Results = {}
         for link, file_state in itertools.chain(
                 self.input_links("test-log"),
-                self.input_links("test-coverage")):
+                self.input_links("test-coverage"),
+                self.input_links("not-run-coverage")):
             assert isinstance(file_state, DirectoryState)
             target = file_state.input("target")
             build_config = file_state.input("build-configuration")
@@ -848,6 +915,38 @@ class TestAggregator(BuildItem):
         content.add_grid_table(rows, [22, 12, 10, 17, 13, 13, 13],
                                font_size=-3)
 
+    def _summaries_of_target(self, mapper: BuildItemMapper) -> dict[str, list]:
+        """ Get the coverage summaries of each target. """
+        if self._summaries is None:
+            self._summaries = dict((uid, [
+                _CoverageSummary(self, mapper, coverage)
+                for config_data in target_data["configs"]
+                for coverage in config_data.get("coverage", [])
+            ]) for uid, target_data in self.targets.items())
+        return self._summaries
+
+    def anchor_target_uids(self, mapper: BuildItemMapper) -> list[str]:
+        """
+        Get the targets which carry complete code coverage evidence.
+
+        A target carries complete evidence if it has no unjustified coverage
+        issue and if no gap of it rests on an excluded test.  The
+        pre-qualification of the variant needs at least one such target.
+        """
+        return [
+            uid
+            for uid, summaries in self._summaries_of_target(mapper).items()
+            if summaries and all(
+                is_complete_evidence(summary) for summary in summaries)
+        ]
+
+    def add_coverage_across_targets(self, content: SphinxContent,
+                                    mapper: BuildItemMapper) -> None:
+        """ Add the code coverage statement over all targets. """
+        add_coverage_across_targets(content, mapper, self.targets,
+                                    self._summaries_of_target(mapper),
+                                    self.anchor_target_uids(mapper))
+
     def add_coverage_of_config(self, content: SphinxContent,
                                mapper: BuildItemMapper, config_data: _Data,
                                issues: dict[str, set[str]]) -> None:
@@ -876,3 +975,5 @@ class TestAggregator(BuildItem):
                                    font_size=-3)
         for summary in summaries:
             summary.add_coverage_section(content, mapper)
+        for summary in summaries:
+            summary.add_not_run_section(content)

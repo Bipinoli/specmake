@@ -36,8 +36,10 @@ def test_testreporter(caplog, tmpdir):
         "aggregate-test-results", "dummy-images", "target-b", "test-reporter"
     ])
     director = package.director
-    director.build_package(
-        only=["/pkg/deployment/doc-djf-tr", "/pkg/deployment/doc-djf-tr-2"])
+    director.build_package(only=[
+        "/pkg/deployment/doc-djf-tr", "/pkg/deployment/doc-djf-tr-2",
+        "/pkg/deployment/doc-djf-tr-3"
+    ])
 
     def _get_content(uid, name):
         path = Path(director[uid].directory) / "source" / name
@@ -291,6 +293,19 @@ spec:/​rtems/​target-a
 ======================
 
 For this target, the following code coverage issues were present.
+
+- Coverage limits met only with an excluded test, and no target gives complete
+  evidence:
+
+  - Scope - Scope
+
+- Excluded tests which no other target ran:
+
+  - excluded​-second​-board.exe
+
+- Excluded tests without a reason:
+
+  - excluded​-silent.exe
 
 - Insufficient file-specific branch coverage:
 
@@ -1712,7 +1727,7 @@ Overview
     +-+-+-+-+-+-+-+
     | Scope | Functions | Status | Lines | Status | Branches | Status |
     +=+=+=+=+=+=+=+
-    | Scope | 0/0 (N/A) [13+1/15] | **NOK** | 5+1/6 (100%) [113+2/117] | OK | 2/2 (100%) [12+2/16] | OK |
+    | Scope | 0/0 (N/A) [13+2/16] | **NOK** | 5+1/6 (100%) [114+3/119] | OK | 2/2 (100%) [12+4/18] | OK |
     +-+-+-+-+-+-+-+
     | Empty | N/A | **NOK** | N/A | **NOK** | N/A | **NOK** |
     +-+-+-+-+-+-+-+
@@ -1770,6 +1785,26 @@ The following table lists files with justified coverage issues.
 
     \\end{scriptsize}
 
+The following table lists files with coverage issues justified by an excluded test.
+
+.. raw:: latex
+
+    \\begin{scriptsize}
+
+.. table::
+    :class: longtable
+    :widths: 34,13,7,13,7,13,7
+
+    +-+-+-+-+-+-+-+
+    | File | Functions | Status | Lines | Status | Branches | Status |
+    +=+=+=+=+=+=+=+
+    | `cpukit​/score​/src​/notrun.c </pkg/coverage-html/index.notrun.c.b3a74aeb7ec205001b1ac1ee5ac6e8ac.html>`__ | 0+1/1 (100%) | OK | 1+1/2 (100%) | OK | 0+2/2 (100%) | OK |
+    +-+-+-+-+-+-+-+
+
+.. raw:: latex
+
+    \\end{scriptsize}
+
 There are no files without coverage issues.
 
 .. _CoverageTargetNameTargetAScopeEmpty:
@@ -1787,6 +1822,8 @@ Scope - Good
 There are no files with unjustified coverage issues.
 
 There are no files with justified coverage issues.
+
+There are no files with coverage issues justified by an excluded test.
 
 The following table lists files having the expected coverage.
 
@@ -1839,6 +1876,8 @@ The following table lists files with unjustified coverage issues.
 
 There are no files with justified coverage issues.
 
+There are no files with coverage issues justified by an excluded test.
+
 The following table lists files having the expected coverage.
 
 .. raw:: latex
@@ -1857,7 +1896,90 @@ The following table lists files having the expected coverage.
 
 .. raw:: latex
 
-    \\end{scriptsize}"""
+    \\end{scriptsize}
+
+.. _CoverageTargetNameTargetAExcludedTestsScope:
+
+Excluded tests - Scope
+**********************
+
+The following table lists the excluded tests of
+this target.  The counts state how many coverage gaps the reason of the row
+justifies.  A row without a reason justifies no gap.
+
+.. raw:: latex
+
+    \\begin{scriptsize}
+
+.. table::
+    :class: longtable
+    :widths: 24,8,8,8,52
+
+    +-+-+-+-+-+
+    | Tests | Functions | Lines | Branches | Reason |
+    +=+=+=+=+=+
+    | excluded​-ethernet.exe | 1 | 1 | 2 | The target has no Ethernet device. |
+    +-+-+-+-+-+
+    | excluded​-ethernet.exe | 0 | 0 | 0 | **This item states no reason.** Another item states one. |
+    +-+-+-+-+-+
+    | excluded​-second​-board.exe | 0 | 0 | 0 | The test needs a second board. **No other target ran excluded​-second​-board.exe.** |
+    +-+-+-+-+-+
+    | excluded​-silent.exe | 0 | 0 | 0 | **No item states a reason.** |
+    +-+-+-+-+-+
+
+.. raw:: latex
+
+    \\end{scriptsize}
+
+The coverage of these tests comes from the
+following targets: spec:​/rtems​/target​-b.
+
+.. _CoverageTargetNameTargetAExcludedTestsEmpty:
+
+Excluded tests - Empty
+**********************
+
+No test is excluded from this target.
+
+.. _CoverageTargetNameTargetAExcludedTestsGood:
+
+Excluded tests - Good
+*********************
+
+No test is excluded from this target.
+
+.. _CoverageTargetNameTargetAExcludedTestsOverall:
+
+Excluded tests - Overall
+************************
+
+No test is excluded from this target.
+
+.. _CoverageCoverageAcrossTheTargets:
+
+Coverage across the targets
+###########################
+
+.. raw:: latex
+
+    \\begin{scriptsize}
+
+.. table::
+    :class: longtable
+    :widths: 40,20,20,20
+
+    +-+-+-+-+
+    | Target | Excluded tests | Unjustified issues | Complete evidence |
+    +=+=+=+=+
+    | `Name Target A <reports.html#a>`__ | 3 | 3 | no |
+    +-+-+-+-+
+
+.. raw:: latex
+
+    \\end{scriptsize}
+
+**No target meets its coverage limits with the
+tests it runs.**  The coverage evidence of this variant is incomplete."""
 
     def _get_tr2(name):
         return _get_content("/pkg/build/doc-djf-tr-2", name)
@@ -1889,8 +2011,6 @@ Coverage data
 .. toctree::
 
     coverage
-
-There is no coverage data available.
 
 .. _ListOfExpectedTestFailures:
 
@@ -1997,3 +2117,108 @@ spec:/​testsuites/​test-suite-pass
 
   - The tools version has not the expected value.
 .. reports end"""
+
+    # Target B runs every test and meets its coverage limits, so it
+    # carries the coverage evidence of the variant
+    assert _get_tr2("coverage.rst") == """.. _CoverageTargetNameTargetB:
+
+Target - Name Target B
+######################
+
+.. _CoverageTargetNameTargetBOverview:
+
+Overview
+********
+
+.. raw:: latex
+
+    \\begin{scriptsize}
+
+.. table::
+    :class: longtable
+    :widths: 34,13,7,13,7,13,7
+
+    +-+-+-+-+-+-+-+
+    | Scope | Functions | Status | Lines | Status | Branches | Status |
+    +=+=+=+=+=+=+=+
+    | Scope | 1/1 (100%) | OK | 18/18 (100%) | OK | 4/4 (100%) | OK |
+    +-+-+-+-+-+-+-+
+
+.. raw:: latex
+
+    \\end{scriptsize}
+
+.. _CoverageTargetNameTargetBScopeScope:
+
+Scope - Scope
+*************
+
+There are no files with unjustified coverage issues.
+
+There are no files with justified coverage issues.
+
+There are no files with coverage issues justified by an excluded test.
+
+The following table lists files having the expected coverage.
+
+.. raw:: latex
+
+    \\begin{scriptsize}
+
+.. table::
+    :class: longtable
+    :widths: 34,13,7,13,7,13,7
+
+    +-+-+-+-+-+-+-+
+    | File | Functions | Status | Lines | Status | Branches | Status |
+    +=+=+=+=+=+=+=+
+    | `cpukit​/score​/src​/chain.c </pkg/coverage-b-html/index.chain.c.fb6aee9b3f6ae0998256d52130e2c678.html>`__ | 1/1 (100%) | OK | 15/15 (100%) | OK | 2/2 (100%) | OK |
+    +-+-+-+-+-+-+-+
+    | `cpukit​/libc​/string​/flsl.c </pkg/coverage-b-html/index.flsl.c.187042b9c864845145c986de5bb93dd5.html>`__ | N/A | OK | 3/3 (100%) | OK | 2/2 (100%) | OK |
+    +-+-+-+-+-+-+-+
+
+.. raw:: latex
+
+    \\end{scriptsize}
+
+.. _CoverageTargetNameTargetBExcludedTestsScope:
+
+Excluded tests - Scope
+**********************
+
+No test is excluded from this target.
+
+.. _CoverageCoverageAcrossTheTargets:
+
+Coverage across the targets
+###########################
+
+.. raw:: latex
+
+    \\begin{scriptsize}
+
+.. table::
+    :class: longtable
+    :widths: 40,20,20,20
+
+    +-+-+-+-+
+    | Target | Excluded tests | Unjustified issues | Complete evidence |
+    +=+=+=+=+
+    | `Name Target B <reports.html#b>`__ | 0 | 0 | yes |
+    +-+-+-+-+
+
+.. raw:: latex
+
+    \\end{scriptsize}
+
+The coverage evidence of this variant rests on
+the following targets: Name Target B.  Each of them meets its coverage limits with
+the tests it runs."""
+
+    def _get_tr3(name):
+        return _get_content("/pkg/build/doc-djf-tr-3", name)
+
+    # The third aggregator gathers a test log and no coverage at all, so the
+    # report states this and produces no coverage page
+    assert "There is no coverage data available." in _get_tr3("index.rst")
+    assert _get_tr3("coverage.rst") == ""

@@ -52,7 +52,7 @@ def test_svrbuilder(caplog, tmpdir):
     +-+-+-+-+-+-+-+-+-+
     | Target | Configuration | Scope | Functions | Status | Lines | Status | Branches | Status |
     +=+=+=+=+=+=+=+=+=+
-    | `Name Target A <reports.html#a>`__ | `build-config-key <reports.html#abuildconfigkey>`__ | Scope | 0/0 (N/A) [13+1/15] | **NOK** | 5+1/6 (100%) [113+2/117] | OK | 2/2 (100%) [12+2/16] | OK |
+    | `Name Target A <reports.html#a>`__ | `build-config-key <reports.html#abuildconfigkey>`__ | Scope | 0/0 (N/A) [13+2/16] | **NOK** | 5+1/6 (100%) [114+3/119] | OK | 2/2 (100%) [12+4/18] | OK |
     + + +-+-+-+-+-+-+-+
     | | | Empty | N/A | **NOK** | N/A | **NOK** | N/A | **NOK** |
     + + +-+-+-+-+-+-+-+
@@ -86,6 +86,8 @@ Component - spec:/pkg/component
     | `Name Target A <reports.html#a>`__ | `build-config-key <reports.html#abuildconfigkey>`__ | Scope | overall | 100.0% | 100.0% | 100.0% |
     + + +-+-+-+-+-+
     | | | Scope | per-file | 100.0% | 100.0% | 80.0% |
+    + + +-+-+-+-+-+
+    | | | Scope | cpukit/score/src/notrun.c | 100.0% | 100.0% | 80.0% |
     + + +-+-+-+-+-+
     | | | Scope | cpukit/score/src/threadqenqueue.c | 100.0% | 100.0% | 80.0% |
     + + +-+-+-+-+-+

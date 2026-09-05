@@ -1,0 +1,16 @@
+SPDX-License-Identifier: CC-BY-SA-4.0 OR BSD-2-Clause
+copyrights:
+- Copyright (C) 2025 embedded brains GmbH & Co. KG
+enabled-by: aggregate-test-results
+links:
+- hash: null
+  name: component
+  role: input
+  uid: ../component
+- hash: null
+  name: spec
+  role: input
+  uid: rtems-item-cache
+pkg-type: test-aggregator
+report-file: reports.html
+type: pkg

@@ -76,12 +76,20 @@ def copy_gcno(source_directory: str, files: Iterable[str],
             shutil.copy2(file, file_dest)
 
 
-def remove_gcda(directory: str, uid: str) -> None:
-    """ Remove the GCDA files of the directory. """
+def remove_gcda(directory: str, uid: str, expected: bool = False) -> None:
+    """
+    Remove the GCDA files of the directory.
+
+    A caller which produces the files itself passes True for expected, so the
+    removal is silent.
+    """
     for file in glob.glob(f"{directory}/**/*.gcda", recursive=True):
-        logging.warning(
-            "%s: remove unexpected *.gcda file in build directory: '%s'", uid,
-            file)
+        if expected:
+            logging.debug("%s: remove *.gcda file: '%s'", uid, file)
+        else:
+            logging.warning(
+                "%s: remove unexpected *.gcda file in build directory: '%s'",
+                uid, file)
         os.remove(file)
 
 

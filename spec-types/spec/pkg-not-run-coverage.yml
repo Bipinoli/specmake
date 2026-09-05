@@ -1,0 +1,60 @@
+SPDX-License-Identifier: CC-BY-SA-4.0 OR BSD-2-Clause
+copyrights:
+- Copyright (C) 2026 embedded brains GmbH & Co. KG
+enabled-by: true
+links:
+- role: spec-member
+  uid: root
+- role: spec-refinement
+  spec-key: directory-state-type
+  spec-value: not-run-coverage
+  uid: pkg-directory-state
+spec-description: null
+spec-example: null
+spec-info:
+  dict:
+    attributes:
+      gcda-sub-directory:
+        description: |
+          It shall be the path of the object directory relative to the build
+          directory.
+        spec-type: str
+      gcov:
+        description: |
+          It shall be the path to the gcov executable.
+        spec-type: str
+      gcov-tool:
+        description: |
+          It shall be the path to the gcov-tool executable.
+        spec-type: str
+      gcov-tool-working-directory:
+        description: |
+          It shall be the working directory to run the gcov-tool.  The paths
+          of a gcov information stream are relative to the directory in which
+          the build compiled the sources.
+        spec-type: str
+      gcovr:
+        description: |
+          It shall be the path to the gcovr executable.
+        spec-type: str
+      gcovr-working-directory:
+        description: |
+          It shall be the working directory to run gcovr.  The paths of the
+          report are relative to this directory, so it shall be the directory
+          which the other coverage reports use.
+        spec-type: str
+      scope:
+        description: |
+          It shall be the name of the test coverage scope.
+        spec-type: str
+    description: |
+      This set of attributes specifies how the package measures the code
+      coverage of the tests which a target does not run.  The test log of the
+      target states which tests it excludes and why.  The test logs of the
+      other targets carry the coverage data of these tests.  One measurement
+      per group of tests which share a reason gives the coverage spots which
+      that reason accounts for.
+    mandatory-attributes: all
+spec-name: Not Run Coverage Item Type
+spec-type: pkg-not-run-coverage
+type: spec

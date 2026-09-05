@@ -1,12 +1,12 @@
 SPDX-License-Identifier: CC-BY-SA-4.0 OR BSD-2-Clause
 copyrights:
-- Copyright (C) 2025 embedded brains GmbH & Co. KG
+- Copyright (C) 2026 embedded brains GmbH & Co. KG
 copyrights-by-license: {}
 directory: ${.:/component/deployment-directory}
 directory-state-type: test-coverage
-enabled-by: true
+enabled-by: target-b
 files:
-- file: coverage.json
+- file: coverage-b.json
   hash: null
 hash: null
 limits:
@@ -18,14 +18,6 @@ limits:
     branch-min-percent: 80.0
     function-min-percent: 100.0
     line-min-percent: 100.0
-  file-cpukit/score/src/threadqenqueue.c:
-    branch-min-percent: 80.0
-    function-min-percent: 100.0
-    line-min-percent: 100.0
-  file-cpukit/score/src/notrun.c:
-    branch-min-percent: 80.0
-    function-min-percent: 100.0
-    line-min-percent: 100.0
 links:
 - hash: null
   name: component
@@ -34,7 +26,7 @@ links:
 - hash: null
   name: target
   role: input
-  uid: ../../rtems/target-a
+  uid: ../../rtems/target-b
 - hash: null
   name: build-configuration
   role: input
@@ -44,10 +36,10 @@ links:
 - hash: null
   name: test-coverage
   role: input-to
-  uid: ../steps/aggregate-test-results
+  uid: ../steps/aggregate-test-results-2
 - name: html
   role: output
-  uid: target-a-html
+  uid: target-b-html
 scope: Scope
 pkg-type: directory-state
 type: pkg

@@ -1,0 +1,86 @@
+{
+    "reports": [
+        {
+            "executable": "/build/runs-here.exe",
+            "info": {
+                "line-end-of-test": 1
+            },
+            "line-gcov-info-base64-begin": 2,
+            "line-gcov-info-base64-end": 4,
+            "output": [
+                "*** BEGIN OF TEST X ***",
+                "*** END OF TEST X ***",
+                "*** BEGIN OF GCOV INFO BASE64 ***",
+                "Z2NmbkIwNFIAAACVL29wdA==",
+                "*** END OF GCOV INFO BASE64 ***"
+            ]
+        },
+        {
+            "executable": "/build/excluded-ethernet.exe",
+            "info": {
+                "line-end-of-test": 1
+            },
+            "line-gcov-info-base64-begin": 2,
+            "line-gcov-info-base64-end": 4,
+            "output": [
+                "*** BEGIN OF TEST X ***",
+                "*** END OF TEST X ***",
+                "*** BEGIN OF GCOV INFO BASE64 ***",
+                "Z2NmbkIwNFIAAACVL29wdA==",
+                "*** END OF GCOV INFO BASE64 ***"
+            ]
+        },
+        {
+            "executable": "/build/excluded-ethernet.exe",
+            "info": {
+                "line-end-of-test": 1
+            },
+            "line-gcov-info-base64-begin": 2,
+            "line-gcov-info-base64-end": 4,
+            "output": [
+                "*** BEGIN OF TEST X ***",
+                "*** END OF TEST X ***",
+                "*** BEGIN OF GCOV INFO BASE64 ***",
+                "Z2NmbkIwNFIAAACVL29wdA==",
+                "*** END OF GCOV INFO BASE64 ***"
+            ]
+        },
+        {
+            "do-not-run": true,
+            "executable": "/build/excluded-nowhere.exe",
+            "info": {
+                "line-end-of-test": 1
+            },
+            "line-gcov-info-base64-begin": 2,
+            "line-gcov-info-base64-end": 4,
+            "output": [
+                "*** BEGIN OF TEST X ***",
+                "*** END OF TEST X ***",
+                "*** BEGIN OF GCOV INFO BASE64 ***",
+                "Z2NmbkIwNFIAAACVL29wdA==",
+                "*** END OF GCOV INFO BASE64 ***"
+            ]
+        },
+        {
+            "executable": "/build/excluded-nowhere.exe",
+            "info": {
+                "line-end-of-test": 1
+            },
+            "output": [
+                "*** BEGIN OF TEST X ***",
+                "*** END OF TEST X ***"
+            ]
+        },
+        {
+            "executable": "/build/excluded-silent.exe",
+            "info": {
+                "line-end-of-test": 1
+            },
+            "output": [
+                "*** BEGIN OF TEST X ***",
+                "*** END OF TEST X ***"
+            ]
+        }
+    ],
+    "target": "/rtems/target-b"
+}

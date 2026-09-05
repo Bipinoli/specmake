@@ -1,0 +1,72 @@
+SPDX-License-Identifier: CC-BY-SA-4.0 OR BSD-2-Clause
+copyrights:
+- Copyright (C) 2025 embedded brains GmbH & Co. KG
+copyrights-by-license: {}
+directory: ${.:/component/deployment-directory}/doc-djf-tr-3
+directory-state-type: sphinx
+document-base-path: /
+document-components:
+- action: copy-and-substitute
+  add-to-index: false
+  file: source/index.rst
+document-contributors: []
+document-copyrights:
+- Copyright (C) 2025 embedded brains GmbH & Co. KG
+document-html-footer: footer
+document-html-help-base-name: TR
+document-key: blub
+document-latex-footer-right: footer right
+document-latex-geometry: geometry
+document-latex-header-left: header left
+document-latex-sphinxsetup: sphinxsetup
+document-latex-theme: manual
+document-license: CC-BY-SA-4.0
+document-license-map: {}
+document-releases: []
+document-title: TR
+document-toctree-maxdepth: 4
+document-type: test-report
+enabled-by: test-reporter
+files: []
+hash: null
+links:
+- hash: null
+  name: component
+  role: input
+  uid: ../component
+- hash: null
+  name: test-aggregation
+  role: input
+  uid: ../steps/aggregate-test-results-3
+- hash: null
+  name: link-hub
+  role: input
+  uid: ../steps/link-hub
+- hash: null
+  name: source
+  role: input
+  uid: ../source/doc-djf-tr
+- hash: null
+  key: compiler-version
+  name: test-property
+  property-name: RSB Git Commit
+  role: input
+  type: rtems-source-builder-version
+  expected: 21446e6af24b170f0ad18fd960661d4e5d7249de
+  uid: ../component
+- hash: null
+  key: rtems-commit
+  name: test-property
+  property-name: RTEMS Git Commit
+  role: input
+  type: rtems-version
+  expected: 58bff622d610865c76da045e8cc67aa56c32b7c8
+  uid: ../component
+- name: build
+  role: output
+  uid: ../build/doc-djf-tr-3
+output-html: null
+output-pdf: null
+pkg-type: directory-state
+type: pkg
+unexpected-test-failures: {}

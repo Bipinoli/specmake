@@ -1589,6 +1589,48 @@
                 }
             ],
             "functions": []
+        },
+        {
+            "file": "cpukit/score/src/notrun.c",
+            "lines": [
+                {
+                    "line_number": 40,
+                    "function_name": "_Not_run",
+                    "count": 5,
+                    "branches": [],
+                    "gcovr/md5": "6a1c2f1de0b8d4f6a71c0c2fa9e0f3b1"
+                },
+                {
+                    "line_number": 42,
+                    "function_name": "_Not_run",
+                    "count": 0,
+                    "branches": [
+                        {
+                            "branchno": 0,
+                            "count": 0,
+                            "fallthrough": true,
+                            "throw": false,
+                            "source_block_id": 0
+                        },
+                        {
+                            "branchno": 1,
+                            "count": 0,
+                            "fallthrough": false,
+                            "throw": false,
+                            "source_block_id": 0
+                        }
+                    ],
+                    "gcovr/md5": "9f0b3d5e2c4a7186bd3e5f0a1c9d7e42"
+                }
+            ],
+            "functions": [
+                {
+                    "name": "_Not_run",
+                    "lineno": 40,
+                    "execution_count": 0,
+                    "blocks_percent": 0.0
+                }
+            ]
         }
     ]
 }

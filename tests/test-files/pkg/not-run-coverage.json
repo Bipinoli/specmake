@@ -1,0 +1,61 @@
+{
+    "groups": [
+        {
+            "executables": [
+                "excluded-ethernet.exe"
+            ],
+            "justification": "The target has no Ethernet device.\n",
+            "source-uid": "/pkg/test-runner/dummy",
+            "covered": {
+                "cpukit/score/src/notrun.c": [
+                    "branch/42/0",
+                    "branch/42/1",
+                    "function/_Not_run",
+                    "line/42"
+                ]
+            },
+            "measured-on": {
+                "excluded-ethernet.exe": "/rtems/target-b"
+            },
+            "not-measured": []
+        },
+        {
+            "executables": [
+                "excluded-ethernet.exe"
+            ],
+            "justification": null,
+            "source-uid": "/pkg/source/eb-test-support",
+            "covered": {},
+            "measured-on": {},
+            "not-measured": [
+                "excluded-ethernet.exe"
+            ]
+        },
+        {
+            "executables": [
+                "excluded-second-board.exe"
+            ],
+            "justification": "The test needs a second board.\n",
+            "source-uid": "/pkg/test-runner/dummy",
+            "covered": {},
+            "measured-on": {},
+            "not-measured": [
+                "excluded-second-board.exe"
+            ]
+        },
+        {
+            "executables": [
+                "excluded-silent.exe"
+            ],
+            "justification": null,
+            "source-uid": "/pkg/test-runner/dummy",
+            "covered": {},
+            "measured-on": {},
+            "not-measured": [
+                "excluded-silent.exe"
+            ]
+        }
+    ],
+    "scope": "Scope",
+    "target-uid": "/rtems/target-a"
+}
