@@ -41,6 +41,7 @@ from .packagechanges import *  # noqa: F401, F403
 from .packagemanual import *  # noqa: F401, F403
 from .perfimages import *  # noqa: F401, F403
 from .pkgitems import *  # noqa: F401, F403
+from .pkglist import *  # noqa: F401, F403
 from .pkgfactory import *  # noqa: F401, F403
 from .pkgtemplate import *  # noqa: F401, F403
 from .pkgworkspace import *  # noqa: F401, F403

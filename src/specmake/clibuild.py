@@ -30,13 +30,15 @@ according to the configuration file.
 import argparse
 import logging
 import os
+import sys
 
 from specware import run_command
 
 from .pkgitems import BuildItem
+from .pkglist import ListError, list_files, list_targets
 from .pkgworkspace import (BuildspaceConfig, WorkspaceConfig, create_workspace,
                            export_to_buildspace)
-from .util import command_arguments, get_build_arguments
+from .util import command_arguments, command_name, get_build_arguments
 
 
 def _get_arguments(argv: list[str]) -> argparse.Namespace:
@@ -56,6 +58,13 @@ def _get_arguments(argv: list[str]) -> argparse.Namespace:
         parser.add_argument("--cache-directory",
                             help="the configuration cache directory",
                             default="config-cache")
+        group = parser.add_mutually_exclusive_group()
+        group.add_argument("--list-files",
+                           action="store_true",
+                           help="list the files included in the build")
+        group.add_argument("--list-targets",
+                           action="store_true",
+                           help="list the targets included in the build")
         parser.add_argument('config_files', nargs='+')
 
     return get_build_arguments(argv, add_arguments=(_add_arguments, ))
@@ -90,6 +99,17 @@ def clibuild(argv: list[str] | None = None) -> None:
         cache_directory=os.path.abspath(args.cache_directory),
         verify_specification_format=not args.no_spec_verify)
     workspace = create_workspace(workspace_config)
+
+    if args.list_files or args.list_targets:
+        try:
+            if args.list_files:
+                list_files(workspace.director, args.only, args.force,
+                           args.skip)
+            else:
+                list_targets(workspace.director)
+        except ListError as err:
+            sys.exit(f"{command_name(argv)}: error: {err}")
+        return
 
     deployment_directory = _make_deployment_directory(
         workspace.director.package)

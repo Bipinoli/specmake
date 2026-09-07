@@ -1,0 +1,33 @@
+SPDX-License-Identifier: CC-BY-SA-4.0 OR BSD-2-Clause
+arch: sparc
+base-directory-map:
+- source: ${.:/component/tmpdir}/spec
+  target: ${.:/component/tmpdir}/repo
+bsp: gr712rc
+build-spec-directories: []
+build-uids: []
+copyrights:
+- Copyright (C) 2023, 2025 embedded brains GmbH & Co. KG
+copyrights-by-license: {}
+directory: ${.:/component/deployment-directory}/sub-repo-2
+directory-state-type: repository-subset
+enabled-by: true
+enabled-set-extension:
+- enable: foo
+  enabled-by: false
+extra-files:
+- extra.c
+files: []
+hash: null
+include-test-header: true
+links:
+- hash: null
+  name: component
+  role: input
+  uid: ../component
+- hash: null
+  name: source
+  role: input
+  uid: repo
+pkg-type: directory-state
+type: pkg
