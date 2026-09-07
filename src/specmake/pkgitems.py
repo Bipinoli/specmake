@@ -1050,12 +1050,23 @@ class PackageBuildDirector(dict):
                 deps[uid].add(dependency.uid)
                 self._gather_build_dependencies(dependency, deps)
 
+    def gather_build_uids(self) -> set[str]:
+        """
+        Gather the uids of the build items of the package.
+
+        The link traversal drops an item which the enabled set of its
+        component disables.
+        """
+        build_uids: set[str] = set()
+        with self.item_cache.selection(self.package.selection):
+            _gather_build_uids_of_package(self.package.item, build_uids)
+        return build_uids
+
     def _gather_ordered_build_uids_of_package(
             self, only: Optional[list[str]]) -> list[str]:
         item_cache = self.item_cache
         package = self.package.item
-        build_uids: set[str] = set()
-        _gather_build_uids_of_package(package, build_uids)
+        build_uids = self.gather_build_uids()
         if only is not None:
             build_only: set[str] = set()
             for uid in build_uids:
