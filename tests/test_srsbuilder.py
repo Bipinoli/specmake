@@ -1050,7 +1050,7 @@ There are no changes since Name v1.
 
 .. raw:: latex
 
-    \clearpage
+    \\clearpage
 
 .. _SpecReqGlossary:
 
@@ -1076,7 +1076,7 @@ There are no changes since Name v1.
 
 .. raw:: latex
 
-    \clearpage
+    \\clearpage
 
 .. _SpecReqRoot:
 

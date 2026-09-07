@@ -557,13 +557,13 @@ The value shall be a string. It shall be a copyright statement of a copyright
 holder of the specification item. The value
 
 - shall match with the regular expression
-  "``^\\s*Copyright\\s+\\(C\)\\s+[0-9]+,\\s*[0-9]+\\s+.+\\s*$``",
+  "``^\\s*Copyright\\s+\\(C\\)\\s+[0-9]+,\\s*[0-9]+\\s+.+\\s*$``",
 
 - or, shall match with the regular expression
-  "``^\\s*Copyright\\s+\\(C\)\\s+[0-9]+\\s*-\\s*[0-9]+\\s+.+\\s*$``",
+  "``^\\s*Copyright\\s+\\(C\\)\\s+[0-9]+\\s*-\\s*[0-9]+\\s+.+\\s*$``",
 
 - or, shall match with the regular expression
-  "``^\\s*Copyright\\s+\\(C\)\\s+[0-9]+\\s+.+\\s*$``".
+  "``^\\s*Copyright\\s+\\(C\\)\\s+[0-9]+\\s+.+\\s*$``".
 
 This type is used by the following types:
 
