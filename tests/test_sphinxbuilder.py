@@ -542,10 +542,10 @@ holder of the specification item. The value
   "``^\\s*Copyright\\s+\\(C\)\\s+[0-9]+,\\s*[0-9]+\\s+.+\\s*$``",
 
 - or, shall match with the regular expression
-  "``^\\s*Copyright\\s+\\(C\)\\s+[0-9]+\\s+.+\\s*$``",
+  "``^\\s*Copyright\\s+\\(C\)\\s+[0-9]+\\s*-\\s*[0-9]+\\s+.+\\s*$``",
 
 - or, shall match with the regular expression
-  "``^\\s*Copyright\\s+\\(C\)\\s+.+\\s*$``".
+  "``^\\s*Copyright\\s+\\(C\)\\s+[0-9]+\\s+.+\\s*$``".
 
 This type is used by the following types:
 
@@ -657,7 +657,9 @@ SPDX License Identifier
 The value shall be a string. It defines the license of the item expressed
 though an SPDX License Identifier. The value
 
-- shall be equal to "``CC-BY-SA-4.0``",
+- shall be equal to "``Apache-2.0``",
+
+- or, shall be equal to "``CC-BY-SA-4.0``",
 
 - or, shall be equal to "``CC-BY-SA-4.0 OR BSD-2-Clause``",
 
