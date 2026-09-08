@@ -154,6 +154,34 @@ def test_an_entry_point_reads_the_argument_vector_at_the_call(
         "--- a\n+++ b\n"
 
 
+def test_add_patches_appends_only_on_request(tmpdir):
+    # A call without --append drops the patches which the item holds.
+    # An item collects the patches of more than one call only through
+    # that option.
+    item_file = Path(tmpdir) / "item.yml"
+    patch_file = Path(tmpdir) / "b.patch"
+    save_data(
+        str(item_file), {
+            "type":
+            "spec",
+            "archive-patches": [{
+                "enabled-by": True,
+                "patch": "--- a\n",
+                "type": "inline"
+            }],
+        })
+    patch_file.write_text("--- b\n", encoding="utf-8")
+    cliaddpatches(
+        ["specaddpatches", "--append",
+         str(item_file),
+         str(patch_file)])
+    patches = load_data(str(item_file))["archive-patches"]
+    assert [patch["patch"] for patch in patches] == ["--- a\n", "--- b\n"]
+    cliaddpatches(["specaddpatches", str(item_file), str(patch_file)])
+    patches = load_data(str(item_file))["archive-patches"]
+    assert [patch["patch"] for patch in patches] == ["--- b\n"]
+
+
 def test_the_command_vector_falls_back_to_the_process(monkeypatch):
     monkeypatch.setattr(sys, "argv", ["specmake", "--verbose"])
     assert command_arguments(None) == ["--verbose"]
