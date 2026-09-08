@@ -1310,6 +1310,130 @@ def test_item_to_group_naming_unknown_group_raises_clear_error():
         ctx.doxygen_xml_to_spec(xml_files)
 
 
+def _foobar_xml_files():
+    return [
+        _get_path("source-to-spec/xml/bad_8c.xml"),
+        _get_path("source-to-spec/xml/default_8h.xml"),
+        _get_path("source-to-spec/xml/header_8h.xml"),
+        _get_path("source-to-spec/xml/foobar_8h.xml"),
+        _get_path("source-to-spec/xml/group__DefaultGroup.xml"),
+        _get_path("source-to-spec/xml/group__FooGroup.xml"),
+        _get_path("source-to-spec/xml/source_8c.xml"),
+        _get_path("source-to-spec/xml/structs__0.xml"),
+        _get_path("source-to-spec/xml/structgs__0.xml"),
+        _get_path("source-to-spec/xml/structt__0.xml"),
+        _get_path("source-to-spec/xml/structgt__0.xml"),
+        _get_path("source-to-spec/xml/unionu__0.xml"),
+        _get_path("source-to-spec/xml/uniongu__0.xml"),
+        _get_path("source-to-spec/xml/unionu__1.xml"),
+        _get_path("source-to-spec/xml/uniongu__1.xml"),
+    ]
+
+
+def _foobar_config():
+    return {
+        "data": {},
+        "groups": {
+            "FooGroup": {
+                "uid": "/if/group"
+            },
+            "DefaultGroup": {
+                "uid": "/if/group"
+            },
+        },
+        "spec-directory": "spec",
+    }
+
+
+def _first_grouped_function(ctx):
+    for item in ctx.items_by_kind["function"].values():
+        if item.group_ids:
+            return item
+    raise AssertionError("the fixture holds no grouped function")
+
+
+def test_item_to_uid_replaces_the_slug_of_an_item():
+    # Two declarations of one group whose names differ only in case
+    # slugify to one name.  The configuration states the name of one of
+    # them, so both reach a UID of their own.
+    ctx = DoxygenContext(_foobar_config())
+    ctx.doxygen_xml_to_spec(_foobar_xml_files())
+    item = _first_grouped_function(ctx)
+    assert item.uid != "/if/renamed"
+
+    config = _foobar_config()
+    config["item-to-uid"] = {item.doxygen_id: "renamed"}
+    ctx = DoxygenContext(config)
+    ctx.doxygen_xml_to_spec(_foobar_xml_files())
+    assert ctx.items[item.doxygen_id].uid == "/if/renamed"
+
+
+def test_item_to_uid_ignores_the_remove_prefix_of_the_group():
+    # The stated name is the name.  A prefix removal would take a part
+    # of it away and give a name nobody wrote.
+    ctx = DoxygenContext(_foobar_config())
+    ctx.doxygen_xml_to_spec(_foobar_xml_files())
+    item = _first_grouped_function(ctx)
+
+    config = _foobar_config()
+    config["groups"]["FooGroup"]["remove-prefix"] = "re"
+    config["groups"]["DefaultGroup"]["remove-prefix"] = "re"
+    config["item-to-uid"] = {item.doxygen_id: "renamed"}
+    ctx = DoxygenContext(config)
+    ctx.doxygen_xml_to_spec(_foobar_xml_files())
+    assert ctx.items[item.doxygen_id].uid == "/if/renamed"
+
+
+def _grouped_header(ctx):
+    for item in ctx.items.values():
+        if not getattr(item, "is_header", False):
+            continue
+        try:
+            item.uid
+        except ValueError:
+            continue
+        return item
+    raise AssertionError("the fixture has no grouped header")
+
+
+def test_item_to_uid_states_the_whole_name_of_a_header():
+    # The header prefix and the removal of the extension apply to the
+    # slug of the file name.  A stated name keeps every character.
+    ctx = DoxygenContext(_foobar_config())
+    ctx.doxygen_xml_to_spec(_foobar_xml_files())
+    header = _grouped_header(ctx)
+    assert header.uid == "/if/header-header"
+
+    for stated in ("myheader", "same", "ab", "x"):
+        config = _foobar_config()
+        config["item-to-uid"] = {header.doxygen_id: stated}
+        ctx = DoxygenContext(config)
+        ctx.doxygen_xml_to_spec(_foobar_xml_files())
+        assert ctx.items[header.doxygen_id].uid == f"/if/{stated}"
+
+
+def test_a_bad_item_to_uid_entry_names_its_attribute_path():
+    for bad, expected in (
+        ({
+            "an_id": 7
+        }, "/item-to-uid/an_id must be a string"),
+        ({
+            "an_id": ""
+        }, "/item-to-uid/an_id must be one UID component"),
+        ({
+            "an_id": "a/b"
+        }, "/item-to-uid/an_id must be one UID component"),
+        ({
+            7: "a_name"
+        }, "/item-to-uid has a non-string key 7"),
+    ):
+        config = _foobar_config()
+        config["item-to-uid"] = bad
+        with pytest.raises(sourcetospec.ConfigError) as error:
+            DoxygenContext(config)
+        assert expected in str(error.value), bad
+
+
 def test_inline_commands_do_not_truncate_text():
     # inline-markup/inline.h's brief uses @a, @b, @c, @p and a line break,
     # each followed by more words: none of that trailing text must be

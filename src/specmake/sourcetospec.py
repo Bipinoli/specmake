@@ -115,9 +115,15 @@ class DoxygenItem:
         """ Is the UID of the item. """
         group = self.group
         prefix = posixpath.dirname(group.uid)
-        name = _slugify(self.name)
-        name = name.removeprefix(
-            self.ctx.groups.get(group.name, {}).get("remove-prefix", ""))
+        # Two declarations of one group whose names differ only in case
+        # slugify to one name.  The configuration states the name of one
+        # of them, and that name replaces the slug and the prefix
+        # removal.
+        name = self.ctx.item_to_uid.get(self.doxygen_id)
+        if name is None:
+            name = _slugify(self.name)
+            name = name.removeprefix(
+                self.ctx.groups.get(group.name, {}).get("remove-prefix", ""))
         return posixpath.join(prefix, name)
 
     def uid_relative_to(self, other: str) -> str:
@@ -672,9 +678,13 @@ class DoxygenFile(DoxygenContainer):
         The name of the header is a component of the directory then, or
         the remove-prefix of the group reduced it to the extension.
         Every other header keeps its name after the ``header-`` prefix.
+
+        A name which the configuration states is the whole name.  The
+        ``header-`` prefix and the removal of the extension would take a
+        part of it away.
         """
         the_uid = super().uid
-        if not self.is_header:
+        if not self.is_header or self.doxygen_id in self.ctx.item_to_uid:
             return the_uid
         name = posixpath.basename(the_uid)[:-2]
         prefix = posixpath.dirname(the_uid)
@@ -1212,6 +1222,18 @@ def _validate_item_to_group(errors: list[str], item_to_group: dict) -> None:
                           f"null, got {group_name!r}")
 
 
+def _validate_item_to_uid(errors: list[str], item_to_uid: dict) -> None:
+    for doxygen_id, name in item_to_uid.items():
+        if not isinstance(doxygen_id, str):
+            errors.append(f"/item-to-uid has a non-string key {doxygen_id!r}")
+        elif not isinstance(name, str):
+            errors.append(f"/item-to-uid/{doxygen_id} must be a string, "
+                          f"got {name!r}")
+        elif not name or "/" in name:
+            errors.append(f"/item-to-uid/{doxygen_id} must be one UID "
+                          f"component, got {name!r}")
+
+
 def _validate_type_map(errors: list[str], type_map: dict) -> None:
     for from_type, to_item in type_map.items():
         if not isinstance(from_type, str):
@@ -1280,6 +1302,8 @@ def _validate_config(config: dict, require_full_config: bool) -> None:
         _validate_groups(errors, config["groups"])
     if optional("item-to-group", dict, "dict"):
         _validate_item_to_group(errors, config["item-to-group"])
+    if optional("item-to-uid", dict, "dict"):
+        _validate_item_to_uid(errors, config["item-to-uid"])
     if optional("type-map", dict, "dict"):
         _validate_type_map(errors, config["type-map"])
     optional("default-group-name", str, "string")
@@ -1337,6 +1361,10 @@ class DoxygenContext:
         # must never leak back into the caller's config dict.
         self.item_to_group: dict[str, str | None] = dict(
             config.get("item-to-group") or {})
+        # The name of the UID of an item, where the slug of the
+        # declaration collides with the slug of another one.
+        item_to_uid = config.get("item-to-uid") or {}
+        self.item_to_uid: dict[str, str] = dict(item_to_uid)
         self.items_by_kind: dict[str, dict[str, "DoxygenItem"]] = {}
         self.items_by_name: dict[str, dict[str, list["DoxygenItem"]]] = {}
         self.items: dict[str, "DoxygenItem"] = {}

@@ -310,6 +310,7 @@ def test_doxygen_context_reports_missing_required_attribute(missing_attribute):
     ("spec-directory", 123),
     ("groups", []),
     ("item-to-group", []),
+    ("item-to-uid", []),
     ("type-map", []),
     ("default-group-name", []),
     ("enabled-groups", "FooGroup"),
@@ -1033,6 +1034,28 @@ def test_apply_preserves_entries_shadowed_by_an_xml_group(tmp_path):
     }
     written = _apply(tmp_path, config, _foo_group_xml_files())
     assert written["item-to-group"] == {shadowed: "FooGroup"}
+
+
+def test_apply_preserves_the_item_to_uid_map(tmp_path):
+    # Nothing in the Doxygen XML states the name of a UID, so an entry
+    # is always a manual override. An apply which drops it changes the
+    # UID of the item on the next run.
+    config = {
+        "spec-directory": "spec",
+        "groups": {
+            "FooGroup": {
+                "uid": "/if/group"
+            }
+        },
+        "item-to-group": {
+            _BAD_F: "FooGroup"
+        },
+        "item-to-uid": {
+            _BAD_F: "renamed"
+        },
+    }
+    written = _apply(tmp_path, config, _foo_group_xml_files())
+    assert written["item-to-uid"] == {_BAD_F: "renamed"}
 
 
 def test_propose_config_ignores_stale_item_to_group_entries(tmp_path, capsys):
