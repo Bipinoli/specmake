@@ -108,7 +108,7 @@ def create_package(caplog: Any,
     return director.package
 
 
-_TABLE_BEGIN = re.compile(r"    \+[+-]+$")
+_TABLE_BEGIN = re.compile(r"( +)\+[+-]+$")
 _TABLE_CHARS = re.compile(r"[ =-]+")
 _TABLE_SPACE = re.compile(r"[ ]+")
 
@@ -121,18 +121,20 @@ def get_document_text(tmpdir: Any, path: Path) -> str:
     with open(path, "r", encoding="utf-8") as src:
         text = src.read()
     text = text.replace(str(tmpdir), "")
-    table = False
+    indent = ""
     lines: list[str] = []
     for line in text.splitlines():
-        if _TABLE_BEGIN.match(line):
-            table = True
-        if table:
-            if line.startswith("    +"):
-                line = f"    +{_TABLE_CHARS.sub(_only_one, line[5:])}"
-            elif line.startswith("    |"):
-                line = f"    |{_TABLE_SPACE.sub(_only_one, line[5:])}"
+        match = _TABLE_BEGIN.match(line)
+        if match:
+            indent = match.group(1)
+        if indent:
+            start = len(indent) + 1
+            if line.startswith(f"{indent}+"):
+                line = f"{indent}+{_TABLE_CHARS.sub(_only_one, line[start:])}"
+            elif line.startswith(f"{indent}|"):
+                line = f"{indent}|{_TABLE_SPACE.sub(_only_one, line[start:])}"
             else:
-                table = False
+                indent = ""
         lines.append(line)
     return "\n".join(lines)
 
