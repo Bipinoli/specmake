@@ -95,15 +95,13 @@ This section lists validation evidence obtained by using the analysis validation
 spec:/rtems/val/by-analysis
 ---------------------------
 
-.. rubric:: ANALYSIS:
+Analysis
+    The analysis.
 
-The analysis.
-
-.. rubric:: VALIDATED ITEM:
-
-This validation by analysis validates the runtime performance requirement
-`spec:/​rtems/​req/​perf
-</pkg/doc-ts-srs/html/requirements.html#specrtemsreqperf>`__.
+Validated item
+    This validation by analysis validates the runtime performance requirement
+    `spec:/​rtems/​req/​perf
+    </pkg/doc-ts-srs/html/requirements.html#specrtemsreqperf>`__.
 
 .. _ValidationByInspection:
 
@@ -121,15 +119,13 @@ This section lists validation evidence obtained by using the inspection validati
 spec:/rtems/val/by-inspection
 -----------------------------
 
-.. rubric:: INSPECTION:
+Inspection
+    The inspection.
 
-The inspection.
-
-.. rubric:: VALIDATED ITEM:
-
-This validation by inspection validates the runtime performance requirement
-`spec:/​rtems/​req/​perf
-</pkg/doc-ts-srs/html/requirements.html#specrtemsreqperf>`__.
+Validated item
+    This validation by inspection validates the runtime performance requirement
+    `spec:/​rtems/​req/​perf
+    </pkg/doc-ts-srs/html/requirements.html#specrtemsreqperf>`__.
 
 .. _ValidationByReviewOfDesign:
 
@@ -147,15 +143,13 @@ This section lists validation evidence obtained by using the review of design va
 spec:/rtems/val/by-review-of-design
 -----------------------------------
 
-.. rubric:: REVIEW OF DESIGN:
+Review of design
+    The review of design.
 
-The review of design.
-
-.. rubric:: VALIDATED ITEM:
-
-This validation by review of design validates the runtime performance
-requirement `spec:/​rtems/​req/​perf
-</pkg/doc-ts-srs/html/requirements.html#specrtemsreqperf>`__.
+Validated item
+    This validation by review of design validates the runtime performance
+    requirement `spec:/​rtems/​req/​perf
+    </pkg/doc-ts-srs/html/requirements.html#specrtemsreqperf>`__.
 .. other-validations end
 
 .. not-validated-by-test begin
@@ -193,14 +187,13 @@ spec:/rtems/val/mem-basic
 General
 -------
 
-.. rubric:: DESCRIPTION:
+Description
+    This static memory usage benchmark program facilitates a basic application
+    configuration using `CONFIGURE_INTEGER
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifacfginteger>`__.
 
-This static memory usage benchmark program facilitates a basic application
-configuration using `CONFIGURE_INTEGER
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifacfginteger>`__.
-
-This resource benchmark is configured for exactly one processor, no clock
-driver, no Newlib reentrancy support, and no file system.
+    This resource benchmark is configured for exactly one processor, no clock
+    driver, no Newlib reentrancy support, and no file system.
 
 .. _SpecRtemsValMemBasicFeaturesToBeTested:
 
@@ -237,18 +230,16 @@ spec:/testsuites/performance-no-clock-0
 General
 -------
 
-.. rubric:: DESCRIPTION:
+Description
+    Brief.
 
-Brief.
+    Description.
 
-Description.
+Test results
+    For this test suite, the following test results are available:
 
-.. rubric:: TEST RESULTS:
-
-For this test suite, the following test results are available:
-
-- `Target - Name Target A / Configuration - Build Configuration Name
-  </a-build-config-key-testsuites-performance-no-clock-0.html#abuildconfigkeytestsuitesperformancenoclock0>`__
+    - `Target - Name Target A / Configuration - Build Configuration Name
+      </a-build-config-key-testsuites-performance-no-clock-0.html#abuildconfigkeytestsuitesperformancenoclock0>`__
 
 .. _SpecTestsuitesPerformanceNoClock0FeaturesToBeTested:
 
@@ -288,15 +279,13 @@ spec:/testsuites/test-suite-empty
 General
 -------
 
-.. rubric:: DESCRIPTION:
+Description
+    Brief.
 
-Brief.
+    Description.
 
-Description.
-
-.. rubric:: TEST RESULTS:
-
-There are no test results available.
+Test results
+    There are no test results available.
 
 .. _SpecTestsuitesTestSuiteEmptyFeaturesToBeTested:
 
@@ -328,18 +317,16 @@ spec:/testsuites/test-suite-fail
 General
 -------
 
-.. rubric:: DESCRIPTION:
+Description
+    Brief.
 
-Brief.
+    Description.
 
-Description.
+Test results
+    For this test suite, the following test results are available:
 
-.. rubric:: TEST RESULTS:
-
-For this test suite, the following test results are available:
-
-- `Target - Name Target A / Configuration - Build Configuration Name
-  </a-build-config-key-testsuites-test-suite-fail.html#abuildconfigkeytestsuitestestsuitefail>`__
+    - `Target - Name Target A / Configuration - Build Configuration Name
+      </a-build-config-key-testsuites-test-suite-fail.html#abuildconfigkeytestsuitestestsuitefail>`__
 
 .. _SpecTestsuitesTestSuiteFailFeaturesToBeTested:
 
@@ -381,18 +368,16 @@ spec:/testsuites/test-suite-pass
 General
 -------
 
-.. rubric:: DESCRIPTION:
+Description
+    Brief.
 
-Brief.
+    Description.
 
-Description.
+Test results
+    For this test suite, the following test results are available:
 
-.. rubric:: TEST RESULTS:
-
-For this test suite, the following test results are available:
-
-- `Target - Name Target A / Configuration - Build Configuration Name
-  </a-build-config-key-testsuites-test-suite-pass.html#abuildconfigkeytestsuitestestsuitepass>`__
+    - `Target - Name Target A / Configuration - Build Configuration Name
+      </a-build-config-key-testsuites-test-suite-pass.html#abuildconfigkeytestsuitestestsuitepass>`__
 
 .. _SpecTestsuitesTestSuitePassFeaturesToBeTested:
 
@@ -424,18 +409,16 @@ spec:/testsuites/test-suite-xfail
 General
 -------
 
-.. rubric:: DESCRIPTION:
+Description
+    Brief.
 
-Brief.
+    Description.
 
-Description.
+Test results
+    For this test suite, the following test results are available:
 
-.. rubric:: TEST RESULTS:
-
-For this test suite, the following test results are available:
-
-- `Target - Name Target A / Configuration - Build Configuration Name
-  </a-build-config-key-testsuites-test-suite-xfail.html#abuildconfigkeytestsuitestestsuitexfail>`__
+    - `Target - Name Target A / Configuration - Build Configuration Name
+      </a-build-config-key-testsuites-test-suite-xfail.html#abuildconfigkeytestsuitestestsuitexfail>`__
 
 .. _SpecTestsuitesTestSuiteXfailFeaturesToBeTested:
 
@@ -469,22 +452,19 @@ spec:/rtems/req/action
 General
 -------
 
-.. rubric:: DESCRIPTION:
+Description
+    This test case validates all state transitions
+    specified by the action requirement `spec:/​rtems/​req/​action </pkg/doc-ts-srs/html/requirements.html#specrtemsreqaction>`__.  The
+    transition map is validated by the function
+    `T_case_body_RtemsReqAction() </pkg/doc-ddf-sdd/html/group__RtemsReqAction.html#ga041c7d03352b4363574beb9d7bebfa54>`__
+    contained in the file
+    `tests/tc-action.c </pkg/doc-ddf-sdd/html/tc-action_8c.html>`__.
 
-This test case validates all state transitions
-specified by the action requirement `spec:/​rtems/​req/​action </pkg/doc-ts-srs/html/requirements.html#specrtemsreqaction>`__.  The
-transition map is validated by the function
-`T_case_body_RtemsReqAction() </pkg/doc-ddf-sdd/html/group__RtemsReqAction.html#ga041c7d03352b4363574beb9d7bebfa54>`__
-contained in the file
-`tests/tc-action.c </pkg/doc-ddf-sdd/html/tc-action_8c.html>`__.
+Test suites
+    This test case is contained in the :ref:`spec:/​testsuites/​test-suite-fail <SpecTestsuitesTestSuiteFail>` test suite.
 
-.. rubric:: TEST SUITES:
-
-This test case is contained in the :ref:`spec:/​testsuites/​test-suite-fail <SpecTestsuitesTestSuiteFail>` test suite.
-
-.. rubric:: TEST RESULTS:
-
-There are no test results available.
+Test results
+    There are no test results available.
 
 .. _SpecRtemsReqActionInputSpecifications:
 
@@ -545,22 +525,19 @@ spec:/rtems/req/action-2
 General
 -------
 
-.. rubric:: DESCRIPTION:
+Description
+    This test case validates all state transitions
+    specified by the action requirement `spec:/​rtems/​req/​action-2 </pkg/doc-ts-srs/html/requirements.html#specrtemsreqaction2>`__.  The
+    transition map is validated by the function
+    `T_case_body_RtemsReqAction2() </pkg/doc-ddf-sdd/html/group__RtemsReqAction2.html#ga5e62b99a0ea0b8fdece5bbfc3532300f>`__
+    contained in the file
+    `tests/tc-action-2.c </pkg/doc-ddf-sdd/html/tc-action-2_8c.html>`__.
 
-This test case validates all state transitions
-specified by the action requirement `spec:/​rtems/​req/​action-2 </pkg/doc-ts-srs/html/requirements.html#specrtemsreqaction2>`__.  The
-transition map is validated by the function
-`T_case_body_RtemsReqAction2() </pkg/doc-ddf-sdd/html/group__RtemsReqAction2.html#ga5e62b99a0ea0b8fdece5bbfc3532300f>`__
-contained in the file
-`tests/tc-action-2.c </pkg/doc-ddf-sdd/html/tc-action-2_8c.html>`__.
+Test suites
+    This test case is contained in the :ref:`spec:/​testsuites/​test-suite-fail <SpecTestsuitesTestSuiteFail>` test suite.
 
-.. rubric:: TEST SUITES:
-
-This test case is contained in the :ref:`spec:/​testsuites/​test-suite-fail <SpecTestsuitesTestSuiteFail>` test suite.
-
-.. rubric:: TEST RESULTS:
-
-There are no test results available.
+Test results
+    There are no test results available.
 
 .. _SpecRtemsReqAction2InputSpecifications:
 
@@ -621,24 +598,22 @@ spec:/rtems/req/perf
 General
 -------
 
-.. rubric:: DESCRIPTION:
+Description
+    This test case performs a performance runtime
+    measurement request which is carried out by
+    :ref:`spec:/​score/​cpu/​val/​perf <SpecScoreCpuValPerf>`.  It produces the runtime measurements
+    required by the runtime performance requirement `spec:/​rtems/​req/​perf </pkg/doc-ts-srs/html/requirements.html#specrtemsreqperf>`__.
+    It is implemented by the function
+    `RtemsReqPerf_Body() </pkg/doc-ddf-sdd/html/group__RtemsReqPerf.html#ga80297695652fb63b3f419701ebf5b8a7>`__
+    contained in the file
+    `tests/tc-perf.c </pkg/doc-ddf-sdd/html/tc-perf_8c.html>`__.
 
-This test case performs a performance runtime
-measurement request which is carried out by
-:ref:`spec:/​score/​cpu/​val/​perf <SpecScoreCpuValPerf>`.  It produces the runtime measurements
-required by the runtime performance requirement `spec:/​rtems/​req/​perf </pkg/doc-ts-srs/html/requirements.html#specrtemsreqperf>`__.
-It is implemented by the function
-`RtemsReqPerf_Body() </pkg/doc-ddf-sdd/html/group__RtemsReqPerf.html#ga80297695652fb63b3f419701ebf5b8a7>`__
-contained in the file
-`tests/tc-perf.c </pkg/doc-ddf-sdd/html/tc-perf_8c.html>`__.
+Test results
+    For this test case, the following test results are available:
 
-.. rubric:: TEST RESULTS:
-
-For this test case, the following test results are available:
-
-- `Target - Name Target A / Configuration - Build Configuration Name / Test
-  suite - spec:/​testsuites/​performance-no-clock-0
-  </a-build-config-key-testsuites-performance-no-clock-0.html#abuildconfigkeytestsuitesperformancenoclock0rtemsreqperf>`__
+    - `Target - Name Target A / Configuration - Build Configuration Name / Test
+      suite - spec:/​testsuites/​performance-no-clock-0
+      </a-build-config-key-testsuites-performance-no-clock-0.html#abuildconfigkeytestsuitesperformancenoclock0rtemsreqperf>`__
 
 .. _SpecRtemsReqPerfInputSpecifications:
 
@@ -699,20 +674,18 @@ spec:/rtems/req/perf-no-results
 General
 -------
 
-.. rubric:: DESCRIPTION:
+Description
+    This test case performs a performance runtime
+    measurement request which is carried out by
+    :ref:`spec:/​score/​cpu/​val/​perf <SpecScoreCpuValPerf>`.  It produces the runtime measurements
+    required by the runtime performance requirement `spec:/​rtems/​req/​perf-no-results </pkg/doc-ts-srs/html/requirements.html#specrtemsreqperfnoresults>`__.
+    It is implemented by the function
+    `RtemsReqPerfNoResults_Body() </pkg/doc-ddf-sdd/html/group__RtemsReqPerfNoResults.html#gac756b36b1183be9770beb26f1e1b2bbf>`__
+    contained in the file
+    `tests/tc-perf.c </pkg/doc-ddf-sdd/html/tc-perf_8c.html>`__.
 
-This test case performs a performance runtime
-measurement request which is carried out by
-:ref:`spec:/​score/​cpu/​val/​perf <SpecScoreCpuValPerf>`.  It produces the runtime measurements
-required by the runtime performance requirement `spec:/​rtems/​req/​perf-no-results </pkg/doc-ts-srs/html/requirements.html#specrtemsreqperfnoresults>`__.
-It is implemented by the function
-`RtemsReqPerfNoResults_Body() </pkg/doc-ddf-sdd/html/group__RtemsReqPerfNoResults.html#gac756b36b1183be9770beb26f1e1b2bbf>`__
-contained in the file
-`tests/tc-perf.c </pkg/doc-ddf-sdd/html/tc-perf_8c.html>`__.
-
-.. rubric:: TEST RESULTS:
-
-There are no test results available.
+Test results
+    There are no test results available.
 
 .. _SpecRtemsReqPerfNoResultsInputSpecifications:
 
@@ -773,39 +746,36 @@ spec:/rtems/val/test-case
 General
 -------
 
-.. rubric:: DESCRIPTION:
+Description
+    Brief.
 
-Brief.
+    Description.
+    The following test case actions are carried out:
 
-Description.
-The following test case actions are carried out:
+    - Brief.
 
-- Brief.
+      - Check.
+        This validates `spec:/​rtems/​req/​func </pkg/doc-ts-srs/html/requirements.html#specrtemsreqfunc>`__.
 
-  - Check.
-    This validates `spec:/​rtems/​req/​func </pkg/doc-ts-srs/html/requirements.html#specrtemsreqfunc>`__.
+      This action validates `spec:/​rtems/​req/​group </pkg/doc-ts-srs/html/requirements.html#specrtemsreqgroup>`__ and `spec:/​rtems/​req/​perf </pkg/doc-ts-srs/html/requirements.html#specrtemsreqperf>`__.
+      This action is implemented by
+      the function `RtemsValTestCase_Action_0() </pkg/doc-ddf-sdd/html/group__RtemsValTestCase.html#ga3a02cc8507f203b9231feb6f5904c1ef>`__.
 
-  This action validates `spec:/​rtems/​req/​group </pkg/doc-ts-srs/html/requirements.html#specrtemsreqgroup>`__ and `spec:/​rtems/​req/​perf </pkg/doc-ts-srs/html/requirements.html#specrtemsreqperf>`__.
-  This action is implemented by
-  the function `RtemsValTestCase_Action_0() </pkg/doc-ddf-sdd/html/group__RtemsValTestCase.html#ga3a02cc8507f203b9231feb6f5904c1ef>`__.
+    This test case is implemented by the
+    function `T_case_body_RtemsValTestCase() </pkg/doc-ddf-sdd/html/group__RtemsValTestCase.html#gabdf6e7d14949fd137b99d4efad655d34>`__
+    contained in the file
+    `tests/tc-blub.c </pkg/doc-ddf-sdd/html/tc-blub_8c.html>`__.
 
-This test case is implemented by the
-function `T_case_body_RtemsValTestCase() </pkg/doc-ddf-sdd/html/group__RtemsValTestCase.html#gabdf6e7d14949fd137b99d4efad655d34>`__
-contained in the file
-`tests/tc-blub.c </pkg/doc-ddf-sdd/html/tc-blub_8c.html>`__.
+Test suites
+    This test case is contained in the following test suites:
 
-.. rubric:: TEST SUITES:
+    - :ref:`spec:/​testsuites/​performance-no-clock-0
+      <SpecTestsuitesPerformanceNoClock0>`
 
-This test case is contained in the following test suites:
+    - :ref:`spec:/​testsuites/​test-suite-fail <SpecTestsuitesTestSuiteFail>`
 
-- :ref:`spec:/​testsuites/​performance-no-clock-0
-  <SpecTestsuitesPerformanceNoClock0>`
-
-- :ref:`spec:/​testsuites/​test-suite-fail <SpecTestsuitesTestSuiteFail>`
-
-.. rubric:: TEST RESULTS:
-
-There are no test results available.
+Test results
+    There are no test results available.
 
 .. _SpecRtemsValTestCaseInputSpecifications:
 
@@ -866,29 +836,26 @@ spec:/rtems/val/test-case-fail
 General
 -------
 
-.. rubric:: DESCRIPTION:
+Description
+    Brief.
 
-Brief.
+    Description.
+    The following test case actions are carried out:
 
-Description.
-The following test case actions are carried out:
+    This test case is implemented by the
+    function `T_case_body_RtemsValTestCaseFail() </pkg/doc-ddf-sdd/html/group__RtemsValTestCaseFail.html#gaf6e0cb824ab37c1fc93cb11de79ec7de>`__
+    contained in the file
+    `tests/tc-fail.c </pkg/doc-ddf-sdd/html/tc-fail_8c.html>`__.
 
-This test case is implemented by the
-function `T_case_body_RtemsValTestCaseFail() </pkg/doc-ddf-sdd/html/group__RtemsValTestCaseFail.html#gaf6e0cb824ab37c1fc93cb11de79ec7de>`__
-contained in the file
-`tests/tc-fail.c </pkg/doc-ddf-sdd/html/tc-fail_8c.html>`__.
+Test suites
+    This test case is contained in the :ref:`spec:/​testsuites/​test-suite-fail <SpecTestsuitesTestSuiteFail>` test suite.
 
-.. rubric:: TEST SUITES:
+Test results
+    For this test case, the following test results are available:
 
-This test case is contained in the :ref:`spec:/​testsuites/​test-suite-fail <SpecTestsuitesTestSuiteFail>` test suite.
-
-.. rubric:: TEST RESULTS:
-
-For this test case, the following test results are available:
-
-- `Target - Name Target A / Configuration - Build Configuration Name / Test
-  suite - spec:/​testsuites/​test-suite-fail
-  </a-build-config-key-testsuites-test-suite-fail.html#abuildconfigkeytestsuitestestsuitefailrtemsvaltestcasefail>`__
+    - `Target - Name Target A / Configuration - Build Configuration Name / Test
+      suite - spec:/​testsuites/​test-suite-fail
+      </a-build-config-key-testsuites-test-suite-fail.html#abuildconfigkeytestsuitestestsuitefailrtemsvaltestcasefail>`__
 
 .. _SpecRtemsValTestCaseFailInputSpecifications:
 
@@ -949,29 +916,26 @@ spec:/rtems/val/test-case-pass
 General
 -------
 
-.. rubric:: DESCRIPTION:
+Description
+    Brief.
 
-Brief.
+    Description.
+    The following test case actions are carried out:
 
-Description.
-The following test case actions are carried out:
+    This test case is implemented by the
+    function `T_case_body_RtemsValTestCasePass() </pkg/doc-ddf-sdd/html/group__RtemsValTestCasePass.html#gac1d679420bcb7eab4d90e977023f3c70>`__
+    contained in the file
+    `tests/tc-pass.c </pkg/doc-ddf-sdd/html/tc-pass_8c.html>`__.
 
-This test case is implemented by the
-function `T_case_body_RtemsValTestCasePass() </pkg/doc-ddf-sdd/html/group__RtemsValTestCasePass.html#gac1d679420bcb7eab4d90e977023f3c70>`__
-contained in the file
-`tests/tc-pass.c </pkg/doc-ddf-sdd/html/tc-pass_8c.html>`__.
+Test suites
+    This test case is contained in the :ref:`spec:/​testsuites/​test-suite-pass <SpecTestsuitesTestSuitePass>` test suite.
 
-.. rubric:: TEST SUITES:
+Test results
+    For this test case, the following test results are available:
 
-This test case is contained in the :ref:`spec:/​testsuites/​test-suite-pass <SpecTestsuitesTestSuitePass>` test suite.
-
-.. rubric:: TEST RESULTS:
-
-For this test case, the following test results are available:
-
-- `Target - Name Target A / Configuration - Build Configuration Name / Test
-  suite - spec:/​testsuites/​test-suite-pass
-  </a-build-config-key-testsuites-test-suite-pass.html#abuildconfigkeytestsuitestestsuitepassrtemsvaltestcasepass>`__
+    - `Target - Name Target A / Configuration - Build Configuration Name / Test
+      suite - spec:/​testsuites/​test-suite-pass
+      </a-build-config-key-testsuites-test-suite-pass.html#abuildconfigkeytestsuitestestsuitepassrtemsvaltestcasepass>`__
 
 .. _SpecRtemsValTestCasePassInputSpecifications:
 
@@ -1032,31 +996,28 @@ spec:/rtems/val/test-case-run
 General
 -------
 
-.. rubric:: DESCRIPTION:
+Description
+    Test brief
+    The following test case actions are carried out:
 
-Test brief
-The following test case actions are carried out:
+    - Action brief.
 
-- Action brief.
+      - Check brief.
+        This validates `spec:/​rtems/​req/​func </pkg/doc-ts-srs/html/requirements.html#specrtemsreqfunc>`__, `spec:/​rtems/​req/​group </pkg/doc-ts-srs/html/requirements.html#specrtemsreqgroup>`__, and `spec:/​rtems/​req/​perf </pkg/doc-ts-srs/html/requirements.html#specrtemsreqperf>`__.
 
-  - Check brief.
-    This validates `spec:/​rtems/​req/​func </pkg/doc-ts-srs/html/requirements.html#specrtemsreqfunc>`__, `spec:/​rtems/​req/​group </pkg/doc-ts-srs/html/requirements.html#specrtemsreqgroup>`__, and `spec:/​rtems/​req/​perf </pkg/doc-ts-srs/html/requirements.html#specrtemsreqperf>`__.
+      This action is implemented by
+      the function `RtemsValTestCaseRun_Action_0() </pkg/doc-ddf-sdd/html/group__RtemsValTestCaseRun.html#ga3cbb537cb50db02607b786cec0cc3bd1>`__.
 
-  This action is implemented by
-  the function `RtemsValTestCaseRun_Action_0() </pkg/doc-ddf-sdd/html/group__RtemsValTestCaseRun.html#ga3cbb537cb50db02607b786cec0cc3bd1>`__.
+    This test case is implemented by the
+    function `RtemsValTestCaseRun_Run() </pkg/doc-ddf-sdd/html/group__RtemsValTestCaseRun.html#ga301259ebfd4b0c947ad359e448a3a7bb>`__
+    contained in the file
+    `tests/tr-test-case.c </pkg/doc-ddf-sdd/html/tr-test-case_8c.html>`__.
 
-This test case is implemented by the
-function `RtemsValTestCaseRun_Run() </pkg/doc-ddf-sdd/html/group__RtemsValTestCaseRun.html#ga301259ebfd4b0c947ad359e448a3a7bb>`__
-contained in the file
-`tests/tr-test-case.c </pkg/doc-ddf-sdd/html/tr-test-case_8c.html>`__.
+Test suites
+    This test case is contained in the :ref:`spec:/​testsuites/​test-suite-fail <SpecTestsuitesTestSuiteFail>` test suite.
 
-.. rubric:: TEST SUITES:
-
-This test case is contained in the :ref:`spec:/​testsuites/​test-suite-fail <SpecTestsuitesTestSuiteFail>` test suite.
-
-.. rubric:: TEST RESULTS:
-
-There are no test results available.
+Test results
+    There are no test results available.
 
 .. _SpecRtemsValTestCaseRunInputSpecifications:
 
@@ -1117,29 +1078,26 @@ spec:/rtems/val/test-case-xfail
 General
 -------
 
-.. rubric:: DESCRIPTION:
+Description
+    Brief.
 
-Brief.
+    Description.
+    The following test case actions are carried out:
 
-Description.
-The following test case actions are carried out:
+    This test case is implemented by the
+    function `T_case_body_RtemsValTestCaseXfail() </pkg/doc-ddf-sdd/html/group__RtemsValTestCaseXfail.html#ga8bd4229a2e63e549db1f0ad7c4f18a5c>`__
+    contained in the file
+    `tests/tc-xfail.c </pkg/doc-ddf-sdd/html/tc-xfail_8c.html>`__.
 
-This test case is implemented by the
-function `T_case_body_RtemsValTestCaseXfail() </pkg/doc-ddf-sdd/html/group__RtemsValTestCaseXfail.html#ga8bd4229a2e63e549db1f0ad7c4f18a5c>`__
-contained in the file
-`tests/tc-xfail.c </pkg/doc-ddf-sdd/html/tc-xfail_8c.html>`__.
+Test suites
+    This test case is contained in the :ref:`spec:/​testsuites/​test-suite-xfail <SpecTestsuitesTestSuiteXfail>` test suite.
 
-.. rubric:: TEST SUITES:
+Test results
+    For this test case, the following test results are available:
 
-This test case is contained in the :ref:`spec:/​testsuites/​test-suite-xfail <SpecTestsuitesTestSuiteXfail>` test suite.
-
-.. rubric:: TEST RESULTS:
-
-For this test case, the following test results are available:
-
-- `Target - Name Target A / Configuration - Build Configuration Name / Test
-  suite - spec:/​testsuites/​test-suite-xfail
-  </a-build-config-key-testsuites-test-suite-xfail.html#abuildconfigkeytestsuitestestsuitexfailrtemsvaltestcasexfail>`__
+    - `Target - Name Target A / Configuration - Build Configuration Name / Test
+      suite - spec:/​testsuites/​test-suite-xfail
+      </a-build-config-key-testsuites-test-suite-xfail.html#abuildconfigkeytestsuitestestsuitexfailrtemsvaltestcasexfail>`__
 
 .. _SpecRtemsValTestCaseXfailInputSpecifications:
 
@@ -1200,32 +1158,29 @@ spec:/score/cpu/val/perf
 General
 -------
 
-.. rubric:: DESCRIPTION:
+Description
+    Brief.
+    The following runtime measurement requests are carried out:
 
-Brief.
-The following runtime measurement requests are carried out:
+    - :ref:`spec:/​rtems/​req/​perf <SpecRtemsReqPerf>`
 
-- :ref:`spec:/​rtems/​req/​perf <SpecRtemsReqPerf>`
+    - :ref:`spec:/​rtems/​req/​perf-no-results <SpecRtemsReqPerfNoResults>`
 
-- :ref:`spec:/​rtems/​req/​perf-no-results <SpecRtemsReqPerfNoResults>`
+    This test case validates `spec:/​req/​root </pkg/doc-ts-srs/html/requirements.html#specreqroot>`__.
+    This test case is implemented by the
+    function `T_case_body_ScoreCpuValPerf() </pkg/doc-ddf-sdd/html/group__ScoreCpuValPerf.html#ga00214d5ab555daf1418266e8733a91ad>`__
+    contained in the file
+    `tests/tc-perf.c </pkg/doc-ddf-sdd/html/tc-perf_8c.html>`__.
 
-This test case validates `spec:/​req/​root </pkg/doc-ts-srs/html/requirements.html#specreqroot>`__.
-This test case is implemented by the
-function `T_case_body_ScoreCpuValPerf() </pkg/doc-ddf-sdd/html/group__ScoreCpuValPerf.html#ga00214d5ab555daf1418266e8733a91ad>`__
-contained in the file
-`tests/tc-perf.c </pkg/doc-ddf-sdd/html/tc-perf_8c.html>`__.
+Test suites
+    This test case is contained in the :ref:`spec:/​testsuites/​performance-no-clock-0 <SpecTestsuitesPerformanceNoClock0>` test suite.
 
-.. rubric:: TEST SUITES:
+Test results
+    For this test case, the following test results are available:
 
-This test case is contained in the :ref:`spec:/​testsuites/​performance-no-clock-0 <SpecTestsuitesPerformanceNoClock0>` test suite.
-
-.. rubric:: TEST RESULTS:
-
-For this test case, the following test results are available:
-
-- `Target - Name Target A / Configuration - Build Configuration Name / Test
-  suite - spec:/​testsuites/​performance-no-clock-0
-  </a-build-config-key-testsuites-performance-no-clock-0.html#abuildconfigkeytestsuitesperformancenoclock0scorecpuvalperf>`__
+    - `Target - Name Target A / Configuration - Build Configuration Name / Test
+      suite - spec:/​testsuites/​performance-no-clock-0
+      </a-build-config-key-testsuites-performance-no-clock-0.html#abuildconfigkeytestsuitesperformancenoclock0scorecpuvalperf>`__
 
 .. _SpecScoreCpuValPerfInputSpecifications:
 
@@ -1305,15 +1260,13 @@ This section lists validation evidence obtained by using the inspection validati
 spec:/rtems/val/by-inspection
 -----------------------------
 
-.. rubric:: INSPECTION:
+Inspection
+    The inspection.
 
-The inspection.
-
-.. rubric:: VALIDATED ITEM:
-
-This validation by inspection validates the runtime performance requirement
-`spec:/​rtems/​req/​perf
-</pkg/doc-ts-srs/html/requirements.html#specrtemsreqperf>`__.
+Validated item
+    This validation by inspection validates the runtime performance requirement
+    `spec:/​rtems/​req/​perf
+    </pkg/doc-ts-srs/html/requirements.html#specrtemsreqperf>`__.
 
 .. _ValidationByReviewOfDesign:
 
@@ -1331,15 +1284,13 @@ This section lists validation evidence obtained by using the review of design va
 spec:/rtems/val/by-review-of-design
 -----------------------------------
 
-.. rubric:: REVIEW OF DESIGN:
+Review of design
+    The review of design.
 
-The review of design.
-
-.. rubric:: VALIDATED ITEM:
-
-This validation by review of design validates the runtime performance
-requirement `spec:/​rtems/​req/​perf
-</pkg/doc-ts-srs/html/requirements.html#specrtemsreqperf>`__.
+Validated item
+    This validation by review of design validates the runtime performance
+    requirement `spec:/​rtems/​req/​perf
+    </pkg/doc-ts-srs/html/requirements.html#specrtemsreqperf>`__.
 .. other-validations end
 
 .. not-validated-by-test begin

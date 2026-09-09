@@ -270,67 +270,58 @@ Functional requirements
 spec:/rtems/req/action
 ======================
 
-.. rubric:: REQUIREMENT:
+Requirement
+    The function shall be specified by the following state transition map which
+    defines for each feasible pre-condition state variant the resulting
+    post-condition state variant produced by the trigger action.
 
-The function shall be specified by the following state transition map which
-defines for each feasible pre-condition state variant the resulting
-post-condition state variant produced by the trigger action.
+Interface function
+    This action requirement specifies the function of the directive
+    `UnspecFunction()
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecfunction>`__.
 
-.. rubric:: INTERFACE FUNCTION:
+Validation
+    This action requirement is validated by a validation by test specified by `spec:/​rtems/​req/​action </pkg/doc-djf-svs/html/test-case-specification.html#specrtemsreqaction>`__.
 
-This action requirement specifies the function of the directive
-`UnspecFunction()
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecfunction>`__.
+Pre-conditions
+    .. _SpecRtemsReqActionPreValue:
 
-.. rubric:: VALIDATION:
+    .. table::
+        :class: longtable
+        :widths: 20,80
 
-This action requirement is validated by a validation by test specified by `spec:/​rtems/​req/​action </pkg/doc-djf-svs/html/test-case-specification.html#specrtemsreqaction>`__.
+        +-+-+
+        | Value (pre-condition) |
+        +=+=+
+        | Zero | While the parameter value is equal to zero. |
+        +-+-+
+        | NonZero | While the parameter value is not equal to zero. |
+        +-+-+
 
-.. rubric:: PRE-CONDITIONS:
+Trigger action
+    When the `UnspecFunction()
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecfunction>`__
+    directive is called.
 
-.. _SpecRtemsReqActionPreValue:
+Post-conditions
+    .. _SpecRtemsReqActionPostResult:
 
-.. topic:: Pre-Condition - Value
+    .. table::
+        :class: longtable
+        :widths: 20,80
 
-    The *Value* pre-condition has the
-    following states:
+        +-+-+
+        | Result (post-condition) |
+        +=+=+
+        | Zero | The return value of `UnspecFunction() </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecfunction>`__ shall be equal to zero. |
+        +-+-+
+        | LastBitSet | The return value of `UnspecFunction() </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecfunction>`__ shall be equal to the index of |
+        | | the most-significant bit set in the parameter value. |
+        +-+-+
 
-    Zero
-        While the parameter value is equal to zero.
-
-    NonZero
-        While the parameter value is not equal to zero.
-
-.. rubric:: TRIGGER ACTION:
-
-When the `UnspecFunction()
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecfunction>`__
-directive is called.
-
-.. rubric:: POST-CONDITIONS:
-
-.. _SpecRtemsReqActionPostResult:
-
-.. topic:: Post-Condition - Result
-
-    The *Result* post-condition has the
-    following states:
-
-    Zero
-        The return value of `UnspecFunction()
-        </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecfunction>`__
-        shall be equal to zero.
-
-    LastBitSet
-        The return value of `UnspecFunction()
-        </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecfunction>`__
-        shall be equal to the index of the most-significant bit set in the
-        parameter value.
-
-.. rubric:: TRANSITION MAP:
-
-For each of the resulting post-condition state variants below, the set of
-producing pre-condition variants is listed.
+Transition map
+    For each of the resulting post-condition state variants below, the set of
+    producing pre-condition variants is listed.
 
 .. raw:: latex
 
@@ -354,9 +345,8 @@ producing pre-condition variants is listed.
 
     \\end{small}
 
-.. rubric:: CHANGES:
-
-There are no changes since Name v1.
+Changes
+    There are no changes since Name v1.
 
 .. raw:: latex
 
@@ -367,106 +357,103 @@ There are no changes since Name v1.
 spec:/rtems/req/action-2
 ========================
 
-.. rubric:: REQUIREMENT:
+Requirement
+    The function shall be specified by the following state transition map which
+    defines for each feasible pre-condition state variant the resulting
+    post-condition state variant produced by the trigger action.
 
-The function shall be specified by the following state transition map which
-defines for each feasible pre-condition state variant the resulting
-post-condition state variant produced by the trigger action.
+Interface functions
+    This action requirement specifies the function of the following items:
 
-.. rubric:: INTERFACE FUNCTIONS:
+    - `blub()
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsiffunc>`__
 
-This action requirement specifies the function of the following items:
+    - `UnspecFunction()
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecfunction>`__
 
-- `blub()
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsiffunc>`__
+Validation
+    This action requirement is validated by a validation by test specified by `spec:/​rtems/​req/​action-2 </pkg/doc-djf-svs/html/test-case-specification.html#specrtemsreqaction2>`__.
 
-- `UnspecFunction()
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecfunction>`__
+Pre-conditions
+    .. _SpecRtemsReqAction2PreA:
 
-.. rubric:: VALIDATION:
+    .. table::
+        :class: longtable
+        :widths: 20,80
 
-This action requirement is validated by a validation by test specified by `spec:/​rtems/​req/​action-2 </pkg/doc-djf-svs/html/test-case-specification.html#specrtemsreqaction2>`__.
+        +-+-+
+        | A (pre-condition) |
+        +=+=+
+        | AA | AA |
+        +-+-+
+        | AB | AB |
+        +-+-+
 
-.. rubric:: PRE-CONDITIONS:
+    .. _SpecRtemsReqAction2PreB:
 
-.. _SpecRtemsReqAction2PreA:
+    .. table::
+        :class: longtable
+        :widths: 20,80
 
-.. topic:: Pre-Condition - A
+        +-+-+
+        | B (pre-condition) |
+        +=+=+
+        | BA | BA |
+        +-+-+
+        | BB | BB |
+        +-+-+
 
-    The *A* pre-condition has the
-    following states:
+    .. _SpecRtemsReqAction2PreC:
 
-    AA
-        AA
+    .. table::
+        :class: longtable
+        :widths: 20,80
 
-    AB
-        AB
+        +-+-+
+        | C (pre-condition) |
+        +=+=+
+        | CA | CA |
+        +-+-+
+        | CB | CB |
+        +-+-+
+        | CC | CC |
+        +-+-+
 
-.. _SpecRtemsReqAction2PreB:
+Trigger action
+    When the directive is called.
 
-.. topic:: Pre-Condition - B
+Post-conditions
+    .. _SpecRtemsReqAction2PostX:
 
-    The *B* pre-condition has the
-    following states:
+    .. table::
+        :class: longtable
+        :widths: 20,80
 
-    BA
-        BA
+        +-+-+
+        | X (post-condition) |
+        +=+=+
+        | XA | XA |
+        +-+-+
+        | XB | XB |
+        +-+-+
 
-    BB
-        BB
+    .. _SpecRtemsReqAction2PostY:
 
-.. _SpecRtemsReqAction2PreC:
+    .. table::
+        :class: longtable
+        :widths: 20,80
 
-.. topic:: Pre-Condition - C
+        +-+-+
+        | Y (post-condition) |
+        +=+=+
+        | YA | YA |
+        +-+-+
+        | YB | YB |
+        +-+-+
 
-    The *C* pre-condition has the
-    following states:
-
-    CA
-        CA
-
-    CB
-        CB
-
-    CC
-        CC
-
-.. rubric:: TRIGGER ACTION:
-
-When the directive is called.
-
-.. rubric:: POST-CONDITIONS:
-
-.. _SpecRtemsReqAction2PostX:
-
-.. topic:: Post-Condition - X
-
-    The *X* post-condition has the
-    following states:
-
-    XA
-        XA
-
-    XB
-        XB
-
-.. _SpecRtemsReqAction2PostY:
-
-.. topic:: Post-Condition - Y
-
-    The *Y* post-condition has the
-    following states:
-
-    YA
-        YA
-
-    YB
-        YB
-
-.. rubric:: TRANSITION MAP:
-
-For each of the resulting post-condition state variants below, the set of
-producing pre-condition variants is listed.
+Transition map
+    For each of the resulting post-condition state variants below, the set of
+    producing pre-condition variants is listed.
 
 .. raw:: latex
 
@@ -492,17 +479,16 @@ producing pre-condition variants is listed.
 
     \\end{small}
 
-.. rubric:: INFEASIBLE PRE-CONDITION VARIANTS:
+Infeasible pre-condition variants
+    .. _SpecRtemsReqAction2SkipS:
 
-.. _SpecRtemsReqAction2SkipS:
+    *S*: Skip Therefore, the following pre-condition state variants are
+    infeasible:
 
-*S*: Skip Therefore, the following pre-condition state variants are infeasible:
+        * :ref:`A <SpecRtemsReqAction2PreA>` = AA, :ref:`B <SpecRtemsReqAction2PreB>` = BA, :ref:`C <SpecRtemsReqAction2PreC>` = {CA, CC}
 
-    * :ref:`A <SpecRtemsReqAction2PreA>` = AA, :ref:`B <SpecRtemsReqAction2PreB>` = BA, :ref:`C <SpecRtemsReqAction2PreC>` = {CA, CC}
-
-.. rubric:: CHANGES:
-
-There are no changes since Name v1.
+Changes
+    There are no changes since Name v1.
 
 .. raw:: latex
 
@@ -513,23 +499,19 @@ There are no changes since Name v1.
 spec:/rtems/req/define-not-defined
 ==================================
 
-.. rubric:: REQUIREMENT:
+Requirement
+    The define shall not be defined.
 
-The define shall not be defined.
+Interface function
+    This interface define requirement specifies the function of the define
+    `DEFINE_NOT_DEFINED
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifdefinenotdefined>`__.
 
-.. rubric:: INTERFACE FUNCTION:
+Validation
+    This interface define requirement is **not validated**.
 
-This interface define requirement specifies the function of the define
-`DEFINE_NOT_DEFINED
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifdefinenotdefined>`__.
-
-.. rubric:: VALIDATION:
-
-This interface define requirement is **not validated**.
-
-.. rubric:: CHANGES:
-
-There are no changes since Name v1.
+Changes
+    There are no changes since Name v1.
 
 .. raw:: latex
 
@@ -540,31 +522,27 @@ There are no changes since Name v1.
 spec:/rtems/req/func
 ====================
 
-.. rubric:: REQUIREMENT:
+Requirement
+    Text.
 
-Text.
+Interface function
+    This function requirement specifies the function of the directive `blub()
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsiffunc>`__.
 
-.. rubric:: INTERFACE FUNCTION:
+Validations
+    The validation of this **not validated** function requirement depends on
+    the following items:
 
-This function requirement specifies the function of the directive `blub()
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsiffunc>`__.
+    - `spec:/​rtems/​val/​test-case
+      </pkg/doc-djf-svs/html/test-case-specification.html#specrtemsvaltestcase>`__
+      (validation by test)
 
-.. rubric:: VALIDATIONS:
+    - `spec:/​rtems/​val/​test-case-run
+      </pkg/doc-djf-svs/html/test-case-specification.html#specrtemsvaltestcaserun>`__
+      (validation by test)
 
-The validation of this **not validated** function requirement depends on the
-following items:
-
-- `spec:/​rtems/​val/​test-case
-  </pkg/doc-djf-svs/html/test-case-specification.html#specrtemsvaltestcase>`__
-  (validation by test)
-
-- `spec:/​rtems/​val/​test-case-run
-  </pkg/doc-djf-svs/html/test-case-specification.html#specrtemsvaltestcaserun>`__
-  (validation by test)
-
-.. rubric:: CHANGES:
-
-There are no changes since Name v1.
+Changes
+    There are no changes since Name v1.
 
 .. _RequirementsPerformanceRequirements:
 
@@ -580,26 +558,24 @@ Performance requirements
 spec:/req/perf-runtime
 ======================
 
-.. rubric:: REQUIREMENT:
+Requirement
+    The runtime of interface functions shall be measured.
 
-The runtime of interface functions shall be measured.
+Refines
+    This performance requirement refines the design requirement
+    `spec:/​req/​root
+    </pkg/doc-ts-srs/html/requirements.html#specreqroot>`__.
 
-.. rubric:: REFINEMENTS:
+Refined by
+    This performance requirement is refined by the performance requirement
+    `spec:/​req/​perf-runtime-environment
+    </pkg/doc-ts-srs/html/requirements.html#specreqperfruntimeenvironment>`__.
 
-This performance requirement refines the design requirement `spec:/​req/​root
-</pkg/doc-ts-srs/html/requirements.html#specreqroot>`__.
+Validation
+    This **not validated** performance requirement is validated by the **not validated** refinement `spec:/​req/​perf-runtime-environment </pkg/doc-ts-srs/html/requirements.html#specreqperfruntimeenvironment>`__.
 
-This performance requirement is refined by the performance requirement
-`spec:/​req/​perf-runtime-environment
-</pkg/doc-ts-srs/html/requirements.html#specreqperfruntimeenvironment>`__.
-
-.. rubric:: VALIDATION:
-
-This **not validated** performance requirement is validated by the **not validated** refinement `spec:/​req/​perf-runtime-environment </pkg/doc-ts-srs/html/requirements.html#specreqperfruntimeenvironment>`__.
-
-.. rubric:: CHANGES:
-
-There are no changes since Name v1.
+Changes
+    There are no changes since Name v1.
 
 .. raw:: latex
 
@@ -610,60 +586,56 @@ There are no changes since Name v1.
 spec:/req/perf-runtime-environment
 ==================================
 
-.. rubric:: REQUIREMENT:
+Requirement
+    The runtime measurement shall be done in different runtime measurement
+    environments.
 
-The runtime measurement shall be done in different runtime measurement
-environments.
+Rationale
+    The state of the memory system on the :term:`target` has usually a
+    significant influence on timings.
 
-.. rubric:: RATIONALE:
+Refines
+    This performance requirement refines the performance requirement
+    `spec:/​req/​perf-runtime
+    </pkg/doc-ts-srs/html/requirements.html#specreqperfruntime>`__.
 
-The state of the memory system on the :term:`target` has usually a significant
-influence on timings.
+Refined by
+    This performance requirement is refined by the following items:
 
-.. rubric:: REFINEMENTS:
+    - `spec:/​req/​perf-runtime-environment-dirty-cache
+      </pkg/doc-ts-srs/html/requirements.html#specreqperfruntimeenvironmentdirtycache>`__
 
-This performance requirement refines the performance requirement
-`spec:/​req/​perf-runtime
-</pkg/doc-ts-srs/html/requirements.html#specreqperfruntime>`__.
+    - `spec:/​req/​perf-runtime-environment-full-cache
+      </pkg/doc-ts-srs/html/requirements.html#specreqperfruntimeenvironmentfullcache>`__
 
-This performance requirement is refined by the following items:
+    - `spec:/​req/​perf-runtime-environment-hot-cache
+      </pkg/doc-ts-srs/html/requirements.html#specreqperfruntimeenvironmenthotcache>`__
 
-- `spec:/​req/​perf-runtime-environment-dirty-cache
-  </pkg/doc-ts-srs/html/requirements.html#specreqperfruntimeenvironmentdirtycache>`__
+    - `spec:/​req/​perf-runtime-environment-load
+      </pkg/doc-ts-srs/html/requirements.html#specreqperfruntimeenvironmentload>`__
 
-- `spec:/​req/​perf-runtime-environment-full-cache
-  </pkg/doc-ts-srs/html/requirements.html#specreqperfruntimeenvironmentfullcache>`__
+Validations
+    The validation of this **not validated** performance requirement depends on
+    the following items:
 
-- `spec:/​req/​perf-runtime-environment-hot-cache
-  </pkg/doc-ts-srs/html/requirements.html#specreqperfruntimeenvironmenthotcache>`__
+    - `spec:/​req/​perf-runtime-environment-dirty-cache
+      </pkg/doc-ts-srs/html/requirements.html#specreqperfruntimeenvironmentdirtycache>`__
+      (**not validated** refinement)
 
-- `spec:/​req/​perf-runtime-environment-load
-  </pkg/doc-ts-srs/html/requirements.html#specreqperfruntimeenvironmentload>`__
+    - `spec:/​req/​perf-runtime-environment-full-cache
+      </pkg/doc-ts-srs/html/requirements.html#specreqperfruntimeenvironmentfullcache>`__
+      (**not validated** refinement)
 
-.. rubric:: VALIDATIONS:
+    - `spec:/​req/​perf-runtime-environment-hot-cache
+      </pkg/doc-ts-srs/html/requirements.html#specreqperfruntimeenvironmenthotcache>`__
+      (**not validated** refinement)
 
-The validation of this **not validated** performance requirement depends on the
-following items:
+    - `spec:/​req/​perf-runtime-environment-load
+      </pkg/doc-ts-srs/html/requirements.html#specreqperfruntimeenvironmentload>`__
+      (**not validated** refinement)
 
-- `spec:/​req/​perf-runtime-environment-dirty-cache
-  </pkg/doc-ts-srs/html/requirements.html#specreqperfruntimeenvironmentdirtycache>`__
-  (**not validated** refinement)
-
-- `spec:/​req/​perf-runtime-environment-full-cache
-  </pkg/doc-ts-srs/html/requirements.html#specreqperfruntimeenvironmentfullcache>`__
-  (**not validated** refinement)
-
-- `spec:/​req/​perf-runtime-environment-hot-cache
-  </pkg/doc-ts-srs/html/requirements.html#specreqperfruntimeenvironmenthotcache>`__
-  (**not validated** refinement)
-
-- `spec:/​req/​perf-runtime-environment-load
-  </pkg/doc-ts-srs/html/requirements.html#specreqperfruntimeenvironmentload>`__
-  (**not validated** refinement)
-
-.. rubric:: CHANGES:
-
-There are no changes since Name v1.
+Changes
+    There are no changes since Name v1.
 
 .. raw:: latex
 
@@ -674,36 +646,31 @@ There are no changes since Name v1.
 spec:/req/perf-runtime-environment-dirty-cache
 ==============================================
 
-.. rubric:: REQUIREMENT:
+Requirement
+    A :term:`target` state in which the caches are fully loaded with dirty data
+    and instructions unrelated to the measured code section shall be a runtime
+    measurement environment.
 
-A :term:`target` state in which the caches are fully loaded with dirty data and
-instructions unrelated to the measured code section shall be a runtime
-measurement environment.
+Rationale
+    This runtime measurement environment is used to measure the runtime of code
+    sections while data and instructions of the code section have to be loaded
+    from main memory and the loaded data has to wait for the write out of dirty
+    data.
 
-.. rubric:: RATIONALE:
+Refines
+    This runtime performance measurement environment refines the performance
+    requirement `spec:/​req/​perf-runtime-environment
+    </pkg/doc-ts-srs/html/requirements.html#specreqperfruntimeenvironment>`__.
 
-This runtime measurement environment is used to measure the runtime of code
-sections while data and instructions of the code section have to be loaded from
-main memory and the loaded data has to wait for the write out of dirty data.
+Validation
+    This runtime performance measurement environment is **not validated**.
 
-.. rubric:: REFINEMENT:
+Name
+    The RTEMS Test Framework name of this runtime measurement environment is
+    ``DirtyCache``.
 
-This runtime performance measurement environment refines the performance
-requirement `spec:/​req/​perf-runtime-environment
-</pkg/doc-ts-srs/html/requirements.html#specreqperfruntimeenvironment>`__.
-
-.. rubric:: VALIDATION:
-
-This runtime performance measurement environment is **not validated**.
-
-.. rubric:: NAME:
-
-The RTEMS Test Framework name of this runtime measurement environment is
-``DirtyCache``.
-
-.. rubric:: CHANGES:
-
-There are no changes since Name v1.
+Changes
+    There are no changes since Name v1.
 
 .. raw:: latex
 
@@ -714,36 +681,30 @@ There are no changes since Name v1.
 spec:/req/perf-runtime-environment-full-cache
 =============================================
 
-.. rubric:: REQUIREMENT:
+Requirement
+    A :term:`target` state in which the caches are fully loaded with valid data
+    and instructions unrelated to the measured code section shall be a runtime
+    measurement environment.
 
-A :term:`target` state in which the caches are fully loaded with valid data and
-instructions unrelated to the measured code section shall be a runtime
-measurement environment.
+Rationale
+    This runtime measurement environment is used to measure the runtime of code
+    sections while data and instructions of the code section have to be loaded
+    from main memory without having to wait for the write out of dirty data.
 
-.. rubric:: RATIONALE:
+Refines
+    This runtime performance measurement environment refines the performance
+    requirement `spec:/​req/​perf-runtime-environment
+    </pkg/doc-ts-srs/html/requirements.html#specreqperfruntimeenvironment>`__.
 
-This runtime measurement environment is used to measure the runtime of code
-sections while data and instructions of the code section have to be loaded from
-main memory without having to wait for the write out of dirty data.
+Validation
+    This runtime performance measurement environment is **not validated**.
 
-.. rubric:: REFINEMENT:
+Name
+    The RTEMS Test Framework name of this runtime measurement environment is
+    ``FullCache``.
 
-This runtime performance measurement environment refines the performance
-requirement `spec:/​req/​perf-runtime-environment
-</pkg/doc-ts-srs/html/requirements.html#specreqperfruntimeenvironment>`__.
-
-.. rubric:: VALIDATION:
-
-This runtime performance measurement environment is **not validated**.
-
-.. rubric:: NAME:
-
-The RTEMS Test Framework name of this runtime measurement environment is
-``FullCache``.
-
-.. rubric:: CHANGES:
-
-There are no changes since Name v1.
+Changes
+    There are no changes since Name v1.
 
 .. raw:: latex
 
@@ -754,36 +715,30 @@ There are no changes since Name v1.
 spec:/req/perf-runtime-environment-hot-cache
 ============================================
 
-.. rubric:: REQUIREMENT:
+Requirement
+    A :term:`target` state in which the caches are fully loaded with data and
+    instructions related to the measured code section shall be a runtime
+    measurement environment.
 
-A :term:`target` state in which the caches are fully loaded with data and
-instructions related to the measured code section shall be a runtime
-measurement environment.
+Rationale
+    This runtime measurement environment is used to measure the runtime of code
+    sections while data and instructions of the code section are already in the
+    cache.  This should give a good estimate of best case conditions.
 
-.. rubric:: RATIONALE:
+Refines
+    This runtime performance measurement environment refines the performance
+    requirement `spec:/​req/​perf-runtime-environment
+    </pkg/doc-ts-srs/html/requirements.html#specreqperfruntimeenvironment>`__.
 
-This runtime measurement environment is used to measure the runtime of code
-sections while data and instructions of the code section are already in the
-cache.  This should give a good estimate of best case conditions.
+Validation
+    This runtime performance measurement environment is **not validated**.
 
-.. rubric:: REFINEMENT:
+Name
+    The RTEMS Test Framework name of this runtime measurement environment is
+    ``HotCache``.
 
-This runtime performance measurement environment refines the performance
-requirement `spec:/​req/​perf-runtime-environment
-</pkg/doc-ts-srs/html/requirements.html#specreqperfruntimeenvironment>`__.
-
-.. rubric:: VALIDATION:
-
-This runtime performance measurement environment is **not validated**.
-
-.. rubric:: NAME:
-
-The RTEMS Test Framework name of this runtime measurement environment is
-``HotCache``.
-
-.. rubric:: CHANGES:
-
-There are no changes since Name v1.
+Changes
+    There are no changes since Name v1.
 
 .. raw:: latex
 
@@ -794,35 +749,29 @@ There are no changes since Name v1.
 spec:/req/perf-runtime-environment-load
 =======================================
 
-.. rubric:: REQUIREMENT:
+Requirement
+    A :term:`target` state in which the caches are fully loaded with dirty data
+    and instructions unrelated to the measured code section and data bus load
+    from background tasks shall be a runtime measurement environment.
 
-A :term:`target` state in which the caches are fully loaded with dirty data and
-instructions unrelated to the measured code section and data bus load from
-background tasks shall be a runtime measurement environment.
+Rationale
+    This runtime measurement environment is intended to get close to worst case
+    execution conditions.
 
-.. rubric:: RATIONALE:
+Refines
+    This runtime performance measurement environment refines the performance
+    requirement `spec:/​req/​perf-runtime-environment
+    </pkg/doc-ts-srs/html/requirements.html#specreqperfruntimeenvironment>`__.
 
-This runtime measurement environment is intended to get close to worst case
-execution conditions.
+Validation
+    This runtime performance measurement environment is **not validated**.
 
-.. rubric:: REFINEMENT:
+Name
+    The RTEMS Test Framework name of this runtime measurement environment is
+    ``Load``.
 
-This runtime performance measurement environment refines the performance
-requirement `spec:/​req/​perf-runtime-environment
-</pkg/doc-ts-srs/html/requirements.html#specreqperfruntimeenvironment>`__.
-
-.. rubric:: VALIDATION:
-
-This runtime performance measurement environment is **not validated**.
-
-.. rubric:: NAME:
-
-The RTEMS Test Framework name of this runtime measurement environment is
-``Load``.
-
-.. rubric:: CHANGES:
-
-There are no changes since Name v1.
+Changes
+    There are no changes since Name v1.
 
 .. raw:: latex
 
@@ -833,21 +782,16 @@ There are no changes since Name v1.
 spec:/rtems/req/perf
 ====================
 
-.. rubric:: REQUIREMENT:
-
-Environment is ${ENVIRONMENT}, limit kind is ${LIMIT_KIND}, limit condition is
-${LIMIT_CONDITION}, buffer count is 10, sample count is 100.
-
-.. rubric:: RUNTIME PERFORMANCE LIMITS:
-
-For the `spec:/​rtems/​target-a
-</pkg/doc-ts-srs/html/requirements.html#specrtemstargeta>`__
-target, the following runtime performance limits shall apply:
+Requirement
+    Environment is ${ENVIRONMENT}, limit kind is ${LIMIT_KIND}, limit condition
+    is ${LIMIT_CONDITION}, buffer count is 10, sample count is 100.
 
 .. table::
     :class: longtable
     :widths: 25,25,50
 
+    +-+-+-+
+    | For the `spec:/​rtems/​target-a </pkg/doc-ts-srs/html/requirements.html#specrtemstargeta>`__ target, the following runtime performance limits shall apply. |
     +-+-+-+
     | ${ENVIRONMENT} | ${LIMIT_KIND} | ${LIMIT_CONDITION} |
     +=+=+=+
@@ -888,39 +832,36 @@ reported the following `runtime performance measurements
     :align: center
     :width: 50%
 
-.. rubric:: REFINEMENT:
+Refines
+    This runtime performance requirement refines the interface group `Blub
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifgroup>`__.
 
-This runtime performance requirement refines the interface group `Blub
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifgroup>`__.
+Validations
+    The validation of this **not validated** runtime performance requirement
+    depends on the following items:
 
-.. rubric:: VALIDATIONS:
+    - `spec:/​rtems/​req/​perf
+      </pkg/doc-djf-svs/html/test-case-specification.html#specrtemsreqperf>`__
+      (validation by test)
 
-The validation of this **not validated** runtime performance requirement
-depends on the following items:
+    - `spec:/​rtems/​val/​by-inspection
+      </pkg/doc-djf-svs/html/validation-other.html#specrtemsvalbyinspection>`__
+      (validation by inspection)
 
-- `spec:/​rtems/​req/​perf
-  </pkg/doc-djf-svs/html/test-case-specification.html#specrtemsreqperf>`__
-  (validation by test)
+    - `spec:/​rtems/​val/​by-review-of-design
+      </pkg/doc-djf-svs/html/validation-other.html#specrtemsvalbyreviewofdesign>`__
+      (validation by review of design)
 
-- `spec:/​rtems/​val/​by-inspection
-  </pkg/doc-djf-svs/html/validation-other.html#specrtemsvalbyinspection>`__
-  (validation by inspection)
+    - `spec:/​rtems/​val/​test-case
+      </pkg/doc-djf-svs/html/test-case-specification.html#specrtemsvaltestcase>`__
+      (validation by test)
 
-- `spec:/​rtems/​val/​by-review-of-design
-  </pkg/doc-djf-svs/html/validation-other.html#specrtemsvalbyreviewofdesign>`__
-  (validation by review of design)
+    - `spec:/​rtems/​val/​test-case-run
+      </pkg/doc-djf-svs/html/test-case-specification.html#specrtemsvaltestcaserun>`__
+      (validation by test)
 
-- `spec:/​rtems/​val/​test-case
-  </pkg/doc-djf-svs/html/test-case-specification.html#specrtemsvaltestcase>`__
-  (validation by test)
-
-- `spec:/​rtems/​val/​test-case-run
-  </pkg/doc-djf-svs/html/test-case-specification.html#specrtemsvaltestcaserun>`__
-  (validation by test)
-
-.. rubric:: CHANGES:
-
-There are no changes since Name v1.
+Changes
+    There are no changes since Name v1.
 
 .. raw:: latex
 
@@ -931,20 +872,15 @@ There are no changes since Name v1.
 spec:/rtems/req/perf-no-results
 ===============================
 
-.. rubric:: REQUIREMENT:
-
-Text.
-
-.. rubric:: RUNTIME PERFORMANCE LIMITS:
-
-For the `spec:/​rtems/​target-a
-</pkg/doc-ts-srs/html/requirements.html#specrtemstargeta>`__
-target, the following runtime performance limits shall apply:
+Requirement
+    Text.
 
 .. table::
     :class: longtable
     :widths: 25,25,50
 
+    +-+-+-+
+    | For the `spec:/​rtems/​target-a </pkg/doc-ts-srs/html/requirements.html#specrtemstargeta>`__ target, the following runtime performance limits shall apply. |
     +-+-+-+
     | ${ENVIRONMENT} | ${LIMIT_KIND} | ${LIMIT_CONDITION} |
     +=+=+=+
@@ -977,18 +913,15 @@ target, the following runtime performance limits shall apply:
 
     There are no runtime measurements available for this requirement.
 
-.. rubric:: REFINEMENT:
+Refines
+    This runtime performance requirement refines the interface group `Blub
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifgroup>`__.
 
-This runtime performance requirement refines the interface group `Blub
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifgroup>`__.
+Validation
+    This runtime performance requirement is validated by a validation by test specified by `spec:/​rtems/​req/​perf-no-results </pkg/doc-djf-svs/html/test-case-specification.html#specrtemsreqperfnoresults>`__.
 
-.. rubric:: VALIDATION:
-
-This runtime performance requirement is validated by a validation by test specified by `spec:/​rtems/​req/​perf-no-results </pkg/doc-djf-svs/html/test-case-specification.html#specrtemsreqperfnoresults>`__.
-
-.. rubric:: CHANGES:
-
-There are no changes since Name v1.
+Changes
+    There are no changes since Name v1.
 
 .. _RequirementsInterfaceRequirements:
 
@@ -1031,22 +964,18 @@ Design requirements and implementation constraints
 spec:/glossary/group
 ====================
 
-.. rubric:: REQUIREMENT:
+Requirement
+    The system shall have a general glossary of terms.
 
-The system shall have a general glossary of terms.
+Refines
+    This glossary group refines the design requirement `spec:/​req/​root
+    </pkg/doc-ts-srs/html/requirements.html#specreqroot>`__.
 
-.. rubric:: REFINEMENT:
+Validation
+    This glossary group is validated.
 
-This glossary group refines the design requirement `spec:/​req/​root
-</pkg/doc-ts-srs/html/requirements.html#specreqroot>`__.
-
-.. rubric:: VALIDATION:
-
-This glossary group is validated.
-
-.. rubric:: CHANGES:
-
-There are no changes since Name v1.
+Changes
+    There are no changes since Name v1.
 
 .. raw:: latex
 
@@ -1057,22 +986,18 @@ There are no changes since Name v1.
 spec:/req/glossary
 ==================
 
-.. rubric:: REQUIREMENT:
+Requirement
+    The system shall have a glossary of specification-specific terms.
 
-The system shall have a glossary of specification-specific terms.
+Refines
+    This glossary group refines the design requirement `spec:/​req/​root
+    </pkg/doc-ts-srs/html/requirements.html#specreqroot>`__.
 
-.. rubric:: REFINEMENT:
+Validation
+    This glossary group is **not validated**.
 
-This glossary group refines the design requirement `spec:/​req/​root
-</pkg/doc-ts-srs/html/requirements.html#specreqroot>`__.
-
-.. rubric:: VALIDATION:
-
-This glossary group is **not validated**.
-
-.. rubric:: CHANGES:
-
-There are no changes since Name v1.
+Changes
+    There are no changes since Name v1.
 
 .. raw:: latex
 
@@ -1083,110 +1008,106 @@ There are no changes since Name v1.
 spec:/req/root
 ==============
 
-.. rubric:: REQUIREMENT:
+Requirement
+    The software product shall be a real-time operating system.
 
-The software product shall be a real-time operating system.
+Refined by
+    This design requirement is refined by the following items:
 
-.. rubric:: REFINEMENTS:
+    - `spec:/​glossary/​group
+      </pkg/doc-ts-srs/html/requirements.html#specglossarygroup>`__
 
-This design requirement is refined by the following items:
+    - `spec:/​req/​api
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specreqapi>`__
 
-- `spec:/​glossary/​group
-  </pkg/doc-ts-srs/html/requirements.html#specglossarygroup>`__
+    - `spec:/​req/​glossary
+      </pkg/doc-ts-srs/html/requirements.html#specreqglossary>`__
 
-- `spec:/​req/​api
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specreqapi>`__
+    - `spec:/​req/​perf-runtime
+      </pkg/doc-ts-srs/html/requirements.html#specreqperfruntime>`__
 
-- `spec:/​req/​glossary
-  </pkg/doc-ts-srs/html/requirements.html#specreqglossary>`__
+    - `spec:/​req/​usage-constraints
+      </pkg/doc-ts-srs/html/requirements.html#specrequsageconstraints>`__
 
-- `spec:/​req/​perf-runtime
-  </pkg/doc-ts-srs/html/requirements.html#specreqperfruntime>`__
+    - `Domain
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifdomain>`__
 
-- `spec:/​req/​usage-constraints
-  </pkg/doc-ts-srs/html/requirements.html#specrequsageconstraints>`__
+    - `Something Configuration
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifgroupacfg>`__
 
-- `Domain
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifdomain>`__
+    - `spec:/​rtems/​req/​group
+      </pkg/doc-ts-srs/html/requirements.html#specrtemsreqgroup>`__
 
-- `Something Configuration
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifgroupacfg>`__
+    - `spec:/​rtems/​req/​group-no-identifier
+      </pkg/doc-ts-srs/html/requirements.html#specrtemsreqgroupnoidentifier>`__
 
-- `spec:/​rtems/​req/​group
-  </pkg/doc-ts-srs/html/requirements.html#specrtemsreqgroup>`__
+    - `spec:/​rtems/​target-a
+      </pkg/doc-ts-srs/html/requirements.html#specrtemstargeta>`__
 
-- `spec:/​rtems/​req/​group-no-identifier
-  </pkg/doc-ts-srs/html/requirements.html#specrtemsreqgroupnoidentifier>`__
+    - `spec:/​testsuites/​unit
+      </pkg/doc-ts-srs/html/requirements.html#spectestsuitesunit>`__
 
-- `spec:/​rtems/​target-a
-  </pkg/doc-ts-srs/html/requirements.html#specrtemstargeta>`__
+    - `spec:/​testsuites/​validation
+      </pkg/doc-ts-srs/html/requirements.html#spectestsuitesvalidation>`__
 
-- `spec:/​testsuites/​unit
-  </pkg/doc-ts-srs/html/requirements.html#spectestsuitesunit>`__
+Validations
+    The validation of this **not validated** design requirement depends on the
+    following items:
 
-- `spec:/​testsuites/​validation
-  </pkg/doc-ts-srs/html/requirements.html#spectestsuitesvalidation>`__
+    - `spec:/​glossary/​group
+      </pkg/doc-ts-srs/html/requirements.html#specglossarygroup>`__
+      (validated refinement)
 
-.. rubric:: VALIDATIONS:
+    - `spec:/​req/​api
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specreqapi>`__
+      (**not validated** refinement)
 
-The validation of this **not validated** design requirement depends on the
-following items:
+    - `spec:/​req/​glossary
+      </pkg/doc-ts-srs/html/requirements.html#specreqglossary>`__
+      (**not validated** refinement)
 
-- `spec:/​glossary/​group
-  </pkg/doc-ts-srs/html/requirements.html#specglossarygroup>`__
-  (validated refinement)
+    - `spec:/​req/​perf-runtime
+      </pkg/doc-ts-srs/html/requirements.html#specreqperfruntime>`__
+      (**not validated** refinement)
 
-- `spec:/​req/​api
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specreqapi>`__
-  (**not validated** refinement)
+    - `spec:/​req/​usage-constraints
+      </pkg/doc-ts-srs/html/requirements.html#specrequsageconstraints>`__
+      (validated refinement)
 
-- `spec:/​req/​glossary
-  </pkg/doc-ts-srs/html/requirements.html#specreqglossary>`__
-  (**not validated** refinement)
+    - `Domain
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifdomain>`__
+      (**not validated** refinement)
 
-- `spec:/​req/​perf-runtime
-  </pkg/doc-ts-srs/html/requirements.html#specreqperfruntime>`__
-  (**not validated** refinement)
+    - `Something Configuration
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifgroupacfg>`__
+      (not pre-qualified refinement)
 
-- `spec:/​req/​usage-constraints
-  </pkg/doc-ts-srs/html/requirements.html#specrequsageconstraints>`__
-  (validated refinement)
+    - `spec:/​rtems/​req/​group
+      </pkg/doc-ts-srs/html/requirements.html#specrtemsreqgroup>`__
+      (**not validated** refinement)
 
-- `Domain
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifdomain>`__
-  (**not validated** refinement)
+    - `spec:/​rtems/​req/​group-no-identifier
+      </pkg/doc-ts-srs/html/requirements.html#specrtemsreqgroupnoidentifier>`__
+      (**not validated** refinement)
 
-- `Something Configuration
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifgroupacfg>`__
-  (not pre-qualified refinement)
+    - `spec:/​rtems/​target-a
+      </pkg/doc-ts-srs/html/requirements.html#specrtemstargeta>`__
+      (**not validated** refinement)
 
-- `spec:/​rtems/​req/​group
-  </pkg/doc-ts-srs/html/requirements.html#specrtemsreqgroup>`__
-  (**not validated** refinement)
+    - `spec:/​score/​cpu/​val/​perf
+      </pkg/doc-djf-svs/html/test-case-specification.html#specscorecpuvalperf>`__
+      (validation by test)
 
-- `spec:/​rtems/​req/​group-no-identifier
-  </pkg/doc-ts-srs/html/requirements.html#specrtemsreqgroupnoidentifier>`__
-  (**not validated** refinement)
+    - `spec:/​testsuites/​unit
+      </pkg/doc-ts-srs/html/requirements.html#spectestsuitesunit>`__
+      (**not validated** refinement)
 
-- `spec:/​rtems/​target-a
-  </pkg/doc-ts-srs/html/requirements.html#specrtemstargeta>`__
-  (**not validated** refinement)
+    - `spec:/​testsuites/​validation
+      </pkg/doc-ts-srs/html/requirements.html#spectestsuitesvalidation>`__
+      (**not validated** refinement)
 
-- `spec:/​score/​cpu/​val/​perf
-  </pkg/doc-djf-svs/html/test-case-specification.html#specscorecpuvalperf>`__
-  (validation by test)
-
-- `spec:/​testsuites/​unit
-  </pkg/doc-ts-srs/html/requirements.html#spectestsuitesunit>`__
-  (**not validated** refinement)
-
-- `spec:/​testsuites/​validation
-  </pkg/doc-ts-srs/html/requirements.html#spectestsuitesvalidation>`__
-  (**not validated** refinement)
-
-.. rubric:: CHANGES:
-
-There are no changes since Name v1.
+Changes
+    There are no changes since Name v1.
 
 .. raw:: latex
 
@@ -1197,26 +1118,23 @@ There are no changes since Name v1.
 spec:/req/usage-constraints
 ===========================
 
-.. rubric:: REQUIREMENT:
+Requirement
+    The system shall document usage constraints of interfaces.
 
-The system shall document usage constraints of interfaces.
+Refines
+    This design requirement refines the design requirement `spec:/​req/​root
+    </pkg/doc-ts-srs/html/requirements.html#specreqroot>`__.
 
-.. rubric:: REFINEMENTS:
+Refined by
+    This design requirement is refined by the constraint
+    `spec:/​acfg/​constraint/​option-not-pre-qualified
+    </pkg/doc-ts-srs/html/requirements.html#specacfgconstraintoptionnotprequalified>`__.
 
-This design requirement refines the design requirement `spec:/​req/​root
-</pkg/doc-ts-srs/html/requirements.html#specreqroot>`__.
+Validation
+    This validated design requirement is validated by the validated refinement `spec:/​acfg/​constraint/​option-not-pre-qualified </pkg/doc-ts-srs/html/requirements.html#specacfgconstraintoptionnotprequalified>`__.
 
-This design requirement is refined by the constraint
-`spec:/​acfg/​constraint/​option-not-pre-qualified
-</pkg/doc-ts-srs/html/requirements.html#specacfgconstraintoptionnotprequalified>`__.
-
-.. rubric:: VALIDATION:
-
-This validated design requirement is validated by the validated refinement `spec:/​acfg/​constraint/​option-not-pre-qualified </pkg/doc-ts-srs/html/requirements.html#specacfgconstraintoptionnotprequalified>`__.
-
-.. rubric:: CHANGES:
-
-There are no changes since Name v1.
+Changes
+    There are no changes since Name v1.
 
 .. raw:: latex
 
@@ -1227,35 +1145,30 @@ There are no changes since Name v1.
 spec:/rtems/req/group
 =====================
 
-.. rubric:: REQUIREMENT:
+Requirement
+    Text.
 
-Text.
+Software design
+    This design group is realised by the software design element `Blub3 </pkg/doc-ddf-sdd/html/group__Blub3.html>`__.
 
-.. rubric:: SOFTWARE DESIGN:
+Refines
+    This design group refines the design requirement `spec:/​req/​root
+    </pkg/doc-ts-srs/html/requirements.html#specreqroot>`__.
 
-This design group is realised by the software design element `Blub3 </pkg/doc-ddf-sdd/html/group__Blub3.html>`__.
+Validations
+    The validation of this **not validated** design group depends on the
+    following items:
 
-.. rubric:: REFINEMENT:
+    - `spec:/​rtems/​val/​test-case
+      </pkg/doc-djf-svs/html/test-case-specification.html#specrtemsvaltestcase>`__
+      (validation by test)
 
-This design group refines the design requirement `spec:/​req/​root
-</pkg/doc-ts-srs/html/requirements.html#specreqroot>`__.
+    - `spec:/​rtems/​val/​test-case-run
+      </pkg/doc-djf-svs/html/test-case-specification.html#specrtemsvaltestcaserun>`__
+      (validation by test)
 
-.. rubric:: VALIDATIONS:
-
-The validation of this **not validated** design group depends on the following
-items:
-
-- `spec:/​rtems/​val/​test-case
-  </pkg/doc-djf-svs/html/test-case-specification.html#specrtemsvaltestcase>`__
-  (validation by test)
-
-- `spec:/​rtems/​val/​test-case-run
-  </pkg/doc-djf-svs/html/test-case-specification.html#specrtemsvaltestcaserun>`__
-  (validation by test)
-
-.. rubric:: CHANGES:
-
-There are no changes since Name v1.
+Changes
+    There are no changes since Name v1.
 
 .. raw:: latex
 
@@ -1266,22 +1179,18 @@ There are no changes since Name v1.
 spec:/rtems/req/group-no-identifier
 ===================================
 
-.. rubric:: REQUIREMENT:
+Requirement
+    Text.
 
-Text.
+Refines
+    This design group refines the design requirement `spec:/​req/​root
+    </pkg/doc-ts-srs/html/requirements.html#specreqroot>`__.
 
-.. rubric:: REFINEMENT:
+Validation
+    This design group is **not validated**.
 
-This design group refines the design requirement `spec:/​req/​root
-</pkg/doc-ts-srs/html/requirements.html#specreqroot>`__.
-
-.. rubric:: VALIDATION:
-
-This design group is **not validated**.
-
-.. rubric:: CHANGES:
-
-There are no changes since Name v1.
+Changes
+    There are no changes since Name v1.
 
 .. raw:: latex
 
@@ -1292,22 +1201,18 @@ There are no changes since Name v1.
 spec:/rtems/target-a
 ====================
 
-.. rubric:: REQUIREMENT:
+Requirement
+    The Name Target A shall be a target.
 
-The Name Target A shall be a target.
+Refines
+    This design target refines the design requirement `spec:/​req/​root
+    </pkg/doc-ts-srs/html/requirements.html#specreqroot>`__.
 
-.. rubric:: REFINEMENT:
+Validation
+    This design target is **not validated**.
 
-This design target refines the design requirement `spec:/​req/​root
-</pkg/doc-ts-srs/html/requirements.html#specreqroot>`__.
-
-.. rubric:: VALIDATION:
-
-This design target is **not validated**.
-
-.. rubric:: CHANGES:
-
-There are no changes since Name v1.
+Changes
+    There are no changes since Name v1.
 
 .. raw:: latex
 
@@ -1318,25 +1223,22 @@ There are no changes since Name v1.
 spec:/testsuites/unit
 =====================
 
-.. rubric:: REQUIREMENT:
+Requirement
+    The unit tests shall be a contained in test suites.
 
-The unit tests shall be a contained in test suites.
+Refines
+    This design group refines the design requirement `spec:/​req/​root
+    </pkg/doc-ts-srs/html/requirements.html#specreqroot>`__.
 
-.. rubric:: REFINEMENTS:
+Refined by
+    This design group is refined by the test suite `spec:/​testsuites/​unit-0
+    </pkg/doc-djf-suitp/html/test-design.html#spectestsuitesunit0>`__.
 
-This design group refines the design requirement `spec:/​req/​root
-</pkg/doc-ts-srs/html/requirements.html#specreqroot>`__.
+Validation
+    This **not validated** design group is validated by the **not validated** refinement `spec:/​testsuites/​unit-0 </pkg/doc-djf-suitp/html/test-design.html#spectestsuitesunit0>`__.
 
-This design group is refined by the test suite `spec:/​testsuites/​unit-0
-</pkg/doc-djf-suitp/html/test-design.html#spectestsuitesunit0>`__.
-
-.. rubric:: VALIDATION:
-
-This **not validated** design group is validated by the **not validated** refinement `spec:/​testsuites/​unit-0 </pkg/doc-djf-suitp/html/test-design.html#spectestsuitesunit0>`__.
-
-.. rubric:: CHANGES:
-
-There are no changes since Name v1.
+Changes
+    There are no changes since Name v1.
 
 .. raw:: latex
 
@@ -1347,67 +1249,64 @@ There are no changes since Name v1.
 spec:/testsuites/validation
 ===========================
 
-.. rubric:: REQUIREMENT:
+Requirement
+    The validation tests shall be a contained in test suites.
 
-The validation tests shall be a contained in test suites.
+Refines
+    This design group refines the design requirement `spec:/​req/​root
+    </pkg/doc-ts-srs/html/requirements.html#specreqroot>`__.
 
-.. rubric:: REFINEMENTS:
+Refined by
+    This design group is refined by the following items:
 
-This design group refines the design requirement `spec:/​req/​root
-</pkg/doc-ts-srs/html/requirements.html#specreqroot>`__.
+    - `spec:/​rtems/​val/​mem-basic
+      </pkg/doc-djf-svs/html/test-design.html#specrtemsvalmembasic>`__
 
-This design group is refined by the following items:
+    - `spec:/​testsuites/​performance-no-clock-0
+      </pkg/doc-djf-svs/html/test-design.html#spectestsuitesperformancenoclock0>`__
 
-- `spec:/​rtems/​val/​mem-basic
-  </pkg/doc-djf-svs/html/test-design.html#specrtemsvalmembasic>`__
+    - `spec:/​testsuites/​test-suite-empty
+      </pkg/doc-djf-svs/html/test-design.html#spectestsuitestestsuiteempty>`__
 
-- `spec:/​testsuites/​performance-no-clock-0
-  </pkg/doc-djf-svs/html/test-design.html#spectestsuitesperformancenoclock0>`__
+    - `spec:/​testsuites/​test-suite-pass
+      </pkg/doc-djf-svs/html/test-design.html#spectestsuitestestsuitepass>`__
 
-- `spec:/​testsuites/​test-suite-empty
-  </pkg/doc-djf-svs/html/test-design.html#spectestsuitestestsuiteempty>`__
+    - `spec:/​testsuites/​test-suite-xfail
+      </pkg/doc-djf-svs/html/test-design.html#spectestsuitestestsuitexfail>`__
 
-- `spec:/​testsuites/​test-suite-pass
-  </pkg/doc-djf-svs/html/test-design.html#spectestsuitestestsuitepass>`__
+    - `spec:/​testsuites/​validation-refinement
+      </pkg/doc-ts-srs/html/requirements.html#spectestsuitesvalidationrefinement>`__
 
-- `spec:/​testsuites/​test-suite-xfail
-  </pkg/doc-djf-svs/html/test-design.html#spectestsuitestestsuitexfail>`__
+Validations
+    The validation of this **not validated** design group depends on the
+    following items:
 
-- `spec:/​testsuites/​validation-refinement
-  </pkg/doc-ts-srs/html/requirements.html#spectestsuitesvalidationrefinement>`__
+    - `spec:/​rtems/​val/​mem-basic
+      </pkg/doc-djf-svs/html/test-design.html#specrtemsvalmembasic>`__
+      (validated refinement)
 
-.. rubric:: VALIDATIONS:
+    - `spec:/​testsuites/​performance-no-clock-0
+      </pkg/doc-djf-svs/html/test-design.html#spectestsuitesperformancenoclock0>`__
+      (**not validated** refinement)
 
-The validation of this **not validated** design group depends on the following
-items:
+    - `spec:/​testsuites/​test-suite-empty
+      </pkg/doc-djf-svs/html/test-design.html#spectestsuitestestsuiteempty>`__
+      (**not validated** refinement)
 
-- `spec:/​rtems/​val/​mem-basic
-  </pkg/doc-djf-svs/html/test-design.html#specrtemsvalmembasic>`__
-  (validated refinement)
+    - `spec:/​testsuites/​test-suite-pass
+      </pkg/doc-djf-svs/html/test-design.html#spectestsuitestestsuitepass>`__
+      (validated refinement)
 
-- `spec:/​testsuites/​performance-no-clock-0
-  </pkg/doc-djf-svs/html/test-design.html#spectestsuitesperformancenoclock0>`__
-  (**not validated** refinement)
+    - `spec:/​testsuites/​test-suite-xfail
+      </pkg/doc-djf-svs/html/test-design.html#spectestsuitestestsuitexfail>`__
+      (validated refinement)
 
-- `spec:/​testsuites/​test-suite-empty
-  </pkg/doc-djf-svs/html/test-design.html#spectestsuitestestsuiteempty>`__
-  (**not validated** refinement)
+    - `spec:/​testsuites/​validation-refinement
+      </pkg/doc-ts-srs/html/requirements.html#spectestsuitesvalidationrefinement>`__
+      (**not validated** refinement)
 
-- `spec:/​testsuites/​test-suite-pass
-  </pkg/doc-djf-svs/html/test-design.html#spectestsuitestestsuitepass>`__
-  (validated refinement)
-
-- `spec:/​testsuites/​test-suite-xfail
-  </pkg/doc-djf-svs/html/test-design.html#spectestsuitestestsuitexfail>`__
-  (validated refinement)
-
-- `spec:/​testsuites/​validation-refinement
-  </pkg/doc-ts-srs/html/requirements.html#spectestsuitesvalidationrefinement>`__
-  (**not validated** refinement)
-
-.. rubric:: CHANGES:
-
-There are no changes since Name v1.
+Changes
+    There are no changes since Name v1.
 
 .. raw:: latex
 
@@ -1418,26 +1317,23 @@ There are no changes since Name v1.
 spec:/testsuites/validation-refinement
 ======================================
 
-.. rubric:: REQUIREMENT:
+Requirement
+    The validation refinement text.
 
-The validation refinement text.
+Refines
+    This design group refines the design group `spec:/​testsuites/​validation
+    </pkg/doc-ts-srs/html/requirements.html#spectestsuitesvalidation>`__.
 
-.. rubric:: REFINEMENTS:
+Refined by
+    This design group is refined by the test suite
+    `spec:/​testsuites/​test-suite-fail
+    </pkg/doc-djf-svs/html/test-design.html#spectestsuitestestsuitefail>`__.
 
-This design group refines the design group `spec:/​testsuites/​validation
-</pkg/doc-ts-srs/html/requirements.html#spectestsuitesvalidation>`__.
+Validation
+    This **not validated** design group is validated by the **not validated** refinement `spec:/​testsuites/​test-suite-fail </pkg/doc-djf-svs/html/test-design.html#spectestsuitestestsuitefail>`__.
 
-This design group is refined by the test suite
-`spec:/​testsuites/​test-suite-fail
-</pkg/doc-djf-svs/html/test-design.html#spectestsuitestestsuitefail>`__.
-
-.. rubric:: VALIDATION:
-
-This **not validated** design group is validated by the **not validated** refinement `spec:/​testsuites/​test-suite-fail </pkg/doc-djf-svs/html/test-design.html#spectestsuitestestsuitefail>`__.
-
-.. rubric:: CHANGES:
-
-There are no changes since Name v1.
+Changes
+    There are no changes since Name v1.
 
 .. _RequirementsSecurityAndPrivacyRequirements:
 
@@ -1473,23 +1369,19 @@ Software quality requirements
 spec:/rtems/req/mem-basic
 =========================
 
-.. rubric:: REQUIREMENT:
+Requirement
+    The system shall provide a benchmark program to show the static memory
+    usage of a basic application configuration.
 
-The system shall provide a benchmark program to show the static memory usage of
-a basic application configuration.
+Refines
+    This quality requirement refines the interface group `Blub
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifgroup>`__.
 
-.. rubric:: REFINEMENT:
+Validation
+    This validated quality requirement is validated by the validation by inspection `spec:/​rtems/​val/​mem-basic </pkg/doc-djf-svs/html/test-design.html#specrtemsvalmembasic>`__.
 
-This quality requirement refines the interface group `Blub
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifgroup>`__.
-
-.. rubric:: VALIDATION:
-
-This validated quality requirement is validated by the validation by inspection `spec:/​rtems/​val/​mem-basic </pkg/doc-djf-svs/html/test-design.html#specrtemsvalmembasic>`__.
-
-.. rubric:: CHANGES:
-
-There are no changes since Name v1.
+Changes
+    There are no changes since Name v1.
 
 .. _RequirementsSoftwareReliabilityRequirements:
 
@@ -1562,25 +1454,22 @@ integrated.
 spec:/acfg/constraint/option-not-pre-qualified
 ##############################################
 
-.. rubric:: CONSTRAINT:
+Constraint
+    The application configuration option is not included in the pre-qualified
+    feature set of RTEMS.  Applications which are restricted to only use
+    interfaces of the pre-qualified feature set of RTEMS shall not use the
+    application configuration option.
 
-The application configuration option is not included in the pre-qualified
-feature set of RTEMS.  Applications which are restricted to only use interfaces
-of the pre-qualified feature set of RTEMS shall not use the application
-configuration option.
+Refines
+    This constraint refines the design requirement
+    `spec:/​req/​usage-constraints
+    </pkg/doc-ts-srs/html/requirements.html#specrequsageconstraints>`__.
 
-.. rubric:: REFINEMENT:
+Constraint item
+    This constraint is applicable to the application configuration option
+    `CONFIGURE_INTEGER
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifacfginteger>`__.
 
-This constraint refines the design requirement `spec:/​req/​usage-constraints
-</pkg/doc-ts-srs/html/requirements.html#specrequsageconstraints>`__.
-
-.. rubric:: CONSTRAINT ITEM:
-
-This constraint is applicable to the application configuration option
-`CONFIGURE_INTEGER
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifacfginteger>`__.
-
-.. rubric:: CHANGES:
-
-There are no changes since Name v1.
+Changes
+    There are no changes since Name v1.
 .. srs-constraints end"""

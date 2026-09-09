@@ -171,6 +171,7 @@ class BuildItemMapper(SphinxMapper):
         super().__init__(item)
         self.build_item = build_item
         self.base_path = "/"
+        self.topic_as_definition = False
         self.set_format("x.rst")
         self.add_default_get_value("spec", _get_spec)
         self.add_value_transformer("basename", _basename)
@@ -192,7 +193,8 @@ class BuildItemMapper(SphinxMapper):
             self,
             section_level: int = 0,
             the_license: str | set[str] | None = None) -> TextContent:
-        return self.content_constructor(section_level, the_license)
+        return self.content_constructor(section_level, the_license,
+                                        self.topic_as_definition)
 
     def get_link(self, item: Item, document_key: None | str = None) -> str:
         """

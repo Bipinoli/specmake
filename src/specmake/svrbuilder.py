@@ -27,7 +27,7 @@
 import itertools
 from typing import Iterator
 
-from specitems import Item, ItemGetValueContext, ROW_SPAN, SphinxContent
+from specitems import Item, ItemGetValueContext, ROW_SPAN
 from specware import gather_benchmarks_and_test_suites
 
 from .directorystate import DirectoryState
@@ -98,7 +98,7 @@ class SVRBuilder(SpecDocumentBuilder):
 
     def _traceability_requirements_to_design(self,
                                              _ctx: ItemGetValueContext) -> str:
-        content = SphinxContent(section_level=2)
+        content = self.mapper.create_content(section_level=2)
         rows: list[tuple[str | int,
                          ...]] = [("Requirement", "Design Component")]
         for item, components in self._req_to_design():
@@ -127,7 +127,7 @@ class SVRBuilder(SpecDocumentBuilder):
 
     def _traceability_design_to_requirements(self,
                                              _ctx: ItemGetValueContext) -> str:
-        content = SphinxContent(section_level=2)
+        content = self.mapper.create_content(section_level=2)
         link_hub = self.input("link-hub")
         assert isinstance(link_hub, LinkHub)
         format_link = self.mapper.format_link
@@ -182,7 +182,7 @@ class SVRBuilder(SpecDocumentBuilder):
         return design_to_code
 
     def _traceability_design_to_code(self, _ctx: ItemGetValueContext) -> str:
-        content = SphinxContent(section_level=2)
+        content = self.mapper.create_content(section_level=2)
         rows: list[tuple[str | int, ...]] = [("Design Component", "File")]
         last = ""
         for design, code in self._get_design_to_code():
@@ -192,7 +192,7 @@ class SVRBuilder(SpecDocumentBuilder):
         return str(content)
 
     def _traceability_code_to_design(self, _ctx: ItemGetValueContext) -> str:
-        content = SphinxContent(section_level=2)
+        content = self.mapper.create_content(section_level=2)
         code_to_design = sorted(
             (code, design) for design, code in self._get_design_to_code())
         rows: list[tuple[str | int, ...]] = [("File", "Design Component")]
@@ -204,7 +204,7 @@ class SVRBuilder(SpecDocumentBuilder):
         return str(content)
 
     def _unit_verification(self, _ctx: ItemGetValueContext) -> str:
-        content = SphinxContent(section_level=2)
+        content = self.mapper.create_content(section_level=2)
         test_suites: list[Item] = []
         gather_benchmarks_and_test_suites(self.item.cache["/testsuites/unit"],
                                           test_suites)
@@ -231,7 +231,7 @@ class SVRBuilder(SpecDocumentBuilder):
         return str(content)
 
     def _performance_summary(self, _ctx: ItemGetValueContext) -> str:
-        content = SphinxContent(section_level=2)
+        content = self.mapper.create_content(section_level=2)
         types = ("requirement/non-functional/performance-runtime", )
         rows = [("Requirement", "Status")]
         for item in self.spec.get_related_items_by_type(types):

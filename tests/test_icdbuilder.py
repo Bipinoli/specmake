@@ -403,49 +403,47 @@ Interface requirements
 spec:/req/api
 =============
 
-.. rubric:: REQUIREMENT:
+Requirement
+    The software product shall provide an API.
 
-The software product shall provide an API.
+Refines
+    This interface requirement refines the design requirement `spec:/​req/​root
+    </pkg/doc-ts-srs/html/requirements.html#specreqroot>`__.
 
-.. rubric:: REFINEMENTS:
+Refined by
+    This interface requirement is refined by the following items:
 
-This interface requirement refines the design requirement `spec:/​req/​root
-</pkg/doc-ts-srs/html/requirements.html#specreqroot>`__.
+    - `Blub
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifgroup>`__
 
-This interface requirement is refined by the following items:
+    - `Blub2
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifgroup2>`__
 
-- `Blub
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifgroup>`__
+    - `A
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifgroupa>`__
 
-- `Blub2
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifgroup2>`__
+    - `B
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifgroupb>`__
 
-- `A
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifgroupa>`__
+Validations
+    The validation of this **not validated** interface requirement depends on
+    the following items:
 
-- `B
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifgroupb>`__
+    - `Blub
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifgroup>`__
+      (**not validated** refinement)
 
-.. rubric:: VALIDATIONS:
+    - `Blub2
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifgroup2>`__
+      (**not validated** refinement)
 
-The validation of this **not validated** interface requirement depends on the
-following items:
+    - `A
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifgroupa>`__
+      (**not validated** refinement)
 
-- `Blub
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifgroup>`__
-  (**not validated** refinement)
-
-- `Blub2
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifgroup2>`__
-  (**not validated** refinement)
-
-- `A
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifgroupa>`__
-  (**not validated** refinement)
-
-- `B
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifgroupb>`__
-  (**not validated** refinement)
+    - `B
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifgroupb>`__
+      (**not validated** refinement)
 
 .. _RequirementsAndDesignInterfaceDesign:
 
@@ -468,31 +466,26 @@ Description.
 spec:/c/if/uint32_t
 -------------------
 
-.. rubric:: REQUIREMENT:
+Requirement
+    The `<bar/more/unspec.h>
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecheader>`__
+    header file shall provide the type definition ``uint32_t``.
 
-The `<bar/more/unspec.h>
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecheader>`__
-header file shall provide the type definition ``uint32_t``.
+Interface
+    .. code-block:: c
 
-.. rubric:: INTERFACE:
+        typedef ... uint32_t ...;
 
-.. code-block:: c
+Group membership
+    This type definition is a member of the group `UnspecGroup
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecgroup>`__.
 
-    typedef ... uint32_t ...;
+Interface placement
+    This type definition is placed into the header file `<bar/more/unspec.h>
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecheader>`__.
 
-.. rubric:: GROUP MEMBERSHIP:
-
-This type definition is a member of the group `UnspecGroup
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecgroup>`__.
-
-.. rubric:: INTERFACE PLACEMENT:
-
-This type definition is placed into the header file `<bar/more/unspec.h>
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecheader>`__.
-
-.. rubric:: VALIDATION:
-
-This type definition is **not validated**.
+Validation
+    This type definition is **not validated**.
 
 .. raw:: latex
 
@@ -503,50 +496,41 @@ This type definition is **not validated**.
 spec:/rtems/if/acfg-integer
 ---------------------------
 
-.. rubric:: REQUIREMENT:
+Requirement
+    The `Domain
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifdomain>`__
+    interface domain shall provide the application configuration option
+    ``CONFIGURE_INTEGER``.
 
-The `Domain
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifdomain>`__
-interface domain shall provide the application configuration option
-``CONFIGURE_INTEGER``.
+Option type
+    This configuration option is an integer define.
 
-.. rubric:: OPTION TYPE:
+Default value
+    The default value is 0.
 
-This configuration option is an integer define.
+Description
+    Integer configuration option description.
 
-.. rubric:: DEFAULT VALUE:
+Constraints
+    The configuration option is not included in the pre-qualified feature set
+    of RTEMS.  Applications which are restricted to only use interfaces of the
+    pre-qualified feature set of RTEMS shall not use the configuration option.
 
-The default value is 0.
+Software design
+    This application configuration option is realised by the software design element `CONFIGURE_INTEGER </pkg/doc-ddf-sdd/html/group__RTEMSApplConfigSomethingConfiguration.html#ga714d5d7419c8b6c00f172e9a3c571a9b>`__.
 
-.. rubric:: DESCRIPTION:
+Group membership
+    This application configuration option is a member of the application
+    configuration group `Something Configuration
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifgroupacfg>`__.
 
-Integer configuration option description.
+Interface placement
+    This application configuration option is placed into the interface domain
+    `Domain
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifdomain>`__.
 
-.. rubric:: CONSTRAINTS:
-
-The configuration option is not included in the pre-qualified feature set of
-RTEMS.  Applications which are restricted to only use interfaces of the
-pre-qualified feature set of RTEMS shall not use the configuration option.
-
-.. rubric:: SOFTWARE DESIGN:
-
-This application configuration option is realised by the software design element `CONFIGURE_INTEGER </pkg/doc-ddf-sdd/html/group__RTEMSApplConfigSomethingConfiguration.html#ga714d5d7419c8b6c00f172e9a3c571a9b>`__.
-
-.. rubric:: GROUP MEMBERSHIP:
-
-This application configuration option is a member of the application
-configuration group `Something Configuration
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifgroupacfg>`__.
-
-.. rubric:: INTERFACE PLACEMENT:
-
-This application configuration option is placed into the interface domain
-`Domain
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifdomain>`__.
-
-.. rubric:: VALIDATION:
-
-This application configuration option is not pre-qualified.
+Validation
+    This application configuration option is not pre-qualified.
 
 .. raw:: latex
 
@@ -557,35 +541,29 @@ This application configuration option is not pre-qualified.
 spec:/rtems/if/define-duplicate
 -------------------------------
 
-.. rubric:: REQUIREMENT:
+Requirement
+    The `<bar/more/unspec.h>
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecheader>`__
+    header file shall provide the define ``BLUB``.
 
-The `<bar/more/unspec.h>
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecheader>`__
-header file shall provide the define ``BLUB``.
+Interface
+    .. code-block:: c
 
-.. rubric:: INTERFACE:
+        #define BLUB ...
 
-.. code-block:: c
+Software design
+    This define is realised by the software design element `BLUB </pkg/doc-ddf-sdd/html/group__Blub.html#gaf0277526715a0aa6e2ba520cc3399254>`__.
 
-    #define BLUB ...
+Group membership
+    This define is a member of the group `UnspecGroup
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecgroup>`__.
 
-.. rubric:: SOFTWARE DESIGN:
+Interface placement
+    This define is placed into the header file `<bar/more/unspec.h>
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecheader>`__.
 
-This define is realised by the software design element `BLUB </pkg/doc-ddf-sdd/html/group__Blub.html#gaf0277526715a0aa6e2ba520cc3399254>`__.
-
-.. rubric:: GROUP MEMBERSHIP:
-
-This define is a member of the group `UnspecGroup
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecgroup>`__.
-
-.. rubric:: INTERFACE PLACEMENT:
-
-This define is placed into the header file `<bar/more/unspec.h>
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecheader>`__.
-
-.. rubric:: VALIDATION:
-
-This define is **not validated**.
+Validation
+    This define is **not validated**.
 
 .. raw:: latex
 
@@ -596,45 +574,36 @@ This define is **not validated**.
 spec:/rtems/if/define-not-defined
 ---------------------------------
 
-.. rubric:: REQUIREMENT:
-
-The `<blub.h>
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifheader>`__
-header file shall provide the define ``DEFINE_NOT_DEFINED``.
-
-.. rubric:: BRIEF DESCRIPTION:
-
 Define not defined brief.
 
-.. rubric:: INTERFACE:
+Requirement
+    The `<blub.h>
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifheader>`__
+    header file shall provide the define ``DEFINE_NOT_DEFINED``.
 
-.. code-block:: c
+Interface
+    .. code-block:: c
 
-    #define DEFINE_NOT_DEFINED 
+        #define DEFINE_NOT_DEFINED 
 
-.. rubric:: DESCRIPTION:
+Description
+    Define not defined description.
 
-Define not defined description.
+Group membership
+    This define is a member of the interface group `Blub
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifgroup>`__.
 
-.. rubric:: GROUP MEMBERSHIP:
+Interface placement
+    This define is placed into the header file `<blub.h>
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifheader>`__.
 
-This define is a member of the interface group `Blub
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifgroup>`__.
+Interface function
+    The function of this define is specified by the interface define
+    requirement `spec:/​rtems/​req/​define-not-defined
+    </pkg/doc-ts-srs/html/requirements.html#specrtemsreqdefinenotdefined>`__.
 
-.. rubric:: INTERFACE PLACEMENT:
-
-This define is placed into the header file `<blub.h>
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifheader>`__.
-
-.. rubric:: INTERFACE FUNCTION:
-
-The function of this define is specified by the interface define requirement
-`spec:/​rtems/​req/​define-not-defined
-</pkg/doc-ts-srs/html/requirements.html#specrtemsreqdefinenotdefined>`__.
-
-.. rubric:: VALIDATION:
-
-This **not validated** define is validated by the **not validated** interface function `spec:/​rtems/​req/​define-not-defined </pkg/doc-ts-srs/html/requirements.html#specrtemsreqdefinenotdefined>`__.
+Validation
+    This **not validated** define is validated by the **not validated** interface function `spec:/​rtems/​req/​define-not-defined </pkg/doc-ts-srs/html/requirements.html#specrtemsreqdefinenotdefined>`__.
 
 .. raw:: latex
 
@@ -645,48 +614,38 @@ This **not validated** define is validated by the **not validated** interface fu
 spec:/rtems/if/define-real
 --------------------------
 
-.. rubric:: REQUIREMENT:
-
-The `<blub.h>
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifheader>`__
-header file shall provide the define ``BLUB``.
-
-.. rubric:: BRIEF DESCRIPTION:
-
 Define brief.
 
-.. rubric:: INTERFACE:
+Requirement
+    The `<blub.h>
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifheader>`__
+    header file shall provide the define ``BLUB``.
 
-.. code-block:: c
+Interface
+    .. code-block:: c
 
-    #define BLUB 123
+        #define BLUB 123
 
-.. rubric:: DESCRIPTION:
+Description
+    Define description.
 
-Define description.
+Software design
+    This define is realised by the software design element `BLUB </pkg/doc-ddf-sdd/html/group__Blub.html#gaf0277526715a0aa6e2ba520cc3399254>`__.
 
-.. rubric:: SOFTWARE DESIGN:
+Refined by
+    This define is refined by the test case `spec:/​rtems/​val/​test-case
+    </pkg/doc-djf-svs/html/test-case-specification.html#specrtemsvaltestcase>`__.
 
-This define is realised by the software design element `BLUB </pkg/doc-ddf-sdd/html/group__Blub.html#gaf0277526715a0aa6e2ba520cc3399254>`__.
+Group membership
+    This define is a member of the interface group `Blub
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifgroup>`__.
 
-.. rubric:: REFINEMENT:
+Interface placement
+    This define is placed into the header file `<blub.h>
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifheader>`__.
 
-This define is refined by the test case `spec:/​rtems/​val/​test-case
-</pkg/doc-djf-svs/html/test-case-specification.html#specrtemsvaltestcase>`__.
-
-.. rubric:: GROUP MEMBERSHIP:
-
-This define is a member of the interface group `Blub
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifgroup>`__.
-
-.. rubric:: INTERFACE PLACEMENT:
-
-This define is placed into the header file `<blub.h>
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifheader>`__.
-
-.. rubric:: VALIDATION:
-
-This **not validated** define is validated by the **not validated** refinement `spec:/​rtems/​val/​test-case </pkg/doc-djf-svs/html/test-case-specification.html#specrtemsvaltestcase>`__.
+Validation
+    This **not validated** define is validated by the **not validated** refinement `spec:/​rtems/​val/​test-case </pkg/doc-djf-svs/html/test-case-specification.html#specrtemsvaltestcase>`__.
 
 .. raw:: latex
 
@@ -697,35 +656,29 @@ This **not validated** define is validated by the **not validated** refinement `
 spec:/rtems/if/define-second-duplicate
 --------------------------------------
 
-.. rubric:: REQUIREMENT:
+Requirement
+    The `<bar/more/unspec.h>
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecheader>`__
+    header file shall provide the define ``BLUB``.
 
-The `<bar/more/unspec.h>
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecheader>`__
-header file shall provide the define ``BLUB``.
+Interface
+    .. code-block:: c
 
-.. rubric:: INTERFACE:
+        #define BLUB ...
 
-.. code-block:: c
+Software design
+    This define is realised by the software design element `BLUB </pkg/doc-ddf-sdd/html/group__Blub.html#gaf0277526715a0aa6e2ba520cc3399254>`__.
 
-    #define BLUB ...
+Group membership
+    This define is a member of the group `UnspecGroup
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecgroup>`__.
 
-.. rubric:: SOFTWARE DESIGN:
+Interface placement
+    This define is placed into the header file `<bar/more/unspec.h>
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecheader>`__.
 
-This define is realised by the software design element `BLUB </pkg/doc-ddf-sdd/html/group__Blub.html#gaf0277526715a0aa6e2ba520cc3399254>`__.
-
-.. rubric:: GROUP MEMBERSHIP:
-
-This define is a member of the group `UnspecGroup
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecgroup>`__.
-
-.. rubric:: INTERFACE PLACEMENT:
-
-This define is placed into the header file `<bar/more/unspec.h>
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecheader>`__.
-
-.. rubric:: VALIDATION:
-
-This define is **not validated**.
+Validation
+    This define is **not validated**.
 
 .. raw:: latex
 
@@ -736,62 +689,57 @@ This define is **not validated**.
 spec:/rtems/if/domain
 ---------------------
 
-.. rubric:: REQUIREMENT:
+Requirement
+    There shall be the interface domain ``Domain``.
 
-There shall be the interface domain ``Domain``.
+Description
+    Description.
 
-.. rubric:: DESCRIPTION:
+Refines
+    This interface domain refines the design requirement `spec:/​req/​root
+    </pkg/doc-ts-srs/html/requirements.html#specreqroot>`__.
 
-Description.
+Interface members
+    This interface domain contains the following items:
 
-.. rubric:: REFINEMENT:
+    - `CONFIGURE_INTEGER
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifacfginteger>`__
 
-This interface domain refines the design requirement `spec:/​req/​root
-</pkg/doc-ts-srs/html/requirements.html#specreqroot>`__.
+    - `Something Configuration
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifgroupacfg>`__
 
-.. rubric:: INTERFACE PLACEMENTS:
+    - `<blub.h>
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifheader>`__
 
-This interface domain contains the following items:
+    - `<blub-2.h>
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifheader2>`__
 
-- `CONFIGURE_INTEGER
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifacfginteger>`__
+    - `<bar/more/unspec.h>
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecheader>`__
 
-- `Something Configuration
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifgroupacfg>`__
+Validations
+    The validation of this **not validated** interface domain depends on the
+    following items:
 
-- `<blub.h>
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifheader>`__
+    - `CONFIGURE_INTEGER
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifacfginteger>`__
+      (not pre-qualified interface placement)
 
-- `<blub-2.h>
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifheader2>`__
+    - `Something Configuration
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifgroupacfg>`__
+      (not pre-qualified interface placement)
 
-- `<bar/more/unspec.h>
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecheader>`__
+    - `<blub.h>
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifheader>`__
+      (**not validated** interface placement)
 
-.. rubric:: VALIDATIONS:
+    - `<blub-2.h>
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifheader2>`__
+      (**not validated** interface placement)
 
-The validation of this **not validated** interface domain depends on the
-following items:
-
-- `CONFIGURE_INTEGER
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifacfginteger>`__
-  (not pre-qualified interface placement)
-
-- `Something Configuration
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifgroupacfg>`__
-  (not pre-qualified interface placement)
-
-- `<blub.h>
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifheader>`__
-  (**not validated** interface placement)
-
-- `<blub-2.h>
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifheader2>`__
-  (**not validated** interface placement)
-
-- `<bar/more/unspec.h>
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecheader>`__
-  (**not validated** interface placement)
+    - `<bar/more/unspec.h>
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecheader>`__
+      (**not validated** interface placement)
 
 .. raw:: latex
 
@@ -802,65 +750,55 @@ following items:
 spec:/rtems/if/enum-real
 ------------------------
 
-.. rubric:: REQUIREMENT:
-
-The `<blub.h>
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifheader>`__
-header file shall provide the enumeration ``the_enum``.
-
-.. rubric:: BRIEF DESCRIPTION:
-
 Enum brief.
 
-.. rubric:: INTERFACE:
+Requirement
+    The `<blub.h>
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifheader>`__
+    header file shall provide the enumeration ``the_enum``.
 
-.. code-block:: c
+Interface
+    .. code-block:: c
 
-    typedef enum {
-      ENUMERATOR,
-      ENUMERATOR_2 = 2,
-    } the_enum;
+        typedef enum {
+          ENUMERATOR,
+          ENUMERATOR_2 = 2,
+        } the_enum;
 
-.. rubric:: DESCRIPTION:
+Description
+    Description.
 
-Description.
+Software design
+    This enumeration is realised by the software design element `the_enum </pkg/doc-ddf-sdd/html/group__Blub.html#ga582a1afc79f3b607104a52d7aa268624>`__.
 
-.. rubric:: SOFTWARE DESIGN:
+Enumerators
+    This enumeration provides the following items:
 
-This enumeration is realised by the software design element `the_enum </pkg/doc-ddf-sdd/html/group__Blub.html#ga582a1afc79f3b607104a52d7aa268624>`__.
+    - `ENUMERATOR
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifenumerator>`__
 
-.. rubric:: ENUMERATORS:
+    - `ENUMERATOR_2
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifenumerator2>`__
 
-This enumeration provides the following items:
+Group membership
+    This enumeration is a member of the interface group `Blub
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifgroup>`__.
 
-- `ENUMERATOR
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifenumerator>`__
+Interface placement
+    This enumeration is placed into the header file `<blub.h>
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifheader>`__.
 
-- `ENUMERATOR_2
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifenumerator2>`__
+Validations
+    The validation of this **not validated** enumeration depends on the
+    following items:
 
-.. rubric:: GROUP MEMBERSHIP:
+    - `ENUMERATOR
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifenumerator>`__
+      (**not validated** interface enumerator)
 
-This enumeration is a member of the interface group `Blub
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifgroup>`__.
-
-.. rubric:: INTERFACE PLACEMENT:
-
-This enumeration is placed into the header file `<blub.h>
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifheader>`__.
-
-.. rubric:: VALIDATIONS:
-
-The validation of this **not validated** enumeration depends on the following
-items:
-
-- `ENUMERATOR
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifenumerator>`__
-  (**not validated** interface enumerator)
-
-- `ENUMERATOR_2
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifenumerator2>`__
-  (**not validated** interface enumerator)
+    - `ENUMERATOR_2
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifenumerator2>`__
+      (**not validated** interface enumerator)
 
 .. raw:: latex
 
@@ -871,42 +809,34 @@ items:
 spec:/rtems/if/enumerator
 -------------------------
 
-.. rubric:: REQUIREMENT:
-
-The `the_enum
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifenumreal>`__
-enumeration shall provide the enumerator ``ENUMERATOR``.
-
-.. rubric:: BRIEF DESCRIPTION:
-
 Enumerator brief.
 
-.. rubric:: INTERFACE:
+Requirement
+    The `the_enum
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifenumreal>`__
+    enumeration shall provide the enumerator ``ENUMERATOR``.
 
-.. code-block:: c
+Interface
+    .. code-block:: c
 
-    typedef enum {
-      ...
-      ENUMERATOR
-      ...
-    } the_enum;
+        typedef enum {
+          ...
+          ENUMERATOR
+          ...
+        } the_enum;
 
-.. rubric:: DESCRIPTION:
+Description
+    Description.
 
-Description.
+Software design
+    This enumerator is realised by the software design element `ENUMERATOR </pkg/doc-ddf-sdd/html/group__Blub.html#gga582a1afc79f3b607104a52d7aa268624a183cf8edbca25c5db49f6fda4224f87a>`__.
 
-.. rubric:: SOFTWARE DESIGN:
+Enumerator
+    This enumerator is provided by the enumeration `the_enum
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifenumreal>`__.
 
-This enumerator is realised by the software design element `ENUMERATOR </pkg/doc-ddf-sdd/html/group__Blub.html#gga582a1afc79f3b607104a52d7aa268624a183cf8edbca25c5db49f6fda4224f87a>`__.
-
-.. rubric:: ENUMERATOR:
-
-This enumerator is provided by the enumeration `the_enum
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifenumreal>`__.
-
-.. rubric:: VALIDATION:
-
-This enumerator is **not validated**.
+Validation
+    This enumerator is **not validated**.
 
 .. raw:: latex
 
@@ -917,42 +847,34 @@ This enumerator is **not validated**.
 spec:/rtems/if/enumerator-2
 ---------------------------
 
-.. rubric:: REQUIREMENT:
-
-The `the_enum
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifenumreal>`__
-enumeration shall provide the enumerator ``ENUMERATOR_2``.
-
-.. rubric:: BRIEF DESCRIPTION:
-
 Enumerator 2 brief.
 
-.. rubric:: INTERFACE:
+Requirement
+    The `the_enum
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifenumreal>`__
+    enumeration shall provide the enumerator ``ENUMERATOR_2``.
 
-.. code-block:: c
+Interface
+    .. code-block:: c
 
-    typedef enum {
-      ...
-      ENUMERATOR_2 = 2
-      ...
-    } the_enum;
+        typedef enum {
+          ...
+          ENUMERATOR_2 = 2
+          ...
+        } the_enum;
 
-.. rubric:: DESCRIPTION:
+Description
+    Description 2.
 
-Description 2.
+Software design
+    This enumerator is realised by the software design element `ENUMERATOR_2 </pkg/doc-ddf-sdd/html/group__Blub.html#gga582a1afc79f3b607104a52d7aa268624ac9cedcefbbfbc41195028b42a9830d2f>`__.
 
-.. rubric:: SOFTWARE DESIGN:
+Enumerator
+    This enumerator is provided by the enumeration `the_enum
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifenumreal>`__.
 
-This enumerator is realised by the software design element `ENUMERATOR_2 </pkg/doc-ddf-sdd/html/group__Blub.html#gga582a1afc79f3b607104a52d7aa268624ac9cedcefbbfbc41195028b42a9830d2f>`__.
-
-.. rubric:: ENUMERATOR:
-
-This enumerator is provided by the enumeration `the_enum
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifenumreal>`__.
-
-.. rubric:: VALIDATION:
-
-This enumerator is **not validated**.
+Validation
+    This enumerator is **not validated**.
 
 .. raw:: latex
 
@@ -963,32 +885,27 @@ This enumerator is **not validated**.
 spec:/rtems/if/forward-decl
 ---------------------------
 
-.. rubric:: REQUIREMENT:
+Requirement
+    The `<blub-2.h>
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifheader2>`__
+    header file shall provide a forward declaration of `StructOnly
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifstructonly>`__.
 
-The `<blub-2.h>
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifheader2>`__
-header file shall provide a forward declaration of `StructOnly
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifstructonly>`__.
+Interface
+    .. code-block:: c
 
-.. rubric:: INTERFACE:
+        struct StructOnly;
 
-.. code-block:: c
+Group membership
+    This forward declaration is a member of the interface group `Blub2
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifgroup2>`__.
 
-    struct StructOnly;
+Interface placement
+    This forward declaration is placed into the header file `<blub-2.h>
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifheader2>`__.
 
-.. rubric:: GROUP MEMBERSHIP:
-
-This forward declaration is a member of the interface group `Blub2
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifgroup2>`__.
-
-.. rubric:: INTERFACE PLACEMENT:
-
-This forward declaration is placed into the header file `<blub-2.h>
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifheader2>`__.
-
-.. rubric:: VALIDATION:
-
-This forward declaration is **not validated**.
+Validation
+    This forward declaration is **not validated**.
 
 .. raw:: latex
 
@@ -999,71 +916,64 @@ This forward declaration is **not validated**.
 spec:/rtems/if/func
 -------------------
 
-.. rubric:: REQUIREMENT:
-
-The `<blub.h>
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifheader>`__
-header file shall provide the directive ``blub()``.
-
-.. rubric:: BRIEF DESCRIPTION:
-
 Brief.
 
-.. rubric:: CALLING SEQUENCE:
+Requirement
+    The `<blub.h>
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifheader>`__
+    header file shall provide the directive ``blub()``.
 
-.. code-block:: c
+Calling sequence
+    .. code-block:: c
 
-    int blub( int param );
+        int blub( int param );
 
-.. rubric:: PARAMETERS:
+Parameters
+    .. table::
+        :class: longtable
+        :widths: 30,70
 
-``param``
-    This parameter Parameter.
+        +-+-+
+        | ``param`` | Parameter. |
+        +-+-+
 
-.. rubric:: DESCRIPTION:
+Description
+    Description.
 
-Description.
+Return values
+    Returns.
 
-.. rubric:: RETURN VALUES:
+Software design
+    This directive is realised by the software design element `blub() </pkg/doc-ddf-sdd/html/group__Blub.html#ga754ccc677acbd87ede8b3c082bb9ff6b>`__.
 
-Returns.
+Group membership
+    This directive is a member of the interface group `Blub
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifgroup>`__.
 
-.. rubric:: SOFTWARE DESIGN:
+Interface placement
+    This directive is placed into the header file `<blub.h>
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifheader>`__.
 
-This directive is realised by the software design element `blub() </pkg/doc-ddf-sdd/html/group__Blub.html#ga754ccc677acbd87ede8b3c082bb9ff6b>`__.
+Interface functions
+    The function of this directive is specified by the following items:
 
-.. rubric:: GROUP MEMBERSHIP:
+    - `spec:/​rtems/​req/​action-2
+      </pkg/doc-ts-srs/html/requirements.html#specrtemsreqaction2>`__
 
-This directive is a member of the interface group `Blub
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifgroup>`__.
+    - `spec:/​rtems/​req/​func
+      </pkg/doc-ts-srs/html/requirements.html#specrtemsreqfunc>`__
 
-.. rubric:: INTERFACE PLACEMENT:
+Validations
+    The validation of this **not validated** directive depends on the following
+    items:
 
-This directive is placed into the header file `<blub.h>
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifheader>`__.
+    - `spec:/​rtems/​req/​action-2
+      </pkg/doc-djf-svs/html/test-case-specification.html#specrtemsreqaction2>`__
+      (**not validated** interface function)
 
-.. rubric:: INTERFACE FUNCTIONS:
-
-The function of this directive is specified by the following items:
-
-- `spec:/​rtems/​req/​action-2
-  </pkg/doc-ts-srs/html/requirements.html#specrtemsreqaction2>`__
-
-- `spec:/​rtems/​req/​func
-  </pkg/doc-ts-srs/html/requirements.html#specrtemsreqfunc>`__
-
-.. rubric:: VALIDATIONS:
-
-The validation of this **not validated** directive depends on the following
-items:
-
-- `spec:/​rtems/​req/​action-2
-  </pkg/doc-djf-svs/html/test-case-specification.html#specrtemsreqaction2>`__
-  (**not validated** interface function)
-
-- `spec:/​rtems/​req/​func
-  </pkg/doc-ts-srs/html/requirements.html#specrtemsreqfunc>`__
-  (**not validated** interface function)
+    - `spec:/​rtems/​req/​func
+      </pkg/doc-ts-srs/html/requirements.html#specrtemsreqfunc>`__
+      (**not validated** interface function)
 
 .. raw:: latex
 
@@ -1074,175 +984,167 @@ items:
 spec:/rtems/if/group
 --------------------
 
-.. rubric:: REQUIREMENT:
-
-There shall be the interface group ``Blub``.
-
-.. rubric:: BRIEF DESCRIPTION:
-
 Brief.
 
-.. rubric:: DESCRIPTION:
+Requirement
+    There shall be the interface group ``Blub``.
 
-Description.
+Description
+    Description.
 
-.. rubric:: SOFTWARE DESIGN:
+Software design
+    This interface group is realised by the software design element `Blub </pkg/doc-ddf-sdd/html/group__Blub.html>`__.
 
-This interface group is realised by the software design element `Blub </pkg/doc-ddf-sdd/html/group__Blub.html>`__.
+Refines
+    This interface group refines the interface requirement `spec:/​req/​api
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specreqapi>`__.
 
-.. rubric:: REFINEMENTS:
+Refined by
+    This interface group is refined by the following items:
 
-This interface group refines the interface requirement `spec:/​req/​api
-</pkg/doc-ts-icd/html/requirements-and-design.html#specreqapi>`__.
+    - `spec:/​rtems/​req/​mem-basic
+      </pkg/doc-ts-srs/html/requirements.html#specrtemsreqmembasic>`__
 
-This interface group is refined by the following items:
+    - `spec:/​rtems/​req/​perf
+      </pkg/doc-ts-srs/html/requirements.html#specrtemsreqperf>`__
 
-- `spec:/​rtems/​req/​mem-basic
-  </pkg/doc-ts-srs/html/requirements.html#specrtemsreqmembasic>`__
+    - `spec:/​rtems/​req/​perf-no-results
+      </pkg/doc-ts-srs/html/requirements.html#specrtemsreqperfnoresults>`__
 
-- `spec:/​rtems/​req/​perf
-  </pkg/doc-ts-srs/html/requirements.html#specrtemsreqperf>`__
+Group memberships
+    This interface group contains the following items:
 
-- `spec:/​rtems/​req/​perf-no-results
-  </pkg/doc-ts-srs/html/requirements.html#specrtemsreqperfnoresults>`__
+    - `DEFINE_NOT_DEFINED
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifdefinenotdefined>`__
 
-.. rubric:: GROUP MEMBERSHIPS:
+    - `BLUB
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifdefinereal>`__
 
-This interface group contains the following items:
+    - `the_enum
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifenumreal>`__
 
-- `DEFINE_NOT_DEFINED
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifdefinenotdefined>`__
+    - `blub()
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsiffunc>`__
 
-- `BLUB
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifdefinereal>`__
+    - `<blub.h>
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifheader>`__
 
-- `the_enum
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifenumreal>`__
+    - `obj
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifobj>`__
 
-- `blub()
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsiffunc>`__
+    - `reg_block
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifregblock>`__
 
-- `<blub.h>
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifheader>`__
+    - `reg_block_2
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifregblock2>`__
 
-- `obj
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifobj>`__
+    - `Struct
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifstruct>`__
 
-- `reg_block
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifregblock>`__
+    - `StructBoth
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifstructboth>`__
 
-- `reg_block_2
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifregblock2>`__
+    - `StructOnly
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifstructonly>`__
 
-- `Struct
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifstruct>`__
+    - `Typedef
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsiftypedef>`__
 
-- `StructBoth
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifstructboth>`__
+    - `Union
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunion>`__
 
-- `StructOnly
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifstructonly>`__
+    - `UnionBoth
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunionboth>`__
 
-- `Typedef
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsiftypedef>`__
+    - `UnionOnly
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifuniononly>`__
 
-- `Union
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunion>`__
+    - `UnspecGroup
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecgroup>`__
 
-- `UnionBoth
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunionboth>`__
+Interface placement
+    This interface group is placed into the header file `<blub.h>
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifheader>`__.
 
-- `UnionOnly
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifuniononly>`__
+Validations
+    The validation of this **not validated** interface group depends on the
+    following items:
 
-- `UnspecGroup
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecgroup>`__
+    - `DEFINE_NOT_DEFINED
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifdefinenotdefined>`__
+      (**not validated** group member)
 
-.. rubric:: INTERFACE PLACEMENT:
+    - `BLUB
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifdefinereal>`__
+      (**not validated** group member)
 
-This interface group is placed into the header file `<blub.h>
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifheader>`__.
+    - `the_enum
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifenumreal>`__
+      (**not validated** group member)
 
-.. rubric:: VALIDATIONS:
+    - `blub()
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsiffunc>`__
+      (**not validated** group member)
 
-The validation of this **not validated** interface group depends on the
-following items:
+    - `<blub.h>
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifheader>`__
+      (**not validated** group member)
 
-- `DEFINE_NOT_DEFINED
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifdefinenotdefined>`__
-  (**not validated** group member)
+    - `obj
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifobj>`__
+      (**not validated** group member)
 
-- `BLUB
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifdefinereal>`__
-  (**not validated** group member)
+    - `reg_block
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifregblock>`__
+      (**not validated** group member)
 
-- `the_enum
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifenumreal>`__
-  (**not validated** group member)
+    - `reg_block_2
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifregblock2>`__
+      (**not validated** group member)
 
-- `blub()
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsiffunc>`__
-  (**not validated** group member)
+    - `Struct
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifstruct>`__
+      (**not validated** group member)
 
-- `<blub.h>
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifheader>`__
-  (**not validated** group member)
+    - `StructBoth
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifstructboth>`__
+      (**not validated** group member)
 
-- `obj
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifobj>`__
-  (**not validated** group member)
+    - `StructOnly
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifstructonly>`__
+      (**not validated** group member)
 
-- `reg_block
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifregblock>`__
-  (**not validated** group member)
+    - `Typedef
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsiftypedef>`__
+      (**not validated** group member)
 
-- `reg_block_2
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifregblock2>`__
-  (**not validated** group member)
+    - `Union
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunion>`__
+      (**not validated** group member)
 
-- `Struct
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifstruct>`__
-  (**not validated** group member)
+    - `UnionBoth
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunionboth>`__
+      (**not validated** group member)
 
-- `StructBoth
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifstructboth>`__
-  (**not validated** group member)
+    - `UnionOnly
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifuniononly>`__
+      (**not validated** group member)
 
-- `StructOnly
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifstructonly>`__
-  (**not validated** group member)
+    - `UnspecGroup
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecgroup>`__
+      (**not validated** group member)
 
-- `Typedef
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsiftypedef>`__
-  (**not validated** group member)
+    - `spec:/​rtems/​req/​mem-basic
+      </pkg/doc-ts-srs/html/requirements.html#specrtemsreqmembasic>`__
+      (validated refinement)
 
-- `Union
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunion>`__
-  (**not validated** group member)
+    - `spec:/​rtems/​req/​perf
+      </pkg/doc-djf-svs/html/test-case-specification.html#specrtemsreqperf>`__
+      (**not validated** refinement)
 
-- `UnionBoth
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunionboth>`__
-  (**not validated** group member)
-
-- `UnionOnly
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifuniononly>`__
-  (**not validated** group member)
-
-- `UnspecGroup
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecgroup>`__
-  (**not validated** group member)
-
-- `spec:/​rtems/​req/​mem-basic
-  </pkg/doc-ts-srs/html/requirements.html#specrtemsreqmembasic>`__
-  (validated refinement)
-
-- `spec:/​rtems/​req/​perf
-  </pkg/doc-djf-svs/html/test-case-specification.html#specrtemsreqperf>`__
-  (**not validated** refinement)
-
-- `spec:/​rtems/​req/​perf-no-results
-  </pkg/doc-djf-svs/html/test-case-specification.html#specrtemsreqperfnoresults>`__
-  (**not validated** refinement)
+    - `spec:/​rtems/​req/​perf-no-results
+      </pkg/doc-djf-svs/html/test-case-specification.html#specrtemsreqperfnoresults>`__
+      (**not validated** refinement)
 
 .. raw:: latex
 
@@ -1253,68 +1155,59 @@ following items:
 spec:/rtems/if/group-2
 ----------------------
 
-.. rubric:: REQUIREMENT:
-
-There shall be the interface group ``Blub2``.
-
-.. rubric:: BRIEF DESCRIPTION:
-
 Blub2 brief.
 
-.. rubric:: DESCRIPTION:
+Requirement
+    There shall be the interface group ``Blub2``.
 
-Description.
+Description
+    Description.
 
-.. rubric:: SOFTWARE DESIGN:
+Software design
+    This interface group is realised by the software design element `Blub2 </pkg/doc-ddf-sdd/html/group__Blub2.html>`__.
 
-This interface group is realised by the software design element `Blub2 </pkg/doc-ddf-sdd/html/group__Blub2.html>`__.
+Refines
+    This interface group refines the interface requirement `spec:/​req/​api
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specreqapi>`__.
 
-.. rubric:: REFINEMENT:
+Group memberships
+    This interface group contains the following items:
 
-This interface group refines the interface requirement `spec:/​req/​api
-</pkg/doc-ts-icd/html/requirements-and-design.html#specreqapi>`__.
+    - `StructOnly
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifforwarddecl>`__
 
-.. rubric:: GROUP MEMBERSHIPS:
+    - `A
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifgroupa>`__
 
-This interface group contains the following items:
+    - `B
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifgroupb>`__
 
-- `StructOnly
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifforwarddecl>`__
+    - `<blub-2.h>
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifheader2>`__
 
-- `A
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifgroupa>`__
+Interface placement
+    This interface group is placed into the header file `<blub-2.h>
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifheader2>`__.
 
-- `B
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifgroupb>`__
+Validations
+    The validation of this **not validated** interface group depends on the
+    following items:
 
-- `<blub-2.h>
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifheader2>`__
+    - `StructOnly
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifforwarddecl>`__
+      (**not validated** group member)
 
-.. rubric:: INTERFACE PLACEMENT:
+    - `A
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifgroupa>`__
+      (**not validated** group member)
 
-This interface group is placed into the header file `<blub-2.h>
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifheader2>`__.
+    - `B
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifgroupb>`__
+      (**not validated** group member)
 
-.. rubric:: VALIDATIONS:
-
-The validation of this **not validated** interface group depends on the
-following items:
-
-- `StructOnly
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifforwarddecl>`__
-  (**not validated** group member)
-
-- `A
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifgroupa>`__
-  (**not validated** group member)
-
-- `B
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifgroupb>`__
-  (**not validated** group member)
-
-- `<blub-2.h>
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifheader2>`__
-  (**not validated** group member)
+    - `<blub-2.h>
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifheader2>`__
+      (**not validated** group member)
 
 .. raw:: latex
 
@@ -1325,42 +1218,33 @@ following items:
 spec:/rtems/if/group-a
 ----------------------
 
-.. rubric:: REQUIREMENT:
-
-The `Blub2
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifgroup2>`__
-interface group shall contain the interface group ``A``.
-
-.. rubric:: BRIEF DESCRIPTION:
-
 Group A brief.
 
-.. rubric:: DESCRIPTION:
+Requirement
+    The `Blub2
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifgroup2>`__
+    interface group shall contain the interface group ``A``.
 
-Description.
+Description
+    Description.
 
-.. rubric:: SOFTWARE DESIGN:
+Software design
+    This interface group is realised by the software design element `A </pkg/doc-ddf-sdd/html/group__GroupA.html>`__.
 
-This interface group is realised by the software design element `A </pkg/doc-ddf-sdd/html/group__GroupA.html>`__.
+Refines
+    This interface group refines the interface requirement `spec:/​req/​api
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specreqapi>`__.
 
-.. rubric:: REFINEMENT:
+Group membership
+    This interface group is a member of the interface group `Blub2
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifgroup2>`__.
 
-This interface group refines the interface requirement `spec:/​req/​api
-</pkg/doc-ts-icd/html/requirements-and-design.html#specreqapi>`__.
+Interface placement
+    This interface group is placed into the header file `<blub-2.h>
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifheader2>`__.
 
-.. rubric:: GROUP MEMBERSHIP:
-
-This interface group is a member of the interface group `Blub2
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifgroup2>`__.
-
-.. rubric:: INTERFACE PLACEMENT:
-
-This interface group is placed into the header file `<blub-2.h>
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifheader2>`__.
-
-.. rubric:: VALIDATION:
-
-This interface group is **not validated**.
+Validation
+    This interface group is **not validated**.
 
 .. raw:: latex
 
@@ -1371,39 +1255,32 @@ This interface group is **not validated**.
 spec:/rtems/if/group-acfg
 -------------------------
 
-.. rubric:: REQUIREMENT:
+Requirement
+    The something configuration text.
 
-The something configuration text.
+Description
+    Description.
 
-.. rubric:: DESCRIPTION:
+Software design
+    This application configuration group is realised by the software design element `Something Configuration </pkg/doc-ddf-sdd/html/group__RTEMSApplConfigSomethingConfiguration.html>`__.
 
-Description.
+Refines
+    This application configuration group refines the design requirement
+    `spec:/​req/​root
+    </pkg/doc-ts-srs/html/requirements.html#specreqroot>`__.
 
-.. rubric:: SOFTWARE DESIGN:
+Group membership
+    This application configuration group contains the application configuration
+    option `CONFIGURE_INTEGER
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifacfginteger>`__.
 
-This application configuration group is realised by the software design element `Something Configuration </pkg/doc-ddf-sdd/html/group__RTEMSApplConfigSomethingConfiguration.html>`__.
+Interface placement
+    This application configuration group is placed into the interface domain
+    `Domain
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifdomain>`__.
 
-.. rubric:: REFINEMENT:
-
-This application configuration group refines the design requirement
-`spec:/​req/​root
-</pkg/doc-ts-srs/html/requirements.html#specreqroot>`__.
-
-.. rubric:: GROUP MEMBERSHIP:
-
-This application configuration group contains the application configuration
-option `CONFIGURE_INTEGER
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifacfginteger>`__.
-
-.. rubric:: INTERFACE PLACEMENT:
-
-This application configuration group is placed into the interface domain
-`Domain
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifdomain>`__.
-
-.. rubric:: VALIDATION:
-
-This not pre-qualified application configuration group is validated by the not pre-qualified group member `CONFIGURE_INTEGER </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifacfginteger>`__.
+Validation
+    This not pre-qualified application configuration group is validated by the not pre-qualified group member `CONFIGURE_INTEGER </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifacfginteger>`__.
 
 .. raw:: latex
 
@@ -1414,42 +1291,33 @@ This not pre-qualified application configuration group is validated by the not p
 spec:/rtems/if/group-b
 ----------------------
 
-.. rubric:: REQUIREMENT:
-
-The `Blub2
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifgroup2>`__
-interface group shall contain the interface group ``B``.
-
-.. rubric:: BRIEF DESCRIPTION:
-
 Group B brief.
 
-.. rubric:: DESCRIPTION:
+Requirement
+    The `Blub2
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifgroup2>`__
+    interface group shall contain the interface group ``B``.
 
-Description.
+Description
+    Description.
 
-.. rubric:: SOFTWARE DESIGN:
+Software design
+    This interface group is realised by the software design element `B </pkg/doc-ddf-sdd/html/group__GroupB.html>`__.
 
-This interface group is realised by the software design element `B </pkg/doc-ddf-sdd/html/group__GroupB.html>`__.
+Refines
+    This interface group refines the interface requirement `spec:/​req/​api
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specreqapi>`__.
 
-.. rubric:: REFINEMENT:
+Group membership
+    This interface group is a member of the interface group `Blub2
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifgroup2>`__.
 
-This interface group refines the interface requirement `spec:/​req/​api
-</pkg/doc-ts-icd/html/requirements-and-design.html#specreqapi>`__.
+Interface placement
+    This interface group is placed into the header file `<blub-2.h>
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifheader2>`__.
 
-.. rubric:: GROUP MEMBERSHIP:
-
-This interface group is a member of the interface group `Blub2
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifgroup2>`__.
-
-.. rubric:: INTERFACE PLACEMENT:
-
-This interface group is placed into the header file `<blub-2.h>
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifheader2>`__.
-
-.. rubric:: VALIDATION:
-
-This interface group is **not validated**.
+Validation
+    This interface group is **not validated**.
 
 .. raw:: latex
 
@@ -1460,152 +1328,144 @@ This interface group is **not validated**.
 spec:/rtems/if/header
 ---------------------
 
-.. rubric:: REQUIREMENT:
-
-The `Domain
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifdomain>`__
-interface domain shall provide the header file ``<blub.h>``.
-
-.. rubric:: BRIEF DESCRIPTION:
-
 Brief.
 
-.. rubric:: INTERFACE:
+Requirement
+    The `Domain
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifdomain>`__
+    interface domain shall provide the header file ``<blub.h>``.
 
-.. code-block:: c
+Interface
+    .. code-block:: c
 
-    #include <blub.h>
+        #include <blub.h>
 
-.. rubric:: SOFTWARE DESIGN:
+Software design
+    This header file is realised by the software design element `<blub.h> </pkg/doc-ddf-sdd/html/blub_8h.html>`__.
 
-This header file is realised by the software design element `<blub.h> </pkg/doc-ddf-sdd/html/blub_8h.html>`__.
+Group membership
+    This header file is a member of the interface group `Blub
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifgroup>`__.
 
-.. rubric:: GROUP MEMBERSHIP:
+Interface placement
+    This header file is placed into the interface domain `Domain
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifdomain>`__.
 
-This header file is a member of the interface group `Blub
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifgroup>`__.
+Interface members
+    This header file contains the following items:
 
-.. rubric:: INTERFACE PLACEMENTS:
+    - `DEFINE_NOT_DEFINED
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifdefinenotdefined>`__
 
-This header file is placed into the interface domain `Domain
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifdomain>`__.
+    - `BLUB
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifdefinereal>`__
 
-This header file contains the following items:
+    - `the_enum
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifenumreal>`__
 
-- `DEFINE_NOT_DEFINED
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifdefinenotdefined>`__
+    - `blub()
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsiffunc>`__
 
-- `BLUB
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifdefinereal>`__
+    - `Blub
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifgroup>`__
 
-- `the_enum
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifenumreal>`__
+    - `obj
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifobj>`__
 
-- `blub()
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsiffunc>`__
+    - `reg_block
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifregblock>`__
 
-- `Blub
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifgroup>`__
+    - `reg_block_2
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifregblock2>`__
 
-- `obj
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifobj>`__
+    - `Struct
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifstruct>`__
 
-- `reg_block
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifregblock>`__
+    - `StructBoth
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifstructboth>`__
 
-- `reg_block_2
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifregblock2>`__
+    - `StructOnly
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifstructonly>`__
 
-- `Struct
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifstruct>`__
+    - `Typedef
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsiftypedef>`__
 
-- `StructBoth
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifstructboth>`__
+    - `Union
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunion>`__
 
-- `StructOnly
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifstructonly>`__
+    - `UnionBoth
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunionboth>`__
 
-- `Typedef
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsiftypedef>`__
+    - `UnionOnly
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifuniononly>`__
 
-- `Union
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunion>`__
+Interface include
+    This header file is included by the header file `<blub-2.h>
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifheader2>`__.
 
-- `UnionBoth
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunionboth>`__
+Validations
+    The validation of this **not validated** header file depends on the
+    following items:
 
-- `UnionOnly
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifuniononly>`__
+    - `DEFINE_NOT_DEFINED
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifdefinenotdefined>`__
+      (**not validated** interface placement)
 
-.. rubric:: INTERFACE INCLUDE:
+    - `BLUB
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifdefinereal>`__
+      (**not validated** interface placement)
 
-This header file is included by the header file `<blub-2.h>
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifheader2>`__.
+    - `the_enum
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifenumreal>`__
+      (**not validated** interface placement)
 
-.. rubric:: VALIDATIONS:
+    - `blub()
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsiffunc>`__
+      (**not validated** interface placement)
 
-The validation of this **not validated** header file depends on the following
-items:
+    - `Blub
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifgroup>`__
+      (**not validated** interface placement)
 
-- `DEFINE_NOT_DEFINED
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifdefinenotdefined>`__
-  (**not validated** interface placement)
+    - `obj
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifobj>`__
+      (**not validated** interface placement)
 
-- `BLUB
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifdefinereal>`__
-  (**not validated** interface placement)
+    - `reg_block
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifregblock>`__
+      (**not validated** interface placement)
 
-- `the_enum
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifenumreal>`__
-  (**not validated** interface placement)
+    - `reg_block_2
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifregblock2>`__
+      (**not validated** interface placement)
 
-- `blub()
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsiffunc>`__
-  (**not validated** interface placement)
+    - `Struct
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifstruct>`__
+      (**not validated** interface placement)
 
-- `Blub
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifgroup>`__
-  (**not validated** interface placement)
+    - `StructBoth
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifstructboth>`__
+      (**not validated** interface placement)
 
-- `obj
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifobj>`__
-  (**not validated** interface placement)
+    - `StructOnly
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifstructonly>`__
+      (**not validated** interface placement)
 
-- `reg_block
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifregblock>`__
-  (**not validated** interface placement)
+    - `Typedef
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsiftypedef>`__
+      (**not validated** interface placement)
 
-- `reg_block_2
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifregblock2>`__
-  (**not validated** interface placement)
+    - `Union
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunion>`__
+      (**not validated** interface placement)
 
-- `Struct
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifstruct>`__
-  (**not validated** interface placement)
+    - `UnionBoth
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunionboth>`__
+      (**not validated** interface placement)
 
-- `StructBoth
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifstructboth>`__
-  (**not validated** interface placement)
-
-- `StructOnly
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifstructonly>`__
-  (**not validated** interface placement)
-
-- `Typedef
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsiftypedef>`__
-  (**not validated** interface placement)
-
-- `Union
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunion>`__
-  (**not validated** interface placement)
-
-- `UnionBoth
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunionboth>`__
-  (**not validated** interface placement)
-
-- `UnionOnly
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifuniononly>`__
-  (**not validated** interface placement)
+    - `UnionOnly
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifuniononly>`__
+      (**not validated** interface placement)
 
 .. raw:: latex
 
@@ -1616,75 +1476,67 @@ items:
 spec:/rtems/if/header-2
 -----------------------
 
-.. rubric:: REQUIREMENT:
-
-The `Domain
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifdomain>`__
-interface domain shall provide the header file ``<blub-2.h>``.
-
-.. rubric:: BRIEF DESCRIPTION:
-
 Blub2 header brief.
 
-.. rubric:: INTERFACE:
+Requirement
+    The `Domain
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifdomain>`__
+    interface domain shall provide the header file ``<blub-2.h>``.
 
-.. code-block:: c
+Interface
+    .. code-block:: c
 
-    #include <blub-2.h>
+        #include <blub-2.h>
 
-.. rubric:: SOFTWARE DESIGN:
+Software design
+    This header file is realised by the software design element `<blub-2.h> </pkg/doc-ddf-sdd/html/blub-2_8h.html>`__.
 
-This header file is realised by the software design element `<blub-2.h> </pkg/doc-ddf-sdd/html/blub-2_8h.html>`__.
+Group membership
+    This header file is a member of the interface group `Blub2
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifgroup2>`__.
 
-.. rubric:: GROUP MEMBERSHIP:
+Interface placement
+    This header file is placed into the interface domain `Domain
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifdomain>`__.
 
-This header file is a member of the interface group `Blub2
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifgroup2>`__.
+Interface members
+    This header file contains the following items:
 
-.. rubric:: INTERFACE PLACEMENTS:
+    - `StructOnly
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifforwarddecl>`__
 
-This header file is placed into the interface domain `Domain
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifdomain>`__.
+    - `Blub2
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifgroup2>`__
 
-This header file contains the following items:
+    - `A
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifgroupa>`__
 
-- `StructOnly
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifforwarddecl>`__
+    - `B
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifgroupb>`__
 
-- `Blub2
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifgroup2>`__
+Interface include
+    This header file includes the header file `<blub.h>
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifheader>`__.
 
-- `A
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifgroupa>`__
+Validations
+    The validation of this **not validated** header file depends on the
+    following items:
 
-- `B
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifgroupb>`__
+    - `StructOnly
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifforwarddecl>`__
+      (**not validated** interface placement)
 
-.. rubric:: INTERFACE INCLUDE:
+    - `Blub2
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifgroup2>`__
+      (**not validated** interface placement)
 
-This header file includes the header file `<blub.h>
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifheader>`__.
+    - `A
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifgroupa>`__
+      (**not validated** interface placement)
 
-.. rubric:: VALIDATIONS:
-
-The validation of this **not validated** header file depends on the following
-items:
-
-- `StructOnly
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifforwarddecl>`__
-  (**not validated** interface placement)
-
-- `Blub2
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifgroup2>`__
-  (**not validated** interface placement)
-
-- `A
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifgroupa>`__
-  (**not validated** interface placement)
-
-- `B
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifgroupb>`__
-  (**not validated** interface placement)
+    - `B
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifgroupb>`__
+      (**not validated** interface placement)
 
 .. raw:: latex
 
@@ -1695,25 +1547,20 @@ items:
 spec:/rtems/if/obj
 ------------------
 
-.. rubric:: REQUIREMENT:
-
-The `<blub.h>
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifheader>`__
-header file shall provide the object ``obj``.
-
-.. rubric:: BRIEF DESCRIPTION:
-
 The obj brief.
 
-.. rubric:: INTERFACE:
+Requirement
+    The `<blub.h>
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifheader>`__
+    header file shall provide the object ``obj``.
 
-.. code-block:: c
+Interface
+    .. code-block:: c
 
-    extern int obj;
+        extern int obj;
 
-.. rubric:: DESCRIPTION:
-
-Description.
+Description
+    Description.
 
 .. raw:: latex
 
@@ -1724,22 +1571,19 @@ Description.
 spec:/rtems/if/reg-block
 ------------------------
 
-.. rubric:: REQUIREMENT:
-
-The `<blub.h>
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifheader>`__
-header file shall provide the register block ``reg_block``.
-
-.. rubric:: BRIEF DESCRIPTION:
-
 This structure defines the Reg Block register block memory map.
 
-.. rubric:: REGISTER BLOCK:
+Requirement
+    The `<blub.h>
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifheader>`__
+    header file shall provide the register block ``reg_block``.
 
 .. table::
     :class: longtable
     :widths: 20,80
 
+    +-+-+
+    | Register block |
     +-+-+
     | Offset | Register |
     +=+=+
@@ -1750,45 +1594,41 @@ This structure defines the Reg Block register block memory map.
     | 0x100 | REG_BLOCK_2[ 16 ] |
     +-+-+
 
-.. rubric:: REGISTER REG_BLOCK_A:
-
 .. table::
     :class: longtable
     :widths: 20,80
 
+    +-+-+
+    | REG_BLOCK_A (register) |
     +-+-+
     | Bits [0:31] | REG_BLOCK_A bits. |
     +=+=+
     | 1 | BIT_A |
     +-+-+
 
-.. rubric:: REGISTER REG_BLOCK_B:
-
 .. table::
     :class: longtable
     :widths: 20,80
 
     +-+-+
+    | REG_BLOCK_B (register) |
+    +-+-+
     | Bits [0:7] | REG_BLOCK_B bits. |
     +-+-+
 
-.. rubric:: SOFTWARE DESIGN:
+Software design
+    This register block is realised by the software design element `reg_block </pkg/doc-ddf-sdd/html/group__RegBlock.html#ga4b1fce841b275741376210bf36459e32>`__.
 
-This register block is realised by the software design element `reg_block </pkg/doc-ddf-sdd/html/group__RegBlock.html#ga4b1fce841b275741376210bf36459e32>`__.
+Group membership
+    This register block is a member of the interface group `Blub
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifgroup>`__.
 
-.. rubric:: GROUP MEMBERSHIP:
+Interface placement
+    This register block is placed into the header file `<blub.h>
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifheader>`__.
 
-This register block is a member of the interface group `Blub
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifgroup>`__.
-
-.. rubric:: INTERFACE PLACEMENT:
-
-This register block is placed into the header file `<blub.h>
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifheader>`__.
-
-.. rubric:: VALIDATION:
-
-This register block is **not validated**.
+Validation
+    This register block is **not validated**.
 
 .. raw:: latex
 
@@ -1799,22 +1639,19 @@ This register block is **not validated**.
 spec:/rtems/if/reg-block-2
 --------------------------
 
-.. rubric:: REQUIREMENT:
-
-The `<blub.h>
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifheader>`__
-header file shall provide the register block ``reg_block_2``.
-
-.. rubric:: BRIEF DESCRIPTION:
-
 This structure defines the Reg Block 2 register block memory map.
 
-.. rubric:: REGISTER BLOCK:
+Requirement
+    The `<blub.h>
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifheader>`__
+    header file shall provide the register block ``reg_block_2``.
 
 .. table::
     :class: longtable
     :widths: 20,80
 
+    +-+-+
+    | Register block |
     +-+-+
     | Offset | Register |
     +=+=+
@@ -1823,47 +1660,43 @@ This structure defines the Reg Block 2 register block memory map.
     | 0x4 | REG_BLOCK_2_B |
     +-+-+
 
-.. rubric:: REGISTER REG_BLOCK_2_A:
-
 .. table::
     :class: longtable
     :widths: 20,80
 
+    +-+-+
+    | REG_BLOCK_2_A (register) |
     +-+-+
     | Bits [0:31] | REG_BLOCK_2_A bits. |
     +=+=+
     | [0:31] | BITS_A |
     +-+-+
 
-.. rubric:: REGISTER REG_BLOCK_2_B:
-
 .. table::
     :class: longtable
     :widths: 20,80
 
+    +-+-+
+    | REG_BLOCK_2_B (register) |
     +-+-+
     | Bits [0:31] | REG_BLOCK_2_B bits. |
     +=+=+
     | [27:31] | BITS_B |
     +-+-+
 
-.. rubric:: SOFTWARE DESIGN:
+Software design
+    This register block is realised by the software design element `reg_block_2 </pkg/doc-ddf-sdd/html/group__RegBlock2.html#ga70a56c32b62caff7efa73f98f038320d>`__.
 
-This register block is realised by the software design element `reg_block_2 </pkg/doc-ddf-sdd/html/group__RegBlock2.html#ga70a56c32b62caff7efa73f98f038320d>`__.
+Group membership
+    This register block is a member of the interface group `Blub
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifgroup>`__.
 
-.. rubric:: GROUP MEMBERSHIP:
+Interface placement
+    This register block is placed into the header file `<blub.h>
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifheader>`__.
 
-This register block is a member of the interface group `Blub
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifgroup>`__.
-
-.. rubric:: INTERFACE PLACEMENT:
-
-This register block is placed into the header file `<blub.h>
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifheader>`__.
-
-.. rubric:: VALIDATION:
-
-This register block is **not validated**.
+Validation
+    This register block is **not validated**.
 
 .. raw:: latex
 
@@ -1874,50 +1707,45 @@ This register block is **not validated**.
 spec:/rtems/if/struct
 ---------------------
 
-.. rubric:: REQUIREMENT:
-
-The `<blub.h>
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifheader>`__
-header file shall provide the structure ``Struct``.
-
-.. rubric:: BRIEF DESCRIPTION:
-
 The Struct brief.
 
-.. rubric:: INTERFACE:
+Requirement
+    The `<blub.h>
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifheader>`__
+    header file shall provide the structure ``Struct``.
 
-.. code-block:: c
+Interface
+    .. code-block:: c
 
-    typedef struct {
-      int b;
-    } Struct;
+        typedef struct {
+          int b;
+        } Struct;
 
-.. rubric:: MEMBERS:
+Members
+    .. table::
+        :class: longtable
+        :widths: 30,70
 
-a
-    The Struct member.
+        +-+-+
+        | a | The Struct member. |
+        +-+-+
 
-.. rubric:: DESCRIPTION:
+Description
+    Description.
 
-Description.
+Software design
+    This structure is realised by the software design element `Struct </pkg/doc-ddf-sdd/html/structStruct.html>`__.
 
-.. rubric:: SOFTWARE DESIGN:
+Group membership
+    This structure is a member of the interface group `Blub
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifgroup>`__.
 
-This structure is realised by the software design element `Struct </pkg/doc-ddf-sdd/html/structStruct.html>`__.
+Interface placement
+    This structure is placed into the header file `<blub.h>
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifheader>`__.
 
-.. rubric:: GROUP MEMBERSHIP:
-
-This structure is a member of the interface group `Blub
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifgroup>`__.
-
-.. rubric:: INTERFACE PLACEMENT:
-
-This structure is placed into the header file `<blub.h>
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifheader>`__.
-
-.. rubric:: VALIDATION:
-
-This structure is **not validated**.
+Validation
+    This structure is **not validated**.
 
 .. raw:: latex
 
@@ -1928,50 +1756,46 @@ This structure is **not validated**.
 spec:/rtems/if/struct-both
 --------------------------
 
-.. rubric:: REQUIREMENT:
-
-The `<blub.h>
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifheader>`__
-header file shall provide the structure ``StructBoth``.
-
-.. rubric:: BRIEF DESCRIPTION:
-
 The StructBoth brief.
 
-.. rubric:: INTERFACE:
+Requirement
+    The `<blub.h>
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifheader>`__
+    header file shall provide the structure ``StructBoth``.
 
-.. code-block:: c
+Interface
+    .. code-block:: c
 
-    typedef struct StructBoth {
-      int a;
-    } StructBoth;
+        typedef struct StructBoth {
+          int a;
+        } StructBoth;
 
-.. rubric:: MEMBERS:
+Members
+    .. table::
+        :class: longtable
+        :widths: 30,70
 
-a
-    The StructBoth member. Description.
+        +-+-+
+        | a | The StructBoth member. |
+        | | Description. |
+        +-+-+
 
-.. rubric:: DESCRIPTION:
+Description
+    Description.
 
-Description.
+Software design
+    This structure is realised by the software design element `StructBoth </pkg/doc-ddf-sdd/html/group__Blub.html#gafc3408bd38e181fb80afd4d06fec20ff>`__.
 
-.. rubric:: SOFTWARE DESIGN:
+Group membership
+    This structure is a member of the interface group `Blub
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifgroup>`__.
 
-This structure is realised by the software design element `StructBoth </pkg/doc-ddf-sdd/html/group__Blub.html#gafc3408bd38e181fb80afd4d06fec20ff>`__.
+Interface placement
+    This structure is placed into the header file `<blub.h>
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifheader>`__.
 
-.. rubric:: GROUP MEMBERSHIP:
-
-This structure is a member of the interface group `Blub
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifgroup>`__.
-
-.. rubric:: INTERFACE PLACEMENT:
-
-This structure is placed into the header file `<blub.h>
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifheader>`__.
-
-.. rubric:: VALIDATION:
-
-This structure is **not validated**.
+Validation
+    This structure is **not validated**.
 
 .. raw:: latex
 
@@ -1982,50 +1806,46 @@ This structure is **not validated**.
 spec:/rtems/if/struct-only
 --------------------------
 
-.. rubric:: REQUIREMENT:
-
-The `<blub.h>
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifheader>`__
-header file shall provide the structure ``StructOnly``.
-
-.. rubric:: BRIEF DESCRIPTION:
-
 The StructOnly brief.
 
-.. rubric:: INTERFACE:
+Requirement
+    The `<blub.h>
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifheader>`__
+    header file shall provide the structure ``StructOnly``.
 
-.. code-block:: c
+Interface
+    .. code-block:: c
 
-    struct StructOnly {
-      int a;
-    };
+        struct StructOnly {
+          int a;
+        };
 
-.. rubric:: MEMBERS:
+Members
+    .. table::
+        :class: longtable
+        :widths: 30,70
 
-a
-    The StructOnly member. Description.
+        +-+-+
+        | a | The StructOnly member. |
+        | | Description. |
+        +-+-+
 
-.. rubric:: DESCRIPTION:
+Description
+    Description.
 
-Description.
+Software design
+    This structure is realised by the software design element `StructOnly </pkg/doc-ddf-sdd/html/structStructOnly.html>`__.
 
-.. rubric:: SOFTWARE DESIGN:
+Group membership
+    This structure is a member of the interface group `Blub
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifgroup>`__.
 
-This structure is realised by the software design element `StructOnly </pkg/doc-ddf-sdd/html/structStructOnly.html>`__.
+Interface placement
+    This structure is placed into the header file `<blub.h>
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifheader>`__.
 
-.. rubric:: GROUP MEMBERSHIP:
-
-This structure is a member of the interface group `Blub
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifgroup>`__.
-
-.. rubric:: INTERFACE PLACEMENT:
-
-This structure is placed into the header file `<blub.h>
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifheader>`__.
-
-.. rubric:: VALIDATION:
-
-This structure is **not validated**.
+Validation
+    This structure is **not validated**.
 
 .. raw:: latex
 
@@ -2036,39 +1856,31 @@ This structure is **not validated**.
 spec:/rtems/if/typedef
 ----------------------
 
-.. rubric:: REQUIREMENT:
-
-The `<blub.h>
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifheader>`__
-header file shall provide the type definition ``Typedef``.
-
-.. rubric:: BRIEF DESCRIPTION:
-
 Typedef brief.
 
-.. rubric:: INTERFACE:
+Requirement
+    The `<blub.h>
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifheader>`__
+    header file shall provide the type definition ``Typedef``.
 
-.. code-block:: c
+Interface
+    .. code-block:: c
 
-    typedef int Typedef;
+        typedef int Typedef;
 
-.. rubric:: SOFTWARE DESIGN:
+Software design
+    This type definition is realised by the software design element `Typedef </pkg/doc-ddf-sdd/html/group__Blub.html#gaedec7b8d93c84ed3293e685c1e0b444e>`__.
 
-This type definition is realised by the software design element `Typedef </pkg/doc-ddf-sdd/html/group__Blub.html#gaedec7b8d93c84ed3293e685c1e0b444e>`__.
+Group membership
+    This type definition is a member of the interface group `Blub
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifgroup>`__.
 
-.. rubric:: GROUP MEMBERSHIP:
+Interface placement
+    This type definition is placed into the header file `<blub.h>
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifheader>`__.
 
-This type definition is a member of the interface group `Blub
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifgroup>`__.
-
-.. rubric:: INTERFACE PLACEMENT:
-
-This type definition is placed into the header file `<blub.h>
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifheader>`__.
-
-.. rubric:: VALIDATION:
-
-This type definition is **not validated**.
+Validation
+    This type definition is **not validated**.
 
 .. raw:: latex
 
@@ -2079,50 +1891,46 @@ This type definition is **not validated**.
 spec:/rtems/if/union
 --------------------
 
-.. rubric:: REQUIREMENT:
-
-The `<blub.h>
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifheader>`__
-header file shall provide the union ``Union``.
-
-.. rubric:: BRIEF DESCRIPTION:
-
 The Union brief.
 
-.. rubric:: INTERFACE:
+Requirement
+    The `<blub.h>
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifheader>`__
+    header file shall provide the union ``Union``.
 
-.. code-block:: c
+Interface
+    .. code-block:: c
 
-    typedef union {
-      int a;
-    } Union;
+        typedef union {
+          int a;
+        } Union;
 
-.. rubric:: MEMBERS:
+Members
+    .. table::
+        :class: longtable
+        :widths: 30,70
 
-a
-    The Union member. Description.
+        +-+-+
+        | a | The Union member. |
+        | | Description. |
+        +-+-+
 
-.. rubric:: DESCRIPTION:
+Description
+    Description.
 
-Description.
+Software design
+    This union is realised by the software design element `Union </pkg/doc-ddf-sdd/html/unionUnion.html>`__.
 
-.. rubric:: SOFTWARE DESIGN:
+Group membership
+    This union is a member of the interface group `Blub
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifgroup>`__.
 
-This union is realised by the software design element `Union </pkg/doc-ddf-sdd/html/unionUnion.html>`__.
+Interface placement
+    This union is placed into the header file `<blub.h>
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifheader>`__.
 
-.. rubric:: GROUP MEMBERSHIP:
-
-This union is a member of the interface group `Blub
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifgroup>`__.
-
-.. rubric:: INTERFACE PLACEMENT:
-
-This union is placed into the header file `<blub.h>
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifheader>`__.
-
-.. rubric:: VALIDATION:
-
-This union is **not validated**.
+Validation
+    This union is **not validated**.
 
 .. raw:: latex
 
@@ -2133,50 +1941,46 @@ This union is **not validated**.
 spec:/rtems/if/union-both
 -------------------------
 
-.. rubric:: REQUIREMENT:
-
-The `<blub.h>
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifheader>`__
-header file shall provide the union ``UnionBoth``.
-
-.. rubric:: BRIEF DESCRIPTION:
-
 The UnionBoth brief.
 
-.. rubric:: INTERFACE:
+Requirement
+    The `<blub.h>
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifheader>`__
+    header file shall provide the union ``UnionBoth``.
 
-.. code-block:: c
+Interface
+    .. code-block:: c
 
-    typedef union UnionBoth {
-      int a;
-    } UnionBoth;
+        typedef union UnionBoth {
+          int a;
+        } UnionBoth;
 
-.. rubric:: MEMBERS:
+Members
+    .. table::
+        :class: longtable
+        :widths: 30,70
 
-a
-    The UnionBoth member. Description.
+        +-+-+
+        | a | The UnionBoth member. |
+        | | Description. |
+        +-+-+
 
-.. rubric:: DESCRIPTION:
+Description
+    Description.
 
-Description.
+Software design
+    This union is realised by the software design element `UnionBoth </pkg/doc-ddf-sdd/html/group__Blub.html#ga82983277a27d470f93cb6843cc648a4a>`__.
 
-.. rubric:: SOFTWARE DESIGN:
+Group membership
+    This union is a member of the interface group `Blub
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifgroup>`__.
 
-This union is realised by the software design element `UnionBoth </pkg/doc-ddf-sdd/html/group__Blub.html#ga82983277a27d470f93cb6843cc648a4a>`__.
+Interface placement
+    This union is placed into the header file `<blub.h>
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifheader>`__.
 
-.. rubric:: GROUP MEMBERSHIP:
-
-This union is a member of the interface group `Blub
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifgroup>`__.
-
-.. rubric:: INTERFACE PLACEMENT:
-
-This union is placed into the header file `<blub.h>
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifheader>`__.
-
-.. rubric:: VALIDATION:
-
-This union is **not validated**.
+Validation
+    This union is **not validated**.
 
 .. raw:: latex
 
@@ -2187,44 +1991,35 @@ This union is **not validated**.
 spec:/rtems/if/union-only
 -------------------------
 
-.. rubric:: REQUIREMENT:
-
-The `<blub.h>
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifheader>`__
-header file shall provide the union ``UnionOnly``.
-
-.. rubric:: BRIEF DESCRIPTION:
-
 The UnionOnly brief.
 
-.. rubric:: INTERFACE:
+Requirement
+    The `<blub.h>
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifheader>`__
+    header file shall provide the union ``UnionOnly``.
 
-.. code-block:: c
+Interface
+    .. code-block:: c
 
-    union UnionOnly {
-    };
+        union UnionOnly {
+        };
 
-.. rubric:: DESCRIPTION:
+Description
+    Description.
 
-Description.
+Software design
+    This union is realised by the software design element `UnionOnly </pkg/doc-ddf-sdd/html/unionUnionOnly.html>`__.
 
-.. rubric:: SOFTWARE DESIGN:
+Group membership
+    This union is a member of the interface group `Blub
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifgroup>`__.
 
-This union is realised by the software design element `UnionOnly </pkg/doc-ddf-sdd/html/unionUnionOnly.html>`__.
+Interface placement
+    This union is placed into the header file `<blub.h>
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifheader>`__.
 
-.. rubric:: GROUP MEMBERSHIP:
-
-This union is a member of the interface group `Blub
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifgroup>`__.
-
-.. rubric:: INTERFACE PLACEMENT:
-
-This union is placed into the header file `<blub.h>
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifheader>`__.
-
-.. rubric:: VALIDATION:
-
-This union is **not validated**.
+Validation
+    This union is **not validated**.
 
 .. raw:: latex
 
@@ -2235,35 +2030,29 @@ This union is **not validated**.
 spec:/rtems/if/unspec-define
 ----------------------------
 
-.. rubric:: REQUIREMENT:
+Requirement
+    The `<bar/more/unspec.h>
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecheader>`__
+    header file shall provide the define ``UnspecDefine``.
 
-The `<bar/more/unspec.h>
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecheader>`__
-header file shall provide the define ``UnspecDefine``.
+Interface
+    .. code-block:: c
 
-.. rubric:: INTERFACE:
+        #define UnspecDefine ...
 
-.. code-block:: c
+Software design
+    This define is realised by the software design element `UnspecDefine </pkg/doc-ddf-sdd/html/group__UnspecGroup.html#gaabbf1afe2cb904ecf7ad8c8c0b6994e9>`__.
 
-    #define UnspecDefine ...
+Group membership
+    This define is a member of the group `UnspecGroup
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecgroup>`__.
 
-.. rubric:: SOFTWARE DESIGN:
+Interface placement
+    This define is placed into the header file `<bar/more/unspec.h>
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecheader>`__.
 
-This define is realised by the software design element `UnspecDefine </pkg/doc-ddf-sdd/html/group__UnspecGroup.html#gaabbf1afe2cb904ecf7ad8c8c0b6994e9>`__.
-
-.. rubric:: GROUP MEMBERSHIP:
-
-This define is a member of the group `UnspecGroup
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecgroup>`__.
-
-.. rubric:: INTERFACE PLACEMENT:
-
-This define is placed into the header file `<bar/more/unspec.h>
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecheader>`__.
-
-.. rubric:: VALIDATION:
-
-This define is **not validated**.
+Validation
+    This define is **not validated**.
 
 .. raw:: latex
 
@@ -2274,35 +2063,29 @@ This define is **not validated**.
 spec:/rtems/if/unspec-enum
 --------------------------
 
-.. rubric:: REQUIREMENT:
+Requirement
+    The `<bar/more/unspec.h>
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecheader>`__
+    header file shall provide the enumeration ``enum UnspecEnum``.
 
-The `<bar/more/unspec.h>
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecheader>`__
-header file shall provide the enumeration ``enum UnspecEnum``.
+Interface
+    .. code-block:: c
 
-.. rubric:: INTERFACE:
+        enum UnspecEnum { ... };
 
-.. code-block:: c
+Software design
+    This enumeration is realised by the software design element `enum UnspecEnum </pkg/doc-ddf-sdd/html/group__UnspecGroup.html#gab5f1de454010298047053bb570003d66>`__.
 
-    enum UnspecEnum { ... };
+Group membership
+    This enumeration is a member of the group `UnspecGroup
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecgroup>`__.
 
-.. rubric:: SOFTWARE DESIGN:
+Interface placement
+    This enumeration is placed into the header file `<bar/more/unspec.h>
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecheader>`__.
 
-This enumeration is realised by the software design element `enum UnspecEnum </pkg/doc-ddf-sdd/html/group__UnspecGroup.html#gab5f1de454010298047053bb570003d66>`__.
-
-.. rubric:: GROUP MEMBERSHIP:
-
-This enumeration is a member of the group `UnspecGroup
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecgroup>`__.
-
-.. rubric:: INTERFACE PLACEMENT:
-
-This enumeration is placed into the header file `<bar/more/unspec.h>
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecheader>`__.
-
-.. rubric:: VALIDATION:
-
-This enumeration is **not validated**.
+Validation
+    This enumeration is **not validated**.
 
 .. raw:: latex
 
@@ -2313,39 +2096,33 @@ This enumeration is **not validated**.
 spec:/rtems/if/unspec-enumerator
 --------------------------------
 
-.. rubric:: REQUIREMENT:
+Requirement
+    The `<bar/more/unspec.h>
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecheader>`__
+    header file shall provide the enumerator ``UnspecEnumerator``.
 
-The `<bar/more/unspec.h>
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecheader>`__
-header file shall provide the enumerator ``UnspecEnumerator``.
+Interface
+    .. code-block:: c
 
-.. rubric:: INTERFACE:
+        enum ... {
+          ....
+          UnspecEnumerator ...
+          ....
+        };
 
-.. code-block:: c
+Software design
+    This enumerator is realised by the software design element `UnspecEnumerator </pkg/doc-ddf-sdd/html/group__UnspecGroup.html#ggab5f1de454010298047053bb570003d66af6ed886e2b1b97a47752a5860507e740>`__.
 
-    enum ... {
-      ....
-      UnspecEnumerator ...
-      ....
-    };
+Group membership
+    This enumerator is a member of the group `UnspecGroup
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecgroup>`__.
 
-.. rubric:: SOFTWARE DESIGN:
+Interface placement
+    This enumerator is placed into the header file `<bar/more/unspec.h>
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecheader>`__.
 
-This enumerator is realised by the software design element `UnspecEnumerator </pkg/doc-ddf-sdd/html/group__UnspecGroup.html#ggab5f1de454010298047053bb570003d66af6ed886e2b1b97a47752a5860507e740>`__.
-
-.. rubric:: GROUP MEMBERSHIP:
-
-This enumerator is a member of the group `UnspecGroup
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecgroup>`__.
-
-.. rubric:: INTERFACE PLACEMENT:
-
-This enumerator is placed into the header file `<bar/more/unspec.h>
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecheader>`__.
-
-.. rubric:: VALIDATION:
-
-This enumerator is **not validated**.
+Validation
+    This enumerator is **not validated**.
 
 .. raw:: latex
 
@@ -2356,54 +2133,47 @@ This enumerator is **not validated**.
 spec:/rtems/if/unspec-function
 ------------------------------
 
-.. rubric:: REQUIREMENT:
+Requirement
+    The `<bar/more/unspec.h>
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecheader>`__
+    header file shall provide the directive ``UnspecFunction()``.
 
-The `<bar/more/unspec.h>
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecheader>`__
-header file shall provide the directive ``UnspecFunction()``.
+Interface
+    .. code-block:: c
 
-.. rubric:: INTERFACE:
+        ... UnspecFunction( ... );
 
-.. code-block:: c
+Software design
+    This directive is realised by the software design element `UnspecFunction() </pkg/doc-ddf-sdd/html/group__UnspecGroup.html#gabf4d4a492e6cbd36fc586f533006983d>`__.
 
-    ... UnspecFunction( ... );
+Group membership
+    This directive is a member of the group `UnspecGroup
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecgroup>`__.
 
-.. rubric:: SOFTWARE DESIGN:
+Interface placement
+    This directive is placed into the header file `<bar/more/unspec.h>
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecheader>`__.
 
-This directive is realised by the software design element `UnspecFunction() </pkg/doc-ddf-sdd/html/group__UnspecGroup.html#gabf4d4a492e6cbd36fc586f533006983d>`__.
+Interface functions
+    The function of this directive is specified by the following items:
 
-.. rubric:: GROUP MEMBERSHIP:
+    - `spec:/​rtems/​req/​action
+      </pkg/doc-ts-srs/html/requirements.html#specrtemsreqaction>`__
 
-This directive is a member of the group `UnspecGroup
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecgroup>`__.
+    - `spec:/​rtems/​req/​action-2
+      </pkg/doc-ts-srs/html/requirements.html#specrtemsreqaction2>`__
 
-.. rubric:: INTERFACE PLACEMENT:
+Validations
+    The validation of this **not validated** directive depends on the following
+    items:
 
-This directive is placed into the header file `<bar/more/unspec.h>
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecheader>`__.
+    - `spec:/​rtems/​req/​action
+      </pkg/doc-djf-svs/html/test-case-specification.html#specrtemsreqaction>`__
+      (**not validated** interface function)
 
-.. rubric:: INTERFACE FUNCTIONS:
-
-The function of this directive is specified by the following items:
-
-- `spec:/​rtems/​req/​action
-  </pkg/doc-ts-srs/html/requirements.html#specrtemsreqaction>`__
-
-- `spec:/​rtems/​req/​action-2
-  </pkg/doc-ts-srs/html/requirements.html#specrtemsreqaction2>`__
-
-.. rubric:: VALIDATIONS:
-
-The validation of this **not validated** directive depends on the following
-items:
-
-- `spec:/​rtems/​req/​action
-  </pkg/doc-djf-svs/html/test-case-specification.html#specrtemsreqaction>`__
-  (**not validated** interface function)
-
-- `spec:/​rtems/​req/​action-2
-  </pkg/doc-djf-svs/html/test-case-specification.html#specrtemsreqaction2>`__
-  (**not validated** interface function)
+    - `spec:/​rtems/​req/​action-2
+      </pkg/doc-djf-svs/html/test-case-specification.html#specrtemsreqaction2>`__
+      (**not validated** interface function)
 
 .. raw:: latex
 
@@ -2414,118 +2184,115 @@ items:
 spec:/rtems/if/unspec-group
 ---------------------------
 
-.. rubric:: REQUIREMENT:
+Requirement
+    The `<bar/more/unspec.h>
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecheader>`__
+    header file shall provide the group ``UnspecGroup``.
 
-The `<bar/more/unspec.h>
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecheader>`__
-header file shall provide the group ``UnspecGroup``.
+Group memberships
+    This group is a member of the interface group `Blub
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifgroup>`__.
 
-.. rubric:: GROUP MEMBERSHIPS:
+    This group contains the following items:
 
-This group is a member of the interface group `Blub
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifgroup>`__.
+    - `uint32_t
+      </pkg/doc-ts-icd/html/requirements-and-design.html#speccifuint32t>`__
 
-This group contains the following items:
+    - `BLUB
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifdefineduplicate>`__
 
-- `uint32_t
-  </pkg/doc-ts-icd/html/requirements-and-design.html#speccifuint32t>`__
+    - `BLUB
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifdefinesecondduplicate>`__
 
-- `BLUB
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifdefineduplicate>`__
+    - `UnspecDefine
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecdefine>`__
 
-- `BLUB
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifdefinesecondduplicate>`__
+    - `enum UnspecEnum
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecenum>`__
 
-- `UnspecDefine
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecdefine>`__
+    - `UnspecEnumerator
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecenumerator>`__
 
-- `enum UnspecEnum
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecenum>`__
+    - `UnspecFunction()
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecfunction>`__
 
-- `UnspecEnumerator
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecenumerator>`__
+    - `<bar/more/unspec.h>
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecheader>`__
 
-- `UnspecFunction()
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecfunction>`__
+    - `UnspecMacro()
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecmacro>`__
 
-- `<bar/more/unspec.h>
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecheader>`__
+    - `UnspecObject
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecobject>`__
 
-- `UnspecMacro()
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecmacro>`__
+    - `struct UnspecStruct
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecstruct>`__
 
-- `UnspecObject
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecobject>`__
+    - `UnspecTypedef
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspectypedef>`__
 
-- `struct UnspecStruct
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecstruct>`__
+    - `union UnspecUnion
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecunion>`__
 
-- `UnspecTypedef
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspectypedef>`__
+Interface placement
+    This group is placed into the header file `<bar/more/unspec.h>
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecheader>`__.
 
-- `union UnspecUnion
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecunion>`__
+Validations
+    The validation of this **not validated** group depends on the following
+    items:
 
-.. rubric:: INTERFACE PLACEMENT:
+    - `uint32_t
+      </pkg/doc-ts-icd/html/requirements-and-design.html#speccifuint32t>`__
+      (**not validated** group member)
 
-This group is placed into the header file `<bar/more/unspec.h>
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecheader>`__.
+    - `BLUB
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifdefineduplicate>`__
+      (**not validated** group member)
 
-.. rubric:: VALIDATIONS:
+    - `BLUB
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifdefinesecondduplicate>`__
+      (**not validated** group member)
 
-The validation of this **not validated** group depends on the following items:
+    - `UnspecDefine
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecdefine>`__
+      (**not validated** group member)
 
-- `uint32_t
-  </pkg/doc-ts-icd/html/requirements-and-design.html#speccifuint32t>`__
-  (**not validated** group member)
+    - `enum UnspecEnum
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecenum>`__
+      (**not validated** group member)
 
-- `BLUB
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifdefineduplicate>`__
-  (**not validated** group member)
+    - `UnspecEnumerator
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecenumerator>`__
+      (**not validated** group member)
 
-- `BLUB
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifdefinesecondduplicate>`__
-  (**not validated** group member)
+    - `UnspecFunction()
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecfunction>`__
+      (**not validated** group member)
 
-- `UnspecDefine
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecdefine>`__
-  (**not validated** group member)
+    - `<bar/more/unspec.h>
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecheader>`__
+      (**not validated** group member)
 
-- `enum UnspecEnum
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecenum>`__
-  (**not validated** group member)
+    - `UnspecMacro()
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecmacro>`__
+      (**not validated** group member)
 
-- `UnspecEnumerator
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecenumerator>`__
-  (**not validated** group member)
+    - `UnspecObject
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecobject>`__
+      (**not validated** group member)
 
-- `UnspecFunction()
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecfunction>`__
-  (**not validated** group member)
+    - `struct UnspecStruct
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecstruct>`__
+      (**not validated** group member)
 
-- `<bar/more/unspec.h>
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecheader>`__
-  (**not validated** group member)
+    - `UnspecTypedef
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspectypedef>`__
+      (**not validated** group member)
 
-- `UnspecMacro()
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecmacro>`__
-  (**not validated** group member)
-
-- `UnspecObject
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecobject>`__
-  (**not validated** group member)
-
-- `struct UnspecStruct
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecstruct>`__
-  (**not validated** group member)
-
-- `UnspecTypedef
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspectypedef>`__
-  (**not validated** group member)
-
-- `union UnspecUnion
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecunion>`__
-  (**not validated** group member)
+    - `union UnspecUnion
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecunion>`__
+      (**not validated** group member)
 
 .. raw:: latex
 
@@ -2536,125 +2303,121 @@ The validation of this **not validated** group depends on the following items:
 spec:/rtems/if/unspec-header
 ----------------------------
 
-.. rubric:: REQUIREMENT:
+Requirement
+    The `Domain
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifdomain>`__
+    interface domain shall provide the header file ``<bar/more/unspec.h>``.
 
-The `Domain
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifdomain>`__
-interface domain shall provide the header file ``<bar/more/unspec.h>``.
+Interface
+    .. code-block:: c
 
-.. rubric:: INTERFACE:
+        #include <bar/more/unspec.h>
 
-.. code-block:: c
+Group membership
+    This header file is a member of the group `UnspecGroup
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecgroup>`__.
 
-    #include <bar/more/unspec.h>
+Interface placement
+    This header file is placed into the interface domain `Domain
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifdomain>`__.
 
-.. rubric:: GROUP MEMBERSHIP:
+Interface members
+    This header file contains the following items:
 
-This header file is a member of the group `UnspecGroup
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecgroup>`__.
+    - `uint32_t
+      </pkg/doc-ts-icd/html/requirements-and-design.html#speccifuint32t>`__
 
-.. rubric:: INTERFACE PLACEMENTS:
+    - `BLUB
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifdefineduplicate>`__
 
-This header file is placed into the interface domain `Domain
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifdomain>`__.
+    - `BLUB
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifdefinesecondduplicate>`__
 
-This header file contains the following items:
+    - `UnspecDefine
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecdefine>`__
 
-- `uint32_t
-  </pkg/doc-ts-icd/html/requirements-and-design.html#speccifuint32t>`__
+    - `enum UnspecEnum
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecenum>`__
 
-- `BLUB
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifdefineduplicate>`__
+    - `UnspecEnumerator
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecenumerator>`__
 
-- `BLUB
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifdefinesecondduplicate>`__
+    - `UnspecFunction()
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecfunction>`__
 
-- `UnspecDefine
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecdefine>`__
+    - `UnspecGroup
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecgroup>`__
 
-- `enum UnspecEnum
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecenum>`__
+    - `UnspecMacro()
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecmacro>`__
 
-- `UnspecEnumerator
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecenumerator>`__
+    - `UnspecObject
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecobject>`__
 
-- `UnspecFunction()
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecfunction>`__
+    - `struct UnspecStruct
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecstruct>`__
 
-- `UnspecGroup
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecgroup>`__
+    - `UnspecTypedef
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspectypedef>`__
 
-- `UnspecMacro()
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecmacro>`__
+    - `union UnspecUnion
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecunion>`__
 
-- `UnspecObject
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecobject>`__
+Validations
+    The validation of this **not validated** header file depends on the
+    following items:
 
-- `struct UnspecStruct
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecstruct>`__
+    - `uint32_t
+      </pkg/doc-ts-icd/html/requirements-and-design.html#speccifuint32t>`__
+      (**not validated** interface placement)
 
-- `UnspecTypedef
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspectypedef>`__
+    - `BLUB
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifdefineduplicate>`__
+      (**not validated** interface placement)
 
-- `union UnspecUnion
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecunion>`__
+    - `BLUB
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifdefinesecondduplicate>`__
+      (**not validated** interface placement)
 
-.. rubric:: VALIDATIONS:
+    - `UnspecDefine
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecdefine>`__
+      (**not validated** interface placement)
 
-The validation of this **not validated** header file depends on the following
-items:
+    - `enum UnspecEnum
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecenum>`__
+      (**not validated** interface placement)
 
-- `uint32_t
-  </pkg/doc-ts-icd/html/requirements-and-design.html#speccifuint32t>`__
-  (**not validated** interface placement)
+    - `UnspecEnumerator
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecenumerator>`__
+      (**not validated** interface placement)
 
-- `BLUB
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifdefineduplicate>`__
-  (**not validated** interface placement)
+    - `UnspecFunction()
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecfunction>`__
+      (**not validated** interface placement)
 
-- `BLUB
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifdefinesecondduplicate>`__
-  (**not validated** interface placement)
+    - `UnspecGroup
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecgroup>`__
+      (**not validated** interface placement)
 
-- `UnspecDefine
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecdefine>`__
-  (**not validated** interface placement)
+    - `UnspecMacro()
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecmacro>`__
+      (**not validated** interface placement)
 
-- `enum UnspecEnum
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecenum>`__
-  (**not validated** interface placement)
+    - `UnspecObject
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecobject>`__
+      (**not validated** interface placement)
 
-- `UnspecEnumerator
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecenumerator>`__
-  (**not validated** interface placement)
+    - `struct UnspecStruct
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecstruct>`__
+      (**not validated** interface placement)
 
-- `UnspecFunction()
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecfunction>`__
-  (**not validated** interface placement)
+    - `UnspecTypedef
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspectypedef>`__
+      (**not validated** interface placement)
 
-- `UnspecGroup
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecgroup>`__
-  (**not validated** interface placement)
-
-- `UnspecMacro()
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecmacro>`__
-  (**not validated** interface placement)
-
-- `UnspecObject
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecobject>`__
-  (**not validated** interface placement)
-
-- `struct UnspecStruct
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecstruct>`__
-  (**not validated** interface placement)
-
-- `UnspecTypedef
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspectypedef>`__
-  (**not validated** interface placement)
-
-- `union UnspecUnion
-  </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecunion>`__
-  (**not validated** interface placement)
+    - `union UnspecUnion
+      </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecunion>`__
+      (**not validated** interface placement)
 
 .. raw:: latex
 
@@ -2665,35 +2428,29 @@ items:
 spec:/rtems/if/unspec-macro
 ---------------------------
 
-.. rubric:: REQUIREMENT:
+Requirement
+    The `<bar/more/unspec.h>
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecheader>`__
+    header file shall provide the macro ``UnspecMacro()``.
 
-The `<bar/more/unspec.h>
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecheader>`__
-header file shall provide the macro ``UnspecMacro()``.
+Interface
+    .. code-block:: c
 
-.. rubric:: INTERFACE:
+        ... UnspecMacro( ... );
 
-.. code-block:: c
+Software design
+    This macro is realised by the software design element `UnspecMacro() </pkg/doc-ddf-sdd/html/group__UnspecGroup.html#ga328c9728fbb436652a38e6790d740b54>`__.
 
-    ... UnspecMacro( ... );
+Group membership
+    This macro is a member of the group `UnspecGroup
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecgroup>`__.
 
-.. rubric:: SOFTWARE DESIGN:
+Interface placement
+    This macro is placed into the header file `<bar/more/unspec.h>
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecheader>`__.
 
-This macro is realised by the software design element `UnspecMacro() </pkg/doc-ddf-sdd/html/group__UnspecGroup.html#ga328c9728fbb436652a38e6790d740b54>`__.
-
-.. rubric:: GROUP MEMBERSHIP:
-
-This macro is a member of the group `UnspecGroup
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecgroup>`__.
-
-.. rubric:: INTERFACE PLACEMENT:
-
-This macro is placed into the header file `<bar/more/unspec.h>
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecheader>`__.
-
-.. rubric:: VALIDATION:
-
-This macro is **not validated**.
+Validation
+    This macro is **not validated**.
 
 .. raw:: latex
 
@@ -2704,35 +2461,29 @@ This macro is **not validated**.
 spec:/rtems/if/unspec-object
 ----------------------------
 
-.. rubric:: REQUIREMENT:
+Requirement
+    The `<bar/more/unspec.h>
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecheader>`__
+    header file shall provide the object ``UnspecObject``.
 
-The `<bar/more/unspec.h>
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecheader>`__
-header file shall provide the object ``UnspecObject``.
+Interface
+    .. code-block:: c
 
-.. rubric:: INTERFACE:
+        extern ... UnspecObject ...;
 
-.. code-block:: c
+Software design
+    This object is realised by the software design element `UnspecObject </pkg/doc-ddf-sdd/html/group__UnspecGroup.html#gacae496f6007d3f6dace628662204fb51>`__.
 
-    extern ... UnspecObject ...;
+Group membership
+    This object is a member of the group `UnspecGroup
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecgroup>`__.
 
-.. rubric:: SOFTWARE DESIGN:
+Interface placement
+    This object is placed into the header file `<bar/more/unspec.h>
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecheader>`__.
 
-This object is realised by the software design element `UnspecObject </pkg/doc-ddf-sdd/html/group__UnspecGroup.html#gacae496f6007d3f6dace628662204fb51>`__.
-
-.. rubric:: GROUP MEMBERSHIP:
-
-This object is a member of the group `UnspecGroup
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecgroup>`__.
-
-.. rubric:: INTERFACE PLACEMENT:
-
-This object is placed into the header file `<bar/more/unspec.h>
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecheader>`__.
-
-.. rubric:: VALIDATION:
-
-This object is **not validated**.
+Validation
+    This object is **not validated**.
 
 .. raw:: latex
 
@@ -2743,35 +2494,29 @@ This object is **not validated**.
 spec:/rtems/if/unspec-struct
 ----------------------------
 
-.. rubric:: REQUIREMENT:
+Requirement
+    The `<bar/more/unspec.h>
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecheader>`__
+    header file shall provide the type ``struct UnspecStruct``.
 
-The `<bar/more/unspec.h>
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecheader>`__
-header file shall provide the type ``struct UnspecStruct``.
+Interface
+    .. code-block:: c
 
-.. rubric:: INTERFACE:
+        struct UnspecStruct { ... };
 
-.. code-block:: c
+Software design
+    This type is realised by the software design element `struct UnspecStruct </pkg/doc-ddf-sdd/html/structUnspecStruct.html>`__.
 
-    struct UnspecStruct { ... };
+Group membership
+    This type is a member of the group `UnspecGroup
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecgroup>`__.
 
-.. rubric:: SOFTWARE DESIGN:
+Interface placement
+    This type is placed into the header file `<bar/more/unspec.h>
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecheader>`__.
 
-This type is realised by the software design element `struct UnspecStruct </pkg/doc-ddf-sdd/html/structUnspecStruct.html>`__.
-
-.. rubric:: GROUP MEMBERSHIP:
-
-This type is a member of the group `UnspecGroup
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecgroup>`__.
-
-.. rubric:: INTERFACE PLACEMENT:
-
-This type is placed into the header file `<bar/more/unspec.h>
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecheader>`__.
-
-.. rubric:: VALIDATION:
-
-This type is **not validated**.
+Validation
+    This type is **not validated**.
 
 .. raw:: latex
 
@@ -2782,35 +2527,29 @@ This type is **not validated**.
 spec:/rtems/if/unspec-typedef
 -----------------------------
 
-.. rubric:: REQUIREMENT:
+Requirement
+    The `<bar/more/unspec.h>
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecheader>`__
+    header file shall provide the type definition ``UnspecTypedef``.
 
-The `<bar/more/unspec.h>
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecheader>`__
-header file shall provide the type definition ``UnspecTypedef``.
+Interface
+    .. code-block:: c
 
-.. rubric:: INTERFACE:
+        typedef ... UnspecTypedef ...;
 
-.. code-block:: c
+Software design
+    This type definition is realised by the software design element `UnspecTypedef </pkg/doc-ddf-sdd/html/group__UnspecGroup.html#gad2a639b23130f7fc86a53a26bb0d95d1>`__.
 
-    typedef ... UnspecTypedef ...;
+Group membership
+    This type definition is a member of the group `UnspecGroup
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecgroup>`__.
 
-.. rubric:: SOFTWARE DESIGN:
+Interface placement
+    This type definition is placed into the header file `<bar/more/unspec.h>
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecheader>`__.
 
-This type definition is realised by the software design element `UnspecTypedef </pkg/doc-ddf-sdd/html/group__UnspecGroup.html#gad2a639b23130f7fc86a53a26bb0d95d1>`__.
-
-.. rubric:: GROUP MEMBERSHIP:
-
-This type definition is a member of the group `UnspecGroup
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecgroup>`__.
-
-.. rubric:: INTERFACE PLACEMENT:
-
-This type definition is placed into the header file `<bar/more/unspec.h>
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecheader>`__.
-
-.. rubric:: VALIDATION:
-
-This type definition is **not validated**.
+Validation
+    This type definition is **not validated**.
 
 .. raw:: latex
 
@@ -2821,33 +2560,27 @@ This type definition is **not validated**.
 spec:/rtems/if/unspec-union
 ---------------------------
 
-.. rubric:: REQUIREMENT:
+Requirement
+    The `<bar/more/unspec.h>
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecheader>`__
+    header file shall provide the type ``union UnspecUnion``.
 
-The `<bar/more/unspec.h>
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecheader>`__
-header file shall provide the type ``union UnspecUnion``.
+Interface
+    .. code-block:: c
 
-.. rubric:: INTERFACE:
+        union UnspecUnion { ... };
 
-.. code-block:: c
+Software design
+    This type is realised by the software design element `union UnspecUnion </pkg/doc-ddf-sdd/html/unionUnspecUnion.html>`__.
 
-    union UnspecUnion { ... };
+Group membership
+    This type is a member of the group `UnspecGroup
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecgroup>`__.
 
-.. rubric:: SOFTWARE DESIGN:
+Interface placement
+    This type is placed into the header file `<bar/more/unspec.h>
+    </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecheader>`__.
 
-This type is realised by the software design element `union UnspecUnion </pkg/doc-ddf-sdd/html/unionUnspecUnion.html>`__.
-
-.. rubric:: GROUP MEMBERSHIP:
-
-This type is a member of the group `UnspecGroup
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecgroup>`__.
-
-.. rubric:: INTERFACE PLACEMENT:
-
-This type is placed into the header file `<bar/more/unspec.h>
-</pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecheader>`__.
-
-.. rubric:: VALIDATION:
-
-This type is **not validated**.
+Validation
+    This type is **not validated**.
 .. icd-requirements-and-design end"""

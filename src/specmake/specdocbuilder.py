@@ -58,32 +58,75 @@ class _Context(NamedTuple):
     file_path: str
 
 
+def _add_pair_table(content: TextContent, pairs: list[tuple[str,
+                                                            str]]) -> None:
+    """ Add the name and text pairs as a table without a header row. """
+    rows: list[Iterable[str | int]] = list(pairs)
+    content.add_grid_table(rows, [30, 70], header_rows=0)
+
+
 def _add_text(ctx: _Context, key: str, name: str) -> None:
     text = ctx.item.get(key, None)
     if text:
-        ctx.content.add_rubric(f"{name}:")
-        ctx.content.wrap(ctx.mapper.substitute(text))
+        with ctx.content.topic(name):
+            ctx.content.wrap(ctx.mapper.substitute(text))
+
+
+def _add_brief(ctx: _Context) -> None:
+    """ Add the brief of the item.  The heading of the item names it. """
+    brief = ctx.item.get("brief", None)
+    if brief:
+        ctx.content.wrap(ctx.mapper.substitute(brief))
 
 
 def _add_sdd_link(ctx: _Context) -> None:
     path = ctx.item.view["document-paths"].get("sdd", None)
     if path:
-        ctx.content.add_rubric("SOFTWARE DESIGN:")
         kind = get_kind(ctx.item)
         name = ctx.item.view["sdd-name"]
-        ctx.content.add(f"This {kind} is realised by the "
-                        "software design element "
-                        f"{ctx.mapper.format_link(name, path)}.")
+        with ctx.content.topic("Software design"):
+            ctx.content.add(f"This {kind} is realised by the "
+                            "software design element "
+                            f"{ctx.mapper.format_link(name, path)}.")
 
 
-def _add_links(
-        ctx: _Context,
-        role: str | list[str],
-        name: str,
-        parent_role: str,
-        child_role: str,
-        child_prefix: str = "This",
-        is_link_enabled: Callable[[Link], bool] = link_is_enabled) -> None:
+def _add_parent_links(ctx: _Context, parents: list[Item], kind: str,
+                      parent_role: str) -> None:
+    get_link = ctx.mapper.get_link
+    if len(parents) == 1:
+        parent = parents[0]
+        parent_kind = get_kind(parent)
+        ctx.content.wrap(f"This {kind} {parent_role} the "
+                         f"{parent_kind} {get_link(parent)}.")
+    elif len(parents) > 1:
+        ctx.content.add_list([get_link(parent) for parent in parents],
+                             f"This {kind} {parent_role} the following items:")
+
+
+def _add_child_links(ctx: _Context, children: list[Item], kind: str,
+                     child_role: str, child_prefix: str) -> None:
+    # pylint: disable=too-many-arguments
+    # pylint: disable=too-many-positional-arguments
+    get_link = ctx.mapper.get_link
+    if len(children) == 1:
+        child = children[0]
+        child_kind = get_kind(child)
+        ctx.content.wrap(f"{child_prefix} {kind} {child_role} the "
+                         f"{child_kind} {get_link(child)}.")
+    elif len(children) > 1:
+        ctx.content.add_list(
+            [get_link(child) for child in children],
+            f"{child_prefix} {kind} {child_role} the following items:")
+
+
+def _add_links(ctx: _Context,
+               role: str | list[str],
+               name: str,
+               parent_role: str,
+               child_role: str,
+               child_prefix: str = "This",
+               is_link_enabled: Callable[[Link], bool] = link_is_enabled,
+               child_name: str | None = None) -> None:
     # pylint: disable=too-many-arguments
     # pylint: disable=too-many-positional-arguments
     # pylint: disable=too-many-locals
@@ -95,53 +138,52 @@ def _add_links(
         link.item for link in ctx.item.links_to_children(role)
         if is_link_enabled(link)
     ]
-    if parents or children:
-        get_link = ctx.mapper.get_link
-        plural = "S" if len(parents) + len(children) > 1 else ""
-        ctx.content.add_rubric(f"{name}{plural}:")
-        kind = get_kind(ctx.item)
-        if len(parents) == 1:
-            parent = parents[0]
-            parent_kind = get_kind(parent)
-            ctx.content.wrap(f"This {kind} {parent_role} the "
-                             f"{parent_kind} {get_link(parent)}.")
-        elif len(parents) > 1:
-            ctx.content.add_list(
-                [get_link(parent) for parent in parents],
-                f"This {kind} {parent_role} the following items:")
-        if len(children) == 1:
-            child = children[0]
-            child_kind = get_kind(child)
-            ctx.content.wrap(f"{child_prefix} {kind} {child_role} the "
-                             f"{child_kind} {get_link(child)}.")
-        elif len(children) > 1:
-            ctx.content.add_list(
-                [get_link(child) for child in children],
-                f"{child_prefix} {kind} {child_role} the following items:")
+    kind = get_kind(ctx.item)
+    if child_name is None:
+        if parents or children:
+            plural = "s" if len(parents) + len(children) > 1 else ""
+            with ctx.content.topic(f"{name}{plural}"):
+                _add_parent_links(ctx, parents, kind, parent_role)
+                _add_child_links(ctx, children, kind, child_role, child_prefix)
+        return
+    if parents:
+        with ctx.content.topic(name):
+            _add_parent_links(ctx, parents, kind, parent_role)
+    if children:
+        with ctx.content.topic(child_name):
+            _add_child_links(ctx, children, kind, child_role, child_prefix)
 
 
 def _add_default_links(ctx: _Context) -> None:
     _add_sdd_link(ctx)
-    _add_links(ctx, "interface-enumerator", "ENUMERATOR", "provides",
+    _add_links(ctx, "interface-enumerator", "Enumerator", "provides",
                "is provided by")
-    _add_links(ctx, "requirement-refinement", "REFINEMENT", "refines",
-               "is refined by")
+    _add_links(ctx,
+               "requirement-refinement",
+               "Refines",
+               "refines",
+               "is refined by",
+               child_name="Refined by")
     _add_links(ctx, ["interface-ingroup", "interface-ingroup-hidden"],
-               "GROUP MEMBERSHIP", "is a member of", "contains")
-    _add_links(ctx, "interface-placement", "INTERFACE PLACEMENT",
-               "is placed into", "contains")
+               "Group membership", "is a member of", "contains")
+    _add_links(ctx,
+               "interface-placement",
+               "Interface placement",
+               "is placed into",
+               "contains",
+               child_name="Interface members")
     _add_links(ctx,
                "interface-function",
-               "INTERFACE FUNCTION",
+               "Interface function",
                "specifies the function of",
                "is specified by",
                child_prefix="The function of this")
-    _add_links(ctx, "function-implementation", "FUNCTION IMPLEMENTATION",
+    _add_links(ctx, "function-implementation", "Function implementation",
                "uses functions implemented by",
                "implements a function used by")
     _add_links(ctx,
                "interface-include",
-               "INTERFACE INCLUDE",
+               "Interface include",
                "includes",
                "is included by",
                is_link_enabled=functools.partial(_is_include_enabled,
@@ -149,13 +191,13 @@ def _add_default_links(ctx: _Context) -> None:
 
 
 def _add_validated_items(ctx: _Context) -> None:
-    _add_links(ctx, "validation", "VALIDATED ITEM", "validates", "oops")
+    _add_links(ctx, "validation", "Validated item", "validates", "oops")
 
 
 def _add_code_block(content: TextContent, code: GenericContent) -> None:
-    content.add_rubric("INTERFACE:")
-    with content.directive("code-block", "c"):
-        content.add(code)
+    with content.topic("Interface"):
+        with content.directive("code-block", "c"):
+            content.add(code)
 
 
 def _add_type_definition(content: TextContent, name: str, definition_kind: str,
@@ -191,13 +233,14 @@ def _item_definition(item: Item, mapper: ItemMapper,
 def _document_unspecified(ctx: _Context,
                           prefix: str = "",
                           postfix: str = "") -> None:
-    ctx.content.add_rubric("REQUIREMENT:")
     kind = get_kind(ctx.item)
     name = f"{prefix}{ctx.item['name']}{postfix}"
     container = ctx.item.parent('interface-placement')
     container_kind = get_kind(container)
-    ctx.content.wrap(f"The {ctx.mapper.get_link(container)} {container_kind} "
-                     f"shall provide the {kind} {ctx.content.code(name)}.")
+    with ctx.content.topic("Requirement"):
+        ctx.content.wrap(
+            f"The {ctx.mapper.get_link(container)} {container_kind} "
+            f"shall provide the {kind} {ctx.content.code(name)}.")
 
 
 def _document_unspecified_type(ctx: _Context) -> None:
@@ -252,16 +295,16 @@ def _document_unspecified_typedef(ctx: _Context) -> None:
 
 
 def _document_constraint(ctx: _Context) -> None:
-    _add_text(ctx, "text", "CONSTRAINT")
-    _add_text(ctx, "rationale", "RATIONALE")
+    _add_text(ctx, "text", "Constraint")
+    _add_text(ctx, "rationale", "Rationale")
     _add_default_links(ctx)
-    _add_links(ctx, "constraint", "CONSTRAINT ITEM", "constrained by",
+    _add_links(ctx, "constraint", "Constraint item", "constrained by",
                "is applicable to")
 
 
 def _document_requirement(ctx: _Context) -> None:
-    _add_text(ctx, "text", "REQUIREMENT")
-    _add_text(ctx, "rationale", "RATIONALE")
+    _add_text(ctx, "text", "Requirement")
+    _add_text(ctx, "rationale", "Rationale")
     _add_default_links(ctx)
     _add_validations(ctx)
 
@@ -287,15 +330,14 @@ test suite {test_suite_link} reported the following {measurements_link}:""")
 
 
 def _document_perf_runtime(ctx: _Context) -> None:
-    _add_text(ctx, "text", "REQUIREMENT")
-    ctx.content.add_rubric("RUNTIME PERFORMANCE LIMITS:")
+    _add_text(ctx, "text", "Requirement")
     for link in ctx.item.links_to_children("performance-runtime-limits"):
         for target in link.item.children(
                 "performance-runtime-limits-provider"):
-            ctx.content.wrap(f"""For the
-{ctx.mapper.get_link(target)} target, the following runtime
-performance limits shall apply:""")
+            caption = (f"For the {ctx.mapper.get_link(target)} target, the "
+                       "following runtime performance limits shall apply.")
             rows: list[tuple[str | int, ...]] = [
+                (caption, COL_SPAN, COL_SPAN),
                 ("${ENVIRONMENT}", "${LIMIT_KIND}", "${LIMIT_CONDITION}")
             ]
             for env, limits in sorted(link["limits"].items(),
@@ -315,7 +357,7 @@ performance limits shall apply:""")
                 upper_bound = limits["max-upper-bound"]
                 rows.append((ROW_SPAN, "Maximum",
                              f"Maximum :math:`\\leq` {duration(upper_bound)}"))
-            ctx.content.add_grid_table(rows, [25, 25, 50])
+            ctx.content.add_grid_table(rows, [25, 25, 50], header_rows=2)
             try:
                 test_results = ctx.item.view["test-results"][target.uid]
             except KeyError:
@@ -324,15 +366,15 @@ performance limits shall apply:""")
 available for this requirement.""")
             else:
                 _add_perf_measurement(ctx, test_results)
-    _add_text(ctx, "rationale", "RATIONALE")
+    _add_text(ctx, "rationale", "Rationale")
     _add_default_links(ctx)
     _add_validations(ctx)
 
 
 def _document_perf_runtime_env(ctx: _Context) -> None:
     _document_requirement(ctx)
-    ctx.content.add_rubric("NAME:")
-    ctx.content.wrap(f"""The RTEMS Test Framework name of this runtime
+    with ctx.content.topic("Name"):
+        ctx.content.wrap(f"""The RTEMS Test Framework name of this runtime
 measurement environment is {ctx.content.code(ctx.item['name'])}.""")
 
 
@@ -432,91 +474,100 @@ def _add_transition_map(
 
 
 def _add_conditions(ctx: _Context, which: str) -> None:
-    ctx.content.add_rubric(f"{which.upper()}-CONDITIONS:")
     caption = which[0].upper() + which[1:]
-    for condition in ctx.item[f"{which}-conditions"]:
-        name = condition['name']
-        ctx.content.add_label(make_label(f"{ctx.item.spec} {caption} {name}"))
-        with ctx.content.directive("topic", f"{caption}-Condition - {name}"):
-            ctx.content.add(f"""The *{name}* {which}-condition has the
-following states:""")
+    with ctx.content.topic(f"{caption}-conditions"):
+        for condition in ctx.item[f"{which}-conditions"]:
+            name = condition['name']
+            ctx.content.add_label(
+                make_label(f"{ctx.item.spec} {caption} {name}"))
+            rows: list[Iterable[str | int]] = [
+                (f"{name} ({which}-condition)", COL_SPAN),
+            ]
             for state in condition["states"]:
-                text = ctx.mapper.substitute(state["text"])
-                ctx.content.add_definition_item(state["name"], text)
+                rows.append((state["name"],
+                             ctx.mapper.substitute(state["text"]).strip()))
+            ctx.content.add_grid_table(rows, [20, 80], header_rows=1)
+
+
+def _add_infeasible(
+        ctx: _Context, transition_map: TransitionMap,
+        infeasible_pre_conds: list[tuple[str, PreCondsOfPostCond]]) -> None:
+    for reason, pre_conds in infeasible_pre_conds:
+        ctx.content.add_label(make_label(f"{ctx.item.spec} Skip {reason}"))
+        ctx.content.add(f"{ctx.content.emphasize(reason)}:")
+        ctx.content.paste(
+            ctx.mapper.substitute(ctx.item["skip-reasons"][reason]))
+        ctx.content.paste("""Therefore, the following pre-condition state
+variants are infeasible:""")
+        _add_pre_condition_variants(ctx, transition_map, pre_conds)
 
 
 def _document_action_requirement(ctx: _Context) -> None:
-    ctx.content.add_rubric("REQUIREMENT:")
-    ctx.content.wrap("""The function shall be specified by the following state
+    with ctx.content.topic("Requirement"):
+        ctx.content.wrap(
+            """The function shall be specified by the following state
 transition map which defines for each feasible pre-condition state variant the
 resulting post-condition state variant produced by the trigger action.""")
-    _add_text(ctx, "rationale", "RATIONALE")
+    _add_text(ctx, "rationale", "Rationale")
     _add_default_links(ctx)
     _add_validations(ctx)
     _add_conditions(ctx, "pre")
-    ctx.content.add_rubric("TRIGGER ACTION:")
-    ctx.content.wrap(ctx.mapper.substitute(ctx.item["text"]))
+    with ctx.content.topic("Trigger action"):
+        ctx.content.wrap(ctx.mapper.substitute(ctx.item["text"]))
     _add_conditions(ctx, "post")
-    ctx.content.add_rubric("TRANSITION MAP:")
-    ctx.content.wrap("""For each of the resulting post-condition state variants
+    with ctx.content.topic("Transition map"):
+        ctx.content.wrap(
+            """For each of the resulting post-condition state variants
 below, the set of producing pre-condition variants is listed.""")
     transition_map, infeasible_pre_conds = _add_transition_map(ctx)
     if infeasible_pre_conds:
-        ctx.content.add_rubric("INFEASIBLE PRE-CONDITION VARIANTS:")
-        for reason, pre_conds in infeasible_pre_conds:
-            ctx.content.add_label(make_label(f"{ctx.item.spec} Skip {reason}"))
-            ctx.content.add(f"{ctx.content.emphasize(reason)}:")
-            ctx.content.paste(
-                ctx.mapper.substitute(ctx.item["skip-reasons"][reason]))
-            ctx.content.paste(
-                """Therefore, the following pre-condition state variants
-are infeasible:""")
-            _add_pre_condition_variants(ctx, transition_map, pre_conds)
+        with ctx.content.topic("Infeasible pre-condition variants"):
+            _add_infeasible(ctx, transition_map, infeasible_pre_conds)
 
 
 def _document_acfg_group(ctx: _Context) -> None:
-    _add_text(ctx, "text", "REQUIREMENT")
-    _add_text(ctx, "rationale", "RATIONALE")
-    _add_text(ctx, "description", "DESCRIPTION")
+    _add_text(ctx, "text", "Requirement")
+    _add_text(ctx, "rationale", "Rationale")
+    _add_text(ctx, "description", "Description")
     _add_default_links(ctx)
     _add_validations(ctx)
 
 
 def _document_acfg_option(ctx: _Context) -> None:
-    ctx.content.add_rubric("REQUIREMENT:")
     container = ctx.item.parent('interface-placement')
     container_kind = get_kind(container)
-    ctx.content.wrap(
-        f"The {ctx.mapper.get_link(container)} {container_kind} shall "
-        "provide the application configuration option "
-        f"{ctx.content.code(ctx.item['name'])}.")
+    with ctx.content.topic("Requirement"):
+        ctx.content.wrap(
+            f"The {ctx.mapper.get_link(container)} {container_kind} shall "
+            "provide the application configuration option "
+            f"{ctx.content.code(ctx.item['name'])}.")
     document_option(ctx.content, ctx.mapper, ctx.item, ctx.spec.enabled_set)
     _add_default_links(ctx)
     _add_validations(ctx)
 
 
 def _document_directive(ctx: _Context) -> None:
+    _add_brief(ctx)
     _document_unspecified(ctx, postfix="()")
-    ctx.content.add_rubric("BRIEF DESCRIPTION:")
     document_directive(ctx.content, ctx.mapper, ctx.item, ctx.spec.enabled_set)
     _add_default_links(ctx)
     _add_validations(ctx)
 
 
 def _document_register_block(ctx: _Context) -> None:
+    _add_brief(ctx)
     _document_unspecified(ctx)
-    _add_text(ctx, "brief", "BRIEF DESCRIPTION")
-    ctx.content.add_rubric("REGISTER BLOCK:")
-    rows: list[tuple[str | int, ...]] = [("Offset", "Register")]
+    rows: list[tuple[str | int, ...]] = [("Register block", COL_SPAN),
+                                         ("Offset", "Register")]
     for member in ctx.item["definition"]:
         definition = _definition(member, ctx.mapper, ctx.spec.enabled_set)
         count = definition["count"]
         array = f"[ {count} ]" if count > 1 else ""
         rows.append((f"{member['offset']:#x}", f"{definition['name']}{array}"))
-    ctx.content.add_grid_table(rows, [20, 80])
+    ctx.content.add_grid_table(rows, [20, 80], header_rows=2)
     for reg in ctx.item["registers"]:
-        ctx.content.add_rubric(f"REGISTER {reg['name']}:")
-        rows = [(f"Bits [0:{reg['width'] - 1}]", f"{reg['brief'].strip()}")]
+        rows = [(f"{reg['name']} (register)", COL_SPAN),
+                (f"Bits [0:{reg['width'] - 1}]", f"{reg['brief'].strip()}")]
         for bits in reg["bits"]:
             definition = _definition(bits, ctx.mapper, ctx.spec.enabled_set)
             for field in definition:
@@ -527,16 +578,16 @@ def _document_register_block(ctx: _Context) -> None:
                 else:
                     pos = f"[{start}:{start + width - 1}]"
                 rows.append((pos, field["name"]))
-        ctx.content.add_grid_table(rows, [20, 80])
-    _add_text(ctx, "description", "DESCRIPTION")
-    _add_text(ctx, "notes", "NOTES")
+        ctx.content.add_grid_table(rows, [20, 80], header_rows=2)
+    _add_text(ctx, "description", "Description")
+    _add_text(ctx, "notes", "Notes")
     _add_default_links(ctx)
     _add_validations(ctx)
 
 
 def _document_compound(ctx: _Context) -> None:
+    _add_brief(ctx)
     _document_unspecified(ctx)
-    _add_text(ctx, "brief", "BRIEF DESCRIPTION")
     enabled_set = frozenset(f"defined({enable})"
                             for enable in ctx.spec.enabled_set)
     members = []
@@ -572,11 +623,10 @@ def _document_compound(ctx: _Context) -> None:
                          ctx.item["definition-kind"],
                          ctx.item["interface-type"], decls)
     if members:
-        ctx.content.add_rubric("MEMBERS:")
-        for member in members:
-            ctx.content.add_definition_item(member[0], member[1])
-    _add_text(ctx, "description", "DESCRIPTION")
-    _add_text(ctx, "notes", "NOTES")
+        with ctx.content.topic("Members"):
+            _add_pair_table(ctx.content, members)
+    _add_text(ctx, "description", "Description")
+    _add_text(ctx, "notes", "Notes")
     _add_default_links(ctx)
     _add_validations(ctx)
 
@@ -595,27 +645,28 @@ def _enumerator(item: Item, mapper: ItemMapper,
 
 
 def _document_enumeration(ctx: _Context) -> None:
+    _add_brief(ctx)
     _document_unspecified(ctx)
-    _add_text(ctx, "brief", "BRIEF DESCRIPTION")
     enumerators = [
         f"  {_enumerator(name, ctx.code_mapper, ctx.spec.enabled_set)},"
         for name in ctx.item.parents("interface-enumerator")
     ]
     _add_type_definition(ctx.content, ctx.item["name"],
                          ctx.item["definition-kind"], "enum", enumerators)
-    _add_text(ctx, "description", "DESCRIPTION")
-    _add_text(ctx, "notes", "NOTES")
+    _add_text(ctx, "description", "Description")
+    _add_text(ctx, "notes", "Notes")
     _add_default_links(ctx)
     _add_validations(ctx)
 
 
 def _document_enumerator(ctx: _Context) -> None:
-    ctx.content.add_rubric("REQUIREMENT:")
     name = ctx.item["name"]
     enum = ctx.item.child('interface-enumerator')
-    ctx.content.wrap(f"The {ctx.mapper.get_link(enum)} enumeration "
-                     f"shall provide the enumerator {ctx.content.code(name)}.")
-    _add_text(ctx, "brief", "BRIEF DESCRIPTION")
+    _add_brief(ctx)
+    with ctx.content.topic("Requirement"):
+        ctx.content.wrap(
+            f"The {ctx.mapper.get_link(enum)} enumeration "
+            f"shall provide the enumerator {ctx.content.code(name)}.")
     enumerator = [
         "  ...",
         f"  {_enumerator(ctx.item, ctx.code_mapper, ctx.spec.enabled_set)}",
@@ -623,110 +674,112 @@ def _document_enumerator(ctx: _Context) -> None:
     ]
     _add_type_definition(ctx.content, enum["name"], enum["definition-kind"],
                          "enum", enumerator)
-    _add_text(ctx, "description", "DESCRIPTION")
-    _add_text(ctx, "notes", "NOTES")
+    _add_text(ctx, "description", "Description")
+    _add_text(ctx, "notes", "Notes")
     _add_default_links(ctx)
     _add_validations(ctx)
 
 
 def _document_define(ctx: _Context) -> None:
+    _add_brief(ctx)
     _document_unspecified(ctx)
-    _add_text(ctx, "brief", "BRIEF DESCRIPTION")
     _add_code_block(
         ctx.content, f"#define {ctx.item['name']} "
         f"{_item_definition(ctx.item, ctx.code_mapper, ctx.spec.enabled_set)}")
-    _add_text(ctx, "description", "DESCRIPTION")
-    _add_text(ctx, "notes", "NOTES")
+    _add_text(ctx, "description", "Description")
+    _add_text(ctx, "notes", "Notes")
     _add_default_links(ctx)
     _add_validations(ctx)
 
 
 def _document_domain(ctx: _Context) -> None:
-    ctx.content.add_rubric("REQUIREMENT:")
-    ctx.content.wrap("There shall be the interface domain "
-                     f"{ctx.content.code(ctx.item['name'])}.")
-    _add_text(ctx, "description", "DESCRIPTION")
+    with ctx.content.topic("Requirement"):
+        ctx.content.wrap("There shall be the interface domain "
+                         f"{ctx.content.code(ctx.item['name'])}.")
+    _add_text(ctx, "description", "Description")
     _add_default_links(ctx)
     _add_validations(ctx)
 
 
 def _document_group(ctx: _Context) -> None:
-    ctx.content.add_rubric("REQUIREMENT:")
     what = f"the interface group {ctx.content.code(ctx.item['name'])}"
     try:
         parent = ctx.item.parent("interface-ingroup")
         parent_kind = get_kind(parent)
-        ctx.content.wrap(f"The {ctx.mapper.get_link(parent)} "
-                         f"{parent_kind} shall contain {what}.")
+        body = (f"The {ctx.mapper.get_link(parent)} "
+                f"{parent_kind} shall contain {what}.")
     except IndexError:
-        ctx.content.wrap(f"There shall be {what}.")
-    _add_text(ctx, "brief", "BRIEF DESCRIPTION")
-    _add_text(ctx, "description", "DESCRIPTION")
+        body = f"There shall be {what}."
+    _add_brief(ctx)
+    with ctx.content.topic("Requirement"):
+        ctx.content.wrap(body)
+    _add_text(ctx, "description", "Description")
     _add_default_links(ctx)
     _add_validations(ctx)
 
 
 def _document_header_file(ctx: _Context) -> None:
-    ctx.content.add_rubric("REQUIREMENT:")
     path = ctx.item["path"]
     formatted_path = ctx.content.code(f"<{path}>")
     container = ctx.item.parent('interface-placement')
     container_kind = get_kind(container)
-    ctx.content.wrap(f"The {ctx.mapper.get_link(container)} {container_kind} "
-                     f"shall provide the header file {formatted_path}.")
-    _add_text(ctx, "brief", "BRIEF DESCRIPTION")
+    _add_brief(ctx)
+    with ctx.content.topic("Requirement"):
+        ctx.content.wrap(
+            f"The {ctx.mapper.get_link(container)} {container_kind} "
+            f"shall provide the header file {formatted_path}.")
     _add_code_block(ctx.content, f"#include <{path}>")
     _add_default_links(ctx)
     _add_validations(ctx)
 
 
 def _document_forward_declaration(ctx: _Context) -> None:
-    ctx.content.add_rubric("REQUIREMENT:")
     container = ctx.item.parent('interface-placement')
     container_kind = get_kind(container)
-    ctx.content.wrap(
-        f"The {ctx.mapper.get_link(container)} {container_kind} shall "
-        "provide a forward declaration of "
-        f"{ctx.mapper.get_link(ctx.item.parent('interface-target'))}.")
+    with ctx.content.topic("Requirement"):
+        ctx.content.wrap(
+            f"The {ctx.mapper.get_link(container)} {container_kind} shall "
+            "provide a forward declaration of "
+            f"{ctx.mapper.get_link(ctx.item.parent('interface-target'))}.")
     _add_code_block(ctx.content, f"{forward_declaration(ctx.item)};")
     _add_default_links(ctx)
     _add_validations(ctx)
 
 
 def _document_object(ctx: _Context) -> None:
+    _add_brief(ctx)
     _document_unspecified(ctx)
-    _add_text(ctx, "brief", "BRIEF DESCRIPTION")
     definition = _SPACE.sub(
         " ", _item_definition(ctx.item, ctx.code_mapper, ctx.spec.enabled_set))
     _add_code_block(ctx.content, f"extern {definition};")
-    _add_text(ctx, "description", "DESCRIPTION")
-    _add_text(ctx, "notes", "NOTES")
+    _add_text(ctx, "description", "Description")
+    _add_text(ctx, "notes", "Notes")
 
 
 def _document_typedef(ctx: _Context) -> None:
+    _add_brief(ctx)
     _document_unspecified(ctx)
-    _add_text(ctx, "brief", "BRIEF DESCRIPTION")
     definition = _SPACE.sub(
         " ", _item_definition(ctx.item, ctx.code_mapper, ctx.spec.enabled_set))
     _add_code_block(ctx.content, f"typedef {definition};")
-    _add_text(ctx, "description", "DESCRIPTION")
-    _add_text(ctx, "notes", "NOTES")
+    _add_text(ctx, "description", "Description")
+    _add_text(ctx, "notes", "Notes")
     _add_default_links(ctx)
     _add_validations(ctx)
 
 
 def _document_validation_by_analysis(ctx: _Context) -> None:
-    _add_text(ctx, "text", "ANALYSIS")
+    _add_text(ctx, "text", "Analysis")
     _add_validated_items(ctx)
 
 
 def _document_validation_by_inspection(ctx: _Context) -> None:
-    _add_text(ctx, "text", "INSPECTION")
+    _add_text(ctx, "text", "Inspection")
     _add_validated_items(ctx)
 
 
 def _document_validation_by_review_of_design(ctx: _Context) -> None:
-    _add_text(ctx, "text", "REVIEW OF DESIGN")
+    _add_text(ctx, "text", "Review of design")
     _add_validated_items(ctx)
 
 
@@ -818,32 +871,32 @@ def _add_validations(ctx: _Context) -> None:
     kind = get_kind(ctx.item)
     validations = ctx.item.view["validation-dependencies"]
     if len(validations) == 0:
-        ctx.content.add_rubric("VALIDATION:")
-        ctx.content.add(f"This {kind} is {status}.")
+        with ctx.content.topic("Validation"):
+            ctx.content.add(f"This {kind} is {status}.")
     elif len(validations) == 1:
-        ctx.content.add_rubric("VALIDATION:")
         validation = validations[0]
         item_2 = ctx.item.cache[validation[0]]
         link = ctx.mapper.get_link(ctx.item.cache[validation[0]],
                                    document_key="test-plan")
         if ctx.item == item_2:
-            ctx.content.add(f"This {kind} is validated by a {validation[1]} "
-                            f"specified by {link}.")
+            body = (f"This {kind} is validated by a {validation[1]} "
+                    f"specified by {link}.")
         else:
-            ctx.content.add(
-                f"This {status} {kind} is validated by the "
-                f"{_validation_status(item_2, validation[1])} {link}.")
+            body = (f"This {status} {kind} is validated by the "
+                    f"{_validation_status(item_2, validation[1])} {link}.")
+        with ctx.content.topic("Validation"):
+            ctx.content.add(body)
     else:
-        ctx.content.add_rubric("VALIDATIONS:")
         items: list[str] = []
         for validation in validations:
             item_2 = ctx.item.cache[validation[0]]
             link = ctx.mapper.get_link(item_2, document_key="test-plan")
             items.append(
                 f"{link} ({_validation_status(item_2, validation[1])})")
-        ctx.content.add_list(
-            items, f"The validation of this {status} {kind} "
-            "depends on the following items:")
+        with ctx.content.topic("Validations"):
+            ctx.content.add_list(
+                items, f"The validation of this {status} {kind} "
+                "depends on the following items:")
 
 
 _VALIDATION_APPROACH = """The specification is a tree of specification items.
@@ -954,6 +1007,7 @@ class SpecDocumentBuilder(DocumentBuilder):
 
     def __init__(self, director: PackageBuildDirector, item: Item):
         super().__init__(director, item)
+        self.mapper.topic_as_definition = True
         spec = self.input("spec")
         assert isinstance(spec, RTEMSItemCache)
         self.spec = spec
@@ -983,8 +1037,8 @@ class SpecDocumentBuilder(DocumentBuilder):
         """ Add the item changes to the content. """
         spec_compare_registry = self.spec_compare_registry
         if spec_compare_registry is not None:
-            content.add_rubric("CHANGES:")
-            spec_compare_registry.add_item_changes(content, item.uid)
+            with content.topic("Changes"):
+                spec_compare_registry.add_item_changes(content, item.uid)
 
     def add_item(self, content: TextContent, item: Item) -> None:
         """ Add the item documentation to the content. """

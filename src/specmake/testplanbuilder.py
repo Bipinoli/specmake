@@ -24,7 +24,7 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-from specitems import (Item, ItemGetValueContext, SphinxContent, to_camel_case)
+from specitems import (Item, ItemGetValueContext, TextContent, to_camel_case)
 from specware import gather_benchmarks_and_test_suites, gather_test_cases
 
 from .pkgitems import PackageBuildDirector
@@ -80,9 +80,8 @@ class TestPlanBuilder(SpecDocumentBuilder):
             test_suites.sort()
         return test_suites
 
-    def _add_test_results(self, content: SphinxContent, kind: str,
+    def _add_test_results(self, content: TextContent, kind: str,
                           item: Item) -> None:
-        content.add_rubric("TEST RESULTS:")
         lines: list[str] = []
         for test_results in item.view.get("test-results", {}).values():
             for data in test_results:
@@ -95,18 +94,20 @@ class TestPlanBuilder(SpecDocumentBuilder):
                     spec = item.cache[test_suite["uid"]].spec_2
                     name = f"{name} / Test suite - {spec}"
                 lines.append(self.mapper.format_link(name, data["link"]))
-        content.add_list(lines, f"For this {kind}, "
-                         "the following test results are available:",
-                         empty="There are no test results available.")
+        with content.topic("Test results"):
+            content.add_list(lines,
+                             f"For this {kind}, the following test results "
+                             "are available:",
+                             empty="There are no test results available.")
 
-    def _add_test_suite(self, content: SphinxContent, item: Item) -> None:
+    def _add_test_suite(self, content: TextContent, item: Item) -> None:
         with content.directive("raw", "latex"):
             content.add("\\clearpage")
         with content.section(item.spec, label=spec_label(item)):
             with content.section("General"):
-                content.add_rubric("DESCRIPTION:")
-                self.wrap(content, item, item["test-brief"])
-                self.wrap(content, item, item["test-description"])
+                with content.topic("Description"):
+                    self.wrap(content, item, item["test-brief"])
+                    self.wrap(content, item, item["test-description"])
                 if item.type != "memory-benchmark":
                     self._add_test_results(content, "test suite", item)
                 self.add_item_changes(content, item)
@@ -144,13 +145,13 @@ necessary.  The test suite is implemented in the file
 {self._get_link_hub().get_file_sdd_link(item['test-target'], self.mapper)}.""")
 
     def _get_test_suites(self, _ctx: ItemGetValueContext) -> str:
-        content = SphinxContent(section_level=2)
+        content = self.mapper.create_content(section_level=2)
         for item in self._gather_test_suites():
             with self.mapper.scope(item):
                 self._add_test_suite(content, item)
         return content.join()
 
-    def _add_test_case_validations(self, content: SphinxContent, item: Item,
+    def _add_test_case_validations(self, content: TextContent, item: Item,
                                    links: list[dict[str,
                                                     str]], what: str) -> bool:
         specs: list[str] = []
@@ -174,7 +175,7 @@ necessary.  The test suite is implemented in the file
         content.add(f"{what} {validations}.")
         return False
 
-    def _document_action(self, content: SphinxContent, link_hub: LinkHub,
+    def _document_action(self, content: TextContent, link_hub: LinkHub,
                          item: Item, ident: str) -> None:
         test_case_function = _get_test_case_function(item, ident)
         content.add(f"""This test case validates all state transitions
@@ -184,7 +185,7 @@ transition map is validated by the function
 contained in the file
 {link_hub.get_file_sdd_link(item['test-target'], self.mapper)}.""")
 
-    def _document_performance_runtime(self, content: SphinxContent,
+    def _document_performance_runtime(self, content: TextContent,
                                       link_hub: LinkHub, item: Item,
                                       ident: str) -> None:
         context = item.parent("runtime-measurement-request")
@@ -198,7 +199,7 @@ It is implemented by the function
 contained in the file
 {link_hub.get_file_sdd_link(context['test-target'], self.mapper)}.""")
 
-    def _document_runtime_measurement_request(self, content: SphinxContent,
+    def _document_runtime_measurement_request(self, content: TextContent,
                                               link_hub: LinkHub, item: Item,
                                               ident: str) -> None:
         self.wrap(content, item, item["test-brief"])
@@ -216,7 +217,7 @@ function {link_hub.get_function_sdd_link(test_case_function, self.mapper)}
 contained in the file
 {link_hub.get_file_sdd_link(item['test-target'], self.mapper)}.""")
 
-    def _document_test_case(self, content: SphinxContent, link_hub: LinkHub,
+    def _document_test_case(self, content: TextContent, link_hub: LinkHub,
                             item: Item, ident: str) -> None:
         self.wrap(content, item, item["test-brief"])
         self.wrap(content, item, item["test-description"])
@@ -243,7 +244,7 @@ function {link_hub.get_function_sdd_link(test_case_function, self.mapper)}
 contained in the file
 {link_hub.get_file_sdd_link(item['test-target'], self.mapper)}.""")
 
-    def _add_test_suite_memberships(self, content: SphinxContent,
+    def _add_test_suite_memberships(self, content: TextContent,
                                     item: Item) -> None:
         test_suites: list[str] = [
             self.mapper.make_reference(test_suite)
@@ -251,24 +252,24 @@ contained in the file
         ]
         if not test_suites:
             return
-        content.add_rubric("TEST SUITES:")
-        if len(test_suites) == 1:
-            content.add("This test case is contained in the "
-                        f"{test_suites[0]} test suite.")
-        else:
-            content.add_list(
-                test_suites,
-                "This test case is contained in the following test suites:")
+        with content.topic("Test suites"):
+            if len(test_suites) == 1:
+                content.add("This test case is contained in the "
+                            f"{test_suites[0]} test suite.")
+            else:
+                content.add_list(
+                    test_suites, "This test case is contained in the "
+                    "following test suites:")
 
-    def _add_test_case(self, content: SphinxContent, item: Item) -> None:
+    def _add_test_case(self, content: TextContent, item: Item) -> None:
         link_hub = self._get_link_hub()
         with content.directive("raw", "latex"):
             content.add("\\clearpage")
         with content.section(item.spec, label=spec_label(item)):
             with content.section("General"):
-                content.add_rubric("DESCRIPTION:")
                 ident = to_camel_case(item.uid[1:])
-                self._documenter[item.type](content, link_hub, item, ident)
+                with content.topic("Description"):
+                    self._documenter[item.type](content, link_hub, item, ident)
                 self._add_test_suite_memberships(content, item)
                 self._add_test_results(content, "test case", item)
                 self.add_item_changes(content, item)
@@ -293,7 +294,7 @@ itself.""")
                     "There are no specific interface dependencies present.")
 
     def _get_test_cases(self, _ctx: ItemGetValueContext) -> str:
-        content = SphinxContent(section_level=2)
+        content = self.mapper.create_content(section_level=2)
         test_cases: list[Item] = []
         for item in self._gather_test_suites():
             gather_test_cases(item, test_cases)
@@ -307,7 +308,7 @@ itself.""")
         for item in self.component.item.parents("test-runner"):
             test_runner = self.director[item.uid]
             test_runners.append(test_runner)
-        content = SphinxContent(section_level=2)
+        content = self.mapper.create_content(section_level=2)
         for test_runner in sorted(test_runners):
             label = spec_label(test_runner.item)
             with test_runner.component_scope(self.component):
@@ -315,8 +316,7 @@ itself.""")
                     content.add(test_runner.describe())
         return content.join()
 
-    def _add_other_validation(self, content: SphinxContent,
-                              method: str) -> None:
+    def _add_other_validation(self, content: TextContent, method: str) -> None:
         items = self.spec.get_related_items_by_type(
             f"validation/by-{method.replace(' ', '-')}")
         if items:
@@ -328,13 +328,13 @@ itself.""")
                     self.add_item(content, item)
 
     def _get_other_validations(self, _ctx: ItemGetValueContext) -> str:
-        content = SphinxContent(section_level=2)
+        content = self.mapper.create_content(section_level=2)
         for method in ("analysis", "inspection", "review of design"):
             self._add_other_validation(content, method)
         return content.join()
 
     def _get_not_validated_by_test(self, _ctx: ItemGetValueContext) -> str:
-        content = SphinxContent(section_level=2)
+        content = self.mapper.create_content(section_level=2)
         types = [
             "validation/by-analysis", "validation/by-inspection",
             "validation/by-review-of-design"
