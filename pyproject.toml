@@ -15,9 +15,9 @@ requires-python = ">=3.11"
 dependencies = [
     "gcovr >=8.6",
     "matplotlib >=3.10.1",
-    "specitems >=1.6.17",
+    "specitems >=1.6.19",
     "spectestrunner >=0.9.3",
-    "specware >=1.2.23",
+    "specware >=1.2.24",
     "sphinx >=8.2.3",
     "sphinx-better-subsection >=0.2",
     "sphinx-rtd-theme >=3.0.2",
