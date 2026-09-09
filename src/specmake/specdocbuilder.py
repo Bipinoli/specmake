@@ -112,7 +112,7 @@ def _add_links(
         if len(children) == 1:
             child = children[0]
             child_kind = get_kind(child)
-            ctx.content.wrap(f"{child_prefix} {kind} {child_role} "
+            ctx.content.wrap(f"{child_prefix} {kind} {child_role} the "
                              f"{child_kind} {get_link(child)}.")
         elif len(children) > 1:
             ctx.content.add_list(
@@ -134,7 +134,7 @@ def _add_default_links(ctx: _Context) -> None:
                "interface-function",
                "INTERFACE FUNCTION",
                "specifies the function of",
-               "is specified by the",
+               "is specified by",
                child_prefix="The function of this")
     _add_links(ctx, "function-implementation", "FUNCTION IMPLEMENTATION",
                "uses functions implemented by",

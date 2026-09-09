@@ -589,7 +589,7 @@ The runtime of interface functions shall be measured.
 This performance requirement refines the design requirement `spec:/​req/​root
 </pkg/doc-ts-srs/html/requirements.html#specreqroot>`__.
 
-This performance requirement is refined by performance requirement
+This performance requirement is refined by the performance requirement
 `spec:/​req/​perf-runtime-environment
 </pkg/doc-ts-srs/html/requirements.html#specreqperfruntimeenvironment>`__.
 
@@ -1206,7 +1206,7 @@ The system shall document usage constraints of interfaces.
 This design requirement refines the design requirement `spec:/​req/​root
 </pkg/doc-ts-srs/html/requirements.html#specreqroot>`__.
 
-This design requirement is refined by constraint
+This design requirement is refined by the constraint
 `spec:/​acfg/​constraint/​option-not-pre-qualified
 </pkg/doc-ts-srs/html/requirements.html#specacfgconstraintoptionnotprequalified>`__.
 
@@ -1327,7 +1327,7 @@ The unit tests shall be a contained in test suites.
 This design group refines the design requirement `spec:/​req/​root
 </pkg/doc-ts-srs/html/requirements.html#specreqroot>`__.
 
-This design group is refined by test suite `spec:/​testsuites/​unit-0
+This design group is refined by the test suite `spec:/​testsuites/​unit-0
 </pkg/doc-djf-suitp/html/test-design.html#spectestsuitesunit0>`__.
 
 .. rubric:: VALIDATION:
@@ -1427,7 +1427,8 @@ The validation refinement text.
 This design group refines the design group `spec:/​testsuites/​validation
 </pkg/doc-ts-srs/html/requirements.html#spectestsuitesvalidation>`__.
 
-This design group is refined by test suite `spec:/​testsuites/​test-suite-fail
+This design group is refined by the test suite
+`spec:/​testsuites/​test-suite-fail
 </pkg/doc-djf-svs/html/test-design.html#spectestsuitestestsuitefail>`__.
 
 .. rubric:: VALIDATION:
@@ -1575,7 +1576,7 @@ This constraint refines the design requirement `spec:/​req/​usage-constraint
 
 .. rubric:: CONSTRAINT ITEM:
 
-This constraint is applicable to application configuration option
+This constraint is applicable to the application configuration option
 `CONFIGURE_INTEGER
 </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifacfginteger>`__.
 

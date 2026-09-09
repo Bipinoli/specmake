@@ -671,7 +671,7 @@ This define is realised by the software design element `BLUB </pkg/doc-ddf-sdd/h
 
 .. rubric:: REFINEMENT:
 
-This define is refined by test case `spec:/​rtems/​val/​test-case
+This define is refined by the test case `spec:/​rtems/​val/​test-case
 </pkg/doc-djf-svs/html/test-case-specification.html#specrtemsvaltestcase>`__.
 
 .. rubric:: GROUP MEMBERSHIP:
@@ -901,7 +901,7 @@ This enumerator is realised by the software design element `ENUMERATOR </pkg/doc
 
 .. rubric:: ENUMERATOR:
 
-This enumerator is provided by enumeration `the_enum
+This enumerator is provided by the enumeration `the_enum
 </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifenumreal>`__.
 
 .. rubric:: VALIDATION:
@@ -947,7 +947,7 @@ This enumerator is realised by the software design element `ENUMERATOR_2 </pkg/d
 
 .. rubric:: ENUMERATOR:
 
-This enumerator is provided by enumeration `the_enum
+This enumerator is provided by the enumeration `the_enum
 </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifenumreal>`__.
 
 .. rubric:: VALIDATION:
@@ -1044,7 +1044,7 @@ This directive is placed into the header file `<blub.h>
 
 .. rubric:: INTERFACE FUNCTIONS:
 
-The function of this directive is specified by the the following items:
+The function of this directive is specified by the following items:
 
 - `spec:/​rtems/​req/​action-2
   </pkg/doc-ts-srs/html/requirements.html#specrtemsreqaction2>`__
@@ -1391,8 +1391,8 @@ This application configuration group refines the design requirement
 
 .. rubric:: GROUP MEMBERSHIP:
 
-This application configuration group contains application configuration option
-`CONFIGURE_INTEGER
+This application configuration group contains the application configuration
+option `CONFIGURE_INTEGER
 </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifacfginteger>`__.
 
 .. rubric:: INTERFACE PLACEMENT:
@@ -1539,7 +1539,7 @@ This header file contains the following items:
 
 .. rubric:: INTERFACE INCLUDE:
 
-This header file is included by header file `<blub-2.h>
+This header file is included by the header file `<blub-2.h>
 </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifheader2>`__.
 
 .. rubric:: VALIDATIONS:
@@ -2384,7 +2384,7 @@ This directive is placed into the header file `<bar/more/unspec.h>
 
 .. rubric:: INTERFACE FUNCTIONS:
 
-The function of this directive is specified by the the following items:
+The function of this directive is specified by the following items:
 
 - `spec:/​rtems/​req/​action
   </pkg/doc-ts-srs/html/requirements.html#specrtemsreqaction>`__
