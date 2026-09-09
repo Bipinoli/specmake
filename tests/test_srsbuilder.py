@@ -338,7 +338,7 @@ producing pre-condition variants is listed.
 
 .. table::
     :class: longtable
-    :widths: 50,50
+    :widths: 1,1
 
     +-+-+
     | Pre-Conditions | Post-Conditions |
@@ -474,7 +474,7 @@ producing pre-condition variants is listed.
 
 .. table::
     :class: longtable
-    :widths: 20,20,20,20,20
+    :widths: 1,1,1,1,1
 
     +-+-+-+-+-+
     | Pre-Conditions | Post-Conditions |

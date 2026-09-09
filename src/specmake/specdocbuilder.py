@@ -424,9 +424,9 @@ def _add_transition_map(
     with ctx.content.latex_environment("landscape", use=co_count > 10):
         font_size = -((co_count + 4) // 5)
         with ctx.content.latex_font_size(font_size):
-            cell_width = 100 // co_count
-            widths = [100 - cell_width *
-                      (co_count - 1)] + [cell_width] * (co_count - 1)
+            # Sphinx normalises the widths, so equal values give equal
+            # columns.
+            widths = [1] * co_count
             ctx.content.add_grid_table(rows, widths=widths, header_rows=2)
     return transition_map, infeasible_pre_conds
 
