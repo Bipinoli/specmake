@@ -1046,8 +1046,6 @@ class SpecDocumentBuilder(DocumentBuilder):
         self.mapper.copyrights_by_license.setdefault(
             item["SPDX-License-Identifier"], set()).update(item["copyrights"])
         with self.mapper.scope(item):
-            with content.directive("raw", "latex"):
-                content.add("\\clearpage")
             with content.section(item.spec, label=spec_label(item)):
                 _ITEM_DOCUMENTER[item.type](_Context(content, item,
                                                      self.mapper,

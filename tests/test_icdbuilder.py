@@ -394,10 +394,6 @@ There are no general provisions to requirements in the :term:`IRD`.
 Interface requirements
 **********************
 
-.. raw:: latex
-
-    \\clearpage
-
 .. _SpecReqApi:
 
 spec:/req/api
@@ -457,10 +453,6 @@ Domain
 
 Description.
 
-.. raw:: latex
-
-    \\clearpage
-
 .. _SpecCIfUint32T:
 
 spec:/c/if/uint32_t
@@ -486,10 +478,6 @@ Interface placement
 
 Validation
     This type definition is **not validated**.
-
-.. raw:: latex
-
-    \\clearpage
 
 .. _SpecRtemsIfAcfgInteger:
 
@@ -532,10 +520,6 @@ Interface placement
 Validation
     This application configuration option is not pre-qualified.
 
-.. raw:: latex
-
-    \\clearpage
-
 .. _SpecRtemsIfDefineDuplicate:
 
 spec:/rtems/if/define-duplicate
@@ -564,10 +548,6 @@ Interface placement
 
 Validation
     This define is **not validated**.
-
-.. raw:: latex
-
-    \\clearpage
 
 .. _SpecRtemsIfDefineNotDefined:
 
@@ -604,10 +584,6 @@ Interface function
 
 Validation
     This **not validated** define is validated by the **not validated** interface function `spec:/​rtems/​req/​define-not-defined </pkg/doc-ts-srs/html/requirements.html#specrtemsreqdefinenotdefined>`__.
-
-.. raw:: latex
-
-    \\clearpage
 
 .. _SpecRtemsIfDefineReal:
 
@@ -647,10 +623,6 @@ Interface placement
 Validation
     This **not validated** define is validated by the **not validated** refinement `spec:/​rtems/​val/​test-case </pkg/doc-djf-svs/html/test-case-specification.html#specrtemsvaltestcase>`__.
 
-.. raw:: latex
-
-    \\clearpage
-
 .. _SpecRtemsIfDefineSecondDuplicate:
 
 spec:/rtems/if/define-second-duplicate
@@ -679,10 +651,6 @@ Interface placement
 
 Validation
     This define is **not validated**.
-
-.. raw:: latex
-
-    \\clearpage
 
 .. _SpecRtemsIfDomain:
 
@@ -741,10 +709,6 @@ Validations
       </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecheader>`__
       (**not validated** interface placement)
 
-.. raw:: latex
-
-    \\clearpage
-
 .. _SpecRtemsIfEnumReal:
 
 spec:/rtems/if/enum-real
@@ -800,10 +764,6 @@ Validations
       </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifenumerator2>`__
       (**not validated** interface enumerator)
 
-.. raw:: latex
-
-    \\clearpage
-
 .. _SpecRtemsIfEnumerator:
 
 spec:/rtems/if/enumerator
@@ -837,10 +797,6 @@ Enumerator
 
 Validation
     This enumerator is **not validated**.
-
-.. raw:: latex
-
-    \\clearpage
 
 .. _SpecRtemsIfEnumerator2:
 
@@ -876,10 +832,6 @@ Enumerator
 Validation
     This enumerator is **not validated**.
 
-.. raw:: latex
-
-    \\clearpage
-
 .. _SpecRtemsIfForwardDecl:
 
 spec:/rtems/if/forward-decl
@@ -906,10 +858,6 @@ Interface placement
 
 Validation
     This forward declaration is **not validated**.
-
-.. raw:: latex
-
-    \\clearpage
 
 .. _SpecRtemsIfFunc:
 
@@ -974,10 +922,6 @@ Validations
     - `spec:/​rtems/​req/​func
       </pkg/doc-ts-srs/html/requirements.html#specrtemsreqfunc>`__
       (**not validated** interface function)
-
-.. raw:: latex
-
-    \\clearpage
 
 .. _SpecRtemsIfGroup:
 
@@ -1146,10 +1090,6 @@ Validations
       </pkg/doc-djf-svs/html/test-case-specification.html#specrtemsreqperfnoresults>`__
       (**not validated** refinement)
 
-.. raw:: latex
-
-    \\clearpage
-
 .. _SpecRtemsIfGroup2:
 
 spec:/rtems/if/group-2
@@ -1209,10 +1149,6 @@ Validations
       </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifheader2>`__
       (**not validated** group member)
 
-.. raw:: latex
-
-    \\clearpage
-
 .. _SpecRtemsIfGroupA:
 
 spec:/rtems/if/group-a
@@ -1246,10 +1182,6 @@ Interface placement
 Validation
     This interface group is **not validated**.
 
-.. raw:: latex
-
-    \\clearpage
-
 .. _SpecRtemsIfGroupAcfg:
 
 spec:/rtems/if/group-acfg
@@ -1281,10 +1213,6 @@ Interface placement
 
 Validation
     This not pre-qualified application configuration group is validated by the not pre-qualified group member `CONFIGURE_INTEGER </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifacfginteger>`__.
-
-.. raw:: latex
-
-    \\clearpage
 
 .. _SpecRtemsIfGroupB:
 
@@ -1318,10 +1246,6 @@ Interface placement
 
 Validation
     This interface group is **not validated**.
-
-.. raw:: latex
-
-    \\clearpage
 
 .. _SpecRtemsIfHeader:
 
@@ -1467,10 +1391,6 @@ Validations
       </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifuniononly>`__
       (**not validated** interface placement)
 
-.. raw:: latex
-
-    \\clearpage
-
 .. _SpecRtemsIfHeader2:
 
 spec:/rtems/if/header-2
@@ -1538,10 +1458,6 @@ Validations
       </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifgroupb>`__
       (**not validated** interface placement)
 
-.. raw:: latex
-
-    \\clearpage
-
 .. _SpecRtemsIfObj:
 
 spec:/rtems/if/obj
@@ -1561,10 +1477,6 @@ Interface
 
 Description
     Description.
-
-.. raw:: latex
-
-    \\clearpage
 
 .. _SpecRtemsIfRegBlock:
 
@@ -1630,10 +1542,6 @@ Interface placement
 Validation
     This register block is **not validated**.
 
-.. raw:: latex
-
-    \\clearpage
-
 .. _SpecRtemsIfRegBlock2:
 
 spec:/rtems/if/reg-block-2
@@ -1698,10 +1606,6 @@ Interface placement
 Validation
     This register block is **not validated**.
 
-.. raw:: latex
-
-    \\clearpage
-
 .. _SpecRtemsIfStruct:
 
 spec:/rtems/if/struct
@@ -1746,10 +1650,6 @@ Interface placement
 
 Validation
     This structure is **not validated**.
-
-.. raw:: latex
-
-    \\clearpage
 
 .. _SpecRtemsIfStructBoth:
 
@@ -1797,10 +1697,6 @@ Interface placement
 Validation
     This structure is **not validated**.
 
-.. raw:: latex
-
-    \\clearpage
-
 .. _SpecRtemsIfStructOnly:
 
 spec:/rtems/if/struct-only
@@ -1847,10 +1743,6 @@ Interface placement
 Validation
     This structure is **not validated**.
 
-.. raw:: latex
-
-    \\clearpage
-
 .. _SpecRtemsIfTypedef:
 
 spec:/rtems/if/typedef
@@ -1881,10 +1773,6 @@ Interface placement
 
 Validation
     This type definition is **not validated**.
-
-.. raw:: latex
-
-    \\clearpage
 
 .. _SpecRtemsIfUnion:
 
@@ -1932,10 +1820,6 @@ Interface placement
 Validation
     This union is **not validated**.
 
-.. raw:: latex
-
-    \\clearpage
-
 .. _SpecRtemsIfUnionBoth:
 
 spec:/rtems/if/union-both
@@ -1982,10 +1866,6 @@ Interface placement
 Validation
     This union is **not validated**.
 
-.. raw:: latex
-
-    \\clearpage
-
 .. _SpecRtemsIfUnionOnly:
 
 spec:/rtems/if/union-only
@@ -2021,10 +1901,6 @@ Interface placement
 Validation
     This union is **not validated**.
 
-.. raw:: latex
-
-    \\clearpage
-
 .. _SpecRtemsIfUnspecDefine:
 
 spec:/rtems/if/unspec-define
@@ -2054,10 +1930,6 @@ Interface placement
 Validation
     This define is **not validated**.
 
-.. raw:: latex
-
-    \\clearpage
-
 .. _SpecRtemsIfUnspecEnum:
 
 spec:/rtems/if/unspec-enum
@@ -2086,10 +1958,6 @@ Interface placement
 
 Validation
     This enumeration is **not validated**.
-
-.. raw:: latex
-
-    \\clearpage
 
 .. _SpecRtemsIfUnspecEnumerator:
 
@@ -2123,10 +1991,6 @@ Interface placement
 
 Validation
     This enumerator is **not validated**.
-
-.. raw:: latex
-
-    \\clearpage
 
 .. _SpecRtemsIfUnspecFunction:
 
@@ -2174,10 +2038,6 @@ Validations
     - `spec:/​rtems/​req/​action-2
       </pkg/doc-djf-svs/html/test-case-specification.html#specrtemsreqaction2>`__
       (**not validated** interface function)
-
-.. raw:: latex
-
-    \\clearpage
 
 .. _SpecRtemsIfUnspecGroup:
 
@@ -2293,10 +2153,6 @@ Validations
     - `union UnspecUnion
       </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecunion>`__
       (**not validated** group member)
-
-.. raw:: latex
-
-    \\clearpage
 
 .. _SpecRtemsIfUnspecHeader:
 
@@ -2419,10 +2275,6 @@ Validations
       </pkg/doc-ts-icd/html/requirements-and-design.html#specrtemsifunspecunion>`__
       (**not validated** interface placement)
 
-.. raw:: latex
-
-    \\clearpage
-
 .. _SpecRtemsIfUnspecMacro:
 
 spec:/rtems/if/unspec-macro
@@ -2451,10 +2303,6 @@ Interface placement
 
 Validation
     This macro is **not validated**.
-
-.. raw:: latex
-
-    \\clearpage
 
 .. _SpecRtemsIfUnspecObject:
 
@@ -2485,10 +2333,6 @@ Interface placement
 Validation
     This object is **not validated**.
 
-.. raw:: latex
-
-    \\clearpage
-
 .. _SpecRtemsIfUnspecStruct:
 
 spec:/rtems/if/unspec-struct
@@ -2518,10 +2362,6 @@ Interface placement
 Validation
     This type is **not validated**.
 
-.. raw:: latex
-
-    \\clearpage
-
 .. _SpecRtemsIfUnspecTypedef:
 
 spec:/rtems/if/unspec-typedef
@@ -2550,10 +2390,6 @@ Interface placement
 
 Validation
     This type definition is **not validated**.
-
-.. raw:: latex
-
-    \\clearpage
 
 .. _SpecRtemsIfUnspecUnion:
 

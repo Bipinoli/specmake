@@ -261,10 +261,6 @@ Requirements
 Functional requirements
 ***********************
 
-.. raw:: latex
-
-    \\clearpage
-
 .. _SpecRtemsReqAction:
 
 spec:/rtems/req/action
@@ -347,10 +343,6 @@ Transition map
 
 Changes
     There are no changes since Name v1.
-
-.. raw:: latex
-
-    \\clearpage
 
 .. _SpecRtemsReqAction2:
 
@@ -490,10 +482,6 @@ Infeasible pre-condition variants
 Changes
     There are no changes since Name v1.
 
-.. raw:: latex
-
-    \\clearpage
-
 .. _SpecRtemsReqDefineNotDefined:
 
 spec:/rtems/req/define-not-defined
@@ -512,10 +500,6 @@ Validation
 
 Changes
     There are no changes since Name v1.
-
-.. raw:: latex
-
-    \\clearpage
 
 .. _SpecRtemsReqFunc:
 
@@ -549,10 +533,6 @@ Changes
 Performance requirements
 ************************
 
-.. raw:: latex
-
-    \\clearpage
-
 .. _SpecReqPerfRuntime:
 
 spec:/req/perf-runtime
@@ -576,10 +556,6 @@ Validation
 
 Changes
     There are no changes since Name v1.
-
-.. raw:: latex
-
-    \\clearpage
 
 .. _SpecReqPerfRuntimeEnvironment:
 
@@ -637,10 +613,6 @@ Validations
 Changes
     There are no changes since Name v1.
 
-.. raw:: latex
-
-    \\clearpage
-
 .. _SpecReqPerfRuntimeEnvironmentDirtyCache:
 
 spec:/req/perf-runtime-environment-dirty-cache
@@ -672,10 +644,6 @@ Name
 Changes
     There are no changes since Name v1.
 
-.. raw:: latex
-
-    \\clearpage
-
 .. _SpecReqPerfRuntimeEnvironmentFullCache:
 
 spec:/req/perf-runtime-environment-full-cache
@@ -705,10 +673,6 @@ Name
 
 Changes
     There are no changes since Name v1.
-
-.. raw:: latex
-
-    \\clearpage
 
 .. _SpecReqPerfRuntimeEnvironmentHotCache:
 
@@ -740,10 +704,6 @@ Name
 Changes
     There are no changes since Name v1.
 
-.. raw:: latex
-
-    \\clearpage
-
 .. _SpecReqPerfRuntimeEnvironmentLoad:
 
 spec:/req/perf-runtime-environment-load
@@ -772,10 +732,6 @@ Name
 
 Changes
     There are no changes since Name v1.
-
-.. raw:: latex
-
-    \\clearpage
 
 .. _SpecRtemsReqPerf:
 
@@ -862,10 +818,6 @@ Validations
 
 Changes
     There are no changes since Name v1.
-
-.. raw:: latex
-
-    \\clearpage
 
 .. _SpecRtemsReqPerfNoResults:
 
@@ -955,10 +907,6 @@ integrated.
 Design requirements and implementation constraints
 **************************************************
 
-.. raw:: latex
-
-    \\clearpage
-
 .. _SpecGlossaryGroup:
 
 spec:/glossary/group
@@ -977,10 +925,6 @@ Validation
 Changes
     There are no changes since Name v1.
 
-.. raw:: latex
-
-    \\clearpage
-
 .. _SpecReqGlossary:
 
 spec:/req/glossary
@@ -998,10 +942,6 @@ Validation
 
 Changes
     There are no changes since Name v1.
-
-.. raw:: latex
-
-    \\clearpage
 
 .. _SpecReqRoot:
 
@@ -1109,10 +1049,6 @@ Validations
 Changes
     There are no changes since Name v1.
 
-.. raw:: latex
-
-    \\clearpage
-
 .. _SpecReqUsageConstraints:
 
 spec:/req/usage-constraints
@@ -1135,10 +1071,6 @@ Validation
 
 Changes
     There are no changes since Name v1.
-
-.. raw:: latex
-
-    \\clearpage
 
 .. _SpecRtemsReqGroup:
 
@@ -1170,10 +1102,6 @@ Validations
 Changes
     There are no changes since Name v1.
 
-.. raw:: latex
-
-    \\clearpage
-
 .. _SpecRtemsReqGroupNoIdentifier:
 
 spec:/rtems/req/group-no-identifier
@@ -1192,10 +1120,6 @@ Validation
 Changes
     There are no changes since Name v1.
 
-.. raw:: latex
-
-    \\clearpage
-
 .. _SpecRtemsTargetA:
 
 spec:/rtems/target-a
@@ -1213,10 +1137,6 @@ Validation
 
 Changes
     There are no changes since Name v1.
-
-.. raw:: latex
-
-    \\clearpage
 
 .. _SpecTestsuitesUnit:
 
@@ -1239,10 +1159,6 @@ Validation
 
 Changes
     There are no changes since Name v1.
-
-.. raw:: latex
-
-    \\clearpage
 
 .. _SpecTestsuitesValidation:
 
@@ -1308,10 +1224,6 @@ Validations
 Changes
     There are no changes since Name v1.
 
-.. raw:: latex
-
-    \\clearpage
-
 .. _SpecTestsuitesValidationRefinement:
 
 spec:/testsuites/validation-refinement
@@ -1359,10 +1271,6 @@ integrated.
 
 Software quality requirements
 *****************************
-
-.. raw:: latex
-
-    \\clearpage
 
 .. _SpecRtemsReqMemBasic:
 
@@ -1445,10 +1353,6 @@ integrated.
 .. srs-requirements end
 
 .. srs-constraints begin
-.. raw:: latex
-
-    \\clearpage
-
 .. _SpecAcfgConstraintOptionNotPreQualified:
 
 spec:/acfg/constraint/option-not-pre-qualified

@@ -86,10 +86,6 @@ Validation by analysis
 
 This section lists validation evidence obtained by using the analysis validation method.
 
-.. raw:: latex
-
-    \\clearpage
-
 .. _SpecRtemsValByAnalysis:
 
 spec:/rtems/val/by-analysis
@@ -110,10 +106,6 @@ Validation by inspection
 
 This section lists validation evidence obtained by using the inspection validation method.
 
-.. raw:: latex
-
-    \\clearpage
-
 .. _SpecRtemsValByInspection:
 
 spec:/rtems/val/by-inspection
@@ -133,10 +125,6 @@ Validation by review of design
 ==============================
 
 This section lists validation evidence obtained by using the review of design validation method.
-
-.. raw:: latex
-
-    \\clearpage
 
 .. _SpecRtemsValByReviewOfDesign:
 
@@ -173,10 +161,6 @@ The following items are not specifically validated by a test:
 .. Copyright (C) 2025 embedded brains GmbH & Co. KG
 
 .. test-suites begin
-.. raw:: latex
-
-    \\clearpage
-
 .. _SpecRtemsValMemBasic:
 
 spec:/rtems/val/mem-basic
@@ -215,10 +199,6 @@ Approach refinements
 There are no approach refinements
 necessary.  The test suite is implemented in the file
 `tests/mem-rtems-basic.c </pkg/doc-ddf-sdd/html/mem-rtems-basic_8c.html>`__.
-
-.. raw:: latex
-
-    \\clearpage
 
 .. _SpecTestsuitesPerformanceNoClock0:
 
@@ -265,10 +245,6 @@ There are no approach refinements
 necessary.  The test suite is implemented in the file
 `tests/ts-blub.c </pkg/doc-ddf-sdd/html/ts-blub_8c.html>`__.
 
-.. raw:: latex
-
-    \\clearpage
-
 .. _SpecTestsuitesTestSuiteEmpty:
 
 spec:/testsuites/test-suite-empty
@@ -302,10 +278,6 @@ Approach refinements
 There are no approach refinements
 necessary.  The test suite is implemented in the file
 `tests/ts-empty.c </pkg/doc-ddf-sdd/html/ts-empty_8c.html>`__.
-
-.. raw:: latex
-
-    \\clearpage
 
 .. _SpecTestsuitesTestSuiteFail:
 
@@ -354,10 +326,6 @@ There are no approach refinements
 necessary.  The test suite is implemented in the file
 `tests/ts-fail.c </pkg/doc-ddf-sdd/html/ts-fail_8c.html>`__.
 
-.. raw:: latex
-
-    \\clearpage
-
 .. _SpecTestsuitesTestSuitePass:
 
 spec:/testsuites/test-suite-pass
@@ -394,10 +362,6 @@ Approach refinements
 There are no approach refinements
 necessary.  The test suite is implemented in the file
 `tests/ts-pass.c </pkg/doc-ddf-sdd/html/ts-pass_8c.html>`__.
-
-.. raw:: latex
-
-    \\clearpage
 
 .. _SpecTestsuitesTestSuiteXfail:
 
@@ -438,10 +402,6 @@ necessary.  The test suite is implemented in the file
 .. test-suites end
 
 .. test-cases begin
-.. raw:: latex
-
-    \\clearpage
-
 .. _SpecRtemsReqAction:
 
 spec:/rtems/req/action
@@ -511,10 +471,6 @@ Interface dependencies
 
 There are no specific interface dependencies present.
 
-.. raw:: latex
-
-    \\clearpage
-
 .. _SpecRtemsReqAction2:
 
 spec:/rtems/req/action-2
@@ -583,10 +539,6 @@ Interface dependencies
 ----------------------
 
 There are no specific interface dependencies present.
-
-.. raw:: latex
-
-    \\clearpage
 
 .. _SpecRtemsReqPerf:
 
@@ -660,10 +612,6 @@ Interface dependencies
 
 There are no specific interface dependencies present.
 
-.. raw:: latex
-
-    \\clearpage
-
 .. _SpecRtemsReqPerfNoResults:
 
 spec:/rtems/req/perf-no-results
@@ -731,10 +679,6 @@ Interface dependencies
 ----------------------
 
 There are no specific interface dependencies present.
-
-.. raw:: latex
-
-    \\clearpage
 
 .. _SpecRtemsValTestCase:
 
@@ -822,10 +766,6 @@ Interface dependencies
 
 There are no specific interface dependencies present.
 
-.. raw:: latex
-
-    \\clearpage
-
 .. _SpecRtemsValTestCaseFail:
 
 spec:/rtems/val/test-case-fail
@@ -902,10 +842,6 @@ Interface dependencies
 
 There are no specific interface dependencies present.
 
-.. raw:: latex
-
-    \\clearpage
-
 .. _SpecRtemsValTestCasePass:
 
 spec:/rtems/val/test-case-pass
@@ -981,10 +917,6 @@ Interface dependencies
 ----------------------
 
 There are no specific interface dependencies present.
-
-.. raw:: latex
-
-    \\clearpage
 
 .. _SpecRtemsValTestCaseRun:
 
@@ -1064,10 +996,6 @@ Interface dependencies
 
 There are no specific interface dependencies present.
 
-.. raw:: latex
-
-    \\clearpage
-
 .. _SpecRtemsValTestCaseXfail:
 
 spec:/rtems/val/test-case-xfail
@@ -1143,10 +1071,6 @@ Interface dependencies
 ----------------------
 
 There are no specific interface dependencies present.
-
-.. raw:: latex
-
-    \\clearpage
 
 .. _SpecScoreCpuValPerf:
 
@@ -1251,10 +1175,6 @@ Validation by inspection
 
 This section lists validation evidence obtained by using the inspection validation method.
 
-.. raw:: latex
-
-    \\clearpage
-
 .. _SpecRtemsValByInspection:
 
 spec:/rtems/val/by-inspection
@@ -1274,10 +1194,6 @@ Validation by review of design
 ==============================
 
 This section lists validation evidence obtained by using the review of design validation method.
-
-.. raw:: latex
-
-    \\clearpage
 
 .. _SpecRtemsValByReviewOfDesign:
 

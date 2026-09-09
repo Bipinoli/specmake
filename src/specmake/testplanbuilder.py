@@ -101,8 +101,6 @@ class TestPlanBuilder(SpecDocumentBuilder):
                              empty="There are no test results available.")
 
     def _add_test_suite(self, content: TextContent, item: Item) -> None:
-        with content.directive("raw", "latex"):
-            content.add("\\clearpage")
         with content.section(item.spec, label=spec_label(item)):
             with content.section("General"):
                 with content.topic("Description"):
@@ -263,8 +261,6 @@ contained in the file
 
     def _add_test_case(self, content: TextContent, item: Item) -> None:
         link_hub = self._get_link_hub()
-        with content.directive("raw", "latex"):
-            content.add("\\clearpage")
         with content.section(item.spec, label=spec_label(item)):
             with content.section("General"):
                 ident = to_camel_case(item.uid[1:])
